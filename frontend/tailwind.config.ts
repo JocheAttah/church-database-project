@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "selector",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -15,6 +16,31 @@ const config: Config = {
       },
     },
     extend: {
+      backgroundImage: {
+        "login-bg": "url('/login-bg.png')",
+      },
+      height: {
+        screen: "100dvh",
+      },
+      minHeight: {
+        screen: "100dvh",
+      },
+      colors: {
+        sapphire: {
+          "50": "#f3f6fb",
+          "100": "#e4e8f5",
+          "200": "#cfd7ee",
+          "300": "#aebee2",
+          "400": "#879bd3",
+          "500": "#6b7dc6",
+          "600": "#5864b8",
+          "700": "#4a51a2",
+          "800": "#43478a",
+          "900": "#3a3e6e",
+          "950": "#272844",
+        },
+        woodsmoke: "#151618",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
