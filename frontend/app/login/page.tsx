@@ -1,4 +1,5 @@
 "use client";
+import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,7 +11,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -38,18 +38,11 @@ const Login = () => {
   };
 
   return (
-    <main className="bg-login-bg relative h-screen bg-cover bg-center">
+    <main className="relative h-screen bg-login-bg bg-cover bg-center">
       <div className="absolute inset-0 bg-black opacity-70" />
       <div className="relative mx-4 flex h-full items-center justify-center text-white md:mx-auto">
         <div className="flex h-[730px] w-[730px] flex-col items-center rounded-[10px] bg-white/[0.02] p-11 backdrop-blur-[75px]">
-          <Image
-            src="/logo.png"
-            alt="SCC Logo"
-            width={144}
-            height={66}
-            className="mb-14"
-            priority
-          />
+          <Logo className="mb-14" width={144} height={66} />
           <Form {...form}>
             <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
               <div className="space-y-11">
@@ -89,7 +82,7 @@ const Login = () => {
                 />
               </div>
               <Button
-                className="bg-sapphire-700 hover:bg-sapphire-800 active:bg-sapphire-900 mt-20 w-full"
+                className="mt-20 w-full bg-sapphire-700 hover:bg-sapphire-800 active:bg-sapphire-900"
                 type="submit"
               >
                 Submit
