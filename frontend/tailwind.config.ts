@@ -17,7 +17,7 @@ const config: Config = {
     },
     extend: {
       backgroundImage: {
-        "login-bg": "url('/images/login-bg.png')",
+        "login-bg": "url('/images/login-bg.webp')",
       },
       height: {
         screen: "100dvh",
