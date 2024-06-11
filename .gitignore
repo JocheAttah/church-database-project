@@ -1,1 +1,10 @@
 *node_modules
+
+.DS_Store
+
+.env*.local
+
+.vercel
+
+/.history
+TODO
