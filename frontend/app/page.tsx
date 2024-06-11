@@ -1,3 +1,11 @@
+import { redirect } from "next/navigation";
+
 export default function Home() {
-  return <main>Glory to God</main>;
+  const isLoggedIn = false;
+
+  if (!isLoggedIn) {
+    redirect("/login");
+  } else {
+    redirect("/dashboard");
+  }
 }
