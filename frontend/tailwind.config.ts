@@ -40,6 +40,13 @@ const config: Config = {
           "950": "#272844",
         },
         woodsmoke: "#151618",
+        mineshaft: "#2A2A2A",
+        dustygray: "#979797",
+        tradewind: "#5AB8A4",
+        bourbon: "#BC6C25",
+        pictonblue: "#418FED",
+        greenhaze: "#04A65B",
+        brandypunch: "#D08A34",
       },
       keyframes: {
         "accordion-down": {
