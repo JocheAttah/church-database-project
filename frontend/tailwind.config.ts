@@ -17,7 +17,7 @@ const config: Config = {
     },
     extend: {
       backgroundImage: {
-        "login-bg": "url('/login-bg.png')",
+        "login-bg": "url('/images/login-bg.webp')",
       },
       height: {
         screen: "100dvh",
@@ -40,6 +40,14 @@ const config: Config = {
           "950": "#272844",
         },
         woodsmoke: "#151618",
+        mineshaft: "#2A2A2A",
+        shark: "#1D1E20",
+        dustygray: "#979797",
+        greenhaze: "#04A65B",
+        tradewind: "#5AB8A4",
+        pictonblue: "#418FED",
+        bourbon: "#BC6C25",
+        brandypunch: "#D08A34",
       },
       keyframes: {
         "accordion-down": {
