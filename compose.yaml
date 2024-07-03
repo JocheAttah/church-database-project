@@ -1,4 +1,21 @@
 services:
+  app:
+    container_name: churchdatabase
+    image: churchdatabase:1.0.0
+    build:
+      context: ./backend
+      dockerfile: go.dockerfile
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_NAME: postgres
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+    ports:
+      - '8080:8080'
+
   db:
     container_name: db
     image: postgres:13
