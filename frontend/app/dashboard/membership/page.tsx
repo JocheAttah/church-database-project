@@ -9,60 +9,62 @@ import { FunnelIcon } from "@heroicons/react/24/outline";
 const Membership = () => {
   return (
     <div className="flex w-full flex-col">
-      <div className="grid w-full grid-cols-4 gap-x-5 gap-y-8">
-        {/* Total membership */}
-        <Card className="space-y-6">
-          <div className="flex items-center gap-3.5">
-            <div className="rounded-[3px] bg-white/2 p-2.5">
-              <MembershipIcon width={20} height={20} filled />
+      <div className="flex w-full flex-1 flex-row">
+        <div className="grid w-full grid-cols-3 gap-x-5 gap-y-8">
+          {/* Total membership */}
+          <Card className="space-y-6">
+            <div className="flex items-center gap-3.5">
+              <div className="rounded-[3px] bg-white/2 p-2.5">
+                <MembershipIcon width={20} height={20} filled />
+              </div>
+              <p className="text-sm text-dustygray">Total membership</p>
             </div>
-            <p className="text-sm text-dustygray">Total membership</p>
-          </div>
 
-          <h1>10,000</h1>
+            <h1>10,000</h1>
 
-          <div className="flex items-center text-xs">
-            <GrowthIcon />
-            <p className="ml-1 text-junglegreen">1.7%</p>
-            <p className="ml-2 text-dustygray">in the last month</p>
-          </div>
-        </Card>
-        {/* Workers in Training */}
-        <Card className="space-y-6">
-          <div className="flex items-center gap-3.5">
-            <div className="rounded-[3px] bg-white/2 p-2.5">
-              <MembershipBourBonIcon width={20} height={20} filled />
+            <div className="flex items-center text-xs">
+              <GrowthIcon />
+              <p className="ml-1 text-junglegreen">1.7%</p>
+              <p className="ml-2 text-dustygray">in the last month</p>
             </div>
-            <p className="text-sm text-dustygray">Workers in Training</p>
-          </div>
-
-          <h1>300</h1>
-
-          <div className="flex items-center text-xs">
-            <GrowthIcon />
-            <p className="ml-1 text-junglegreen">16%</p>
-            <p className="ml-2 text-dustygray">in the last month</p>
-          </div>
-        </Card>
-        {/* Members and Disciples */}
-        <Card className="space-y-6">
-          <div className="flex items-center gap-3.5">
-            <div className="rounded-[3px] bg-white/2 p-2.5">
-              <MembershipWhiskeyIcon width={20} height={20} filled />
+          </Card>
+          {/* Workers in Training */}
+          <Card className="space-y-6">
+            <div className="flex items-center gap-3.5">
+              <div className="rounded-[3px] bg-white/2 p-2.5">
+                <MembershipBourBonIcon width={20} height={20} filled />
+              </div>
+              <p className="text-sm text-dustygray">Workers in Training</p>
             </div>
-            <p className="text-sm text-dustygray">Members and Disciples</p>
-          </div>
 
-          <h1>7,700</h1>
+            <h1>300</h1>
 
-          <div className="flex items-center text-xs">
-            <GrowthIcon />
-            <p className="ml-1 text-junglegreen">16%</p>
-            <p className="ml-2 text-dustygray">in the last month</p>
-          </div>
-        </Card>
+            <div className="flex items-center text-xs">
+              <GrowthIcon />
+              <p className="ml-1 text-junglegreen">16%</p>
+              <p className="ml-2 text-dustygray">in the last month</p>
+            </div>
+          </Card>
+          {/* Members and Disciples */}
+          <Card className="space-y-6">
+            <div className="flex items-center gap-3.5">
+              <div className="rounded-[3px] bg-white/2 p-2.5">
+                <MembershipWhiskeyIcon width={20} height={20} filled />
+              </div>
+              <p className="text-sm text-dustygray">Members and Disciples</p>
+            </div>
+
+            <h1>7,700</h1>
+
+            <div className="flex items-center text-xs">
+              <GrowthIcon />
+              <p className="ml-1 text-junglegreen">16%</p>
+              <p className="ml-2 text-dustygray">in the last month</p>
+            </div>
+          </Card>
+        </div>
         {/* Gender Chart */}
-        <Card className="space-y-6"></Card>
+        <Card className="ml-5 w-[207px]"></Card>
       </div>
       {/* Table */}
       <div className="mt-8">
