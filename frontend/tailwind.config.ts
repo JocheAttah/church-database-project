@@ -25,6 +25,12 @@ const config: Config = {
       minHeight: {
         screen: "100dvh",
       },
+      borderRadius: {
+        "2.5": "10px",
+      },
+      backgroundColor: {
+        "white/2": "rgba(255, 255, 255, 0.02)",
+      },
       colors: {
         sapphire: {
           "50": "#f3f6fb",
@@ -44,10 +50,12 @@ const config: Config = {
         shark: "#1D1E20",
         dustygray: "#979797",
         greenhaze: "#04A65B",
+        junglegreen: "#27AE60",
         tradewind: "#5AB8A4",
         pictonblue: "#418FED",
         bourbon: "#BC6C25",
         brandypunch: "#D08A34",
+        vividtangerine: "#FF9674",
       },
       keyframes: {
         "accordion-down": {

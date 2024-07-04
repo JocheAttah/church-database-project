@@ -18,7 +18,7 @@ export default function DashboardLayout({
       <SideNav hideSideNav={hideSideNav} setHideSideNav={setHideSideNav} />
 
       {isMobileScreen && !hideSideNav && (
-        <div className="fixed inset-0 z-10 bg-white/[0.02] backdrop-blur-md" />
+        <div className="fixed inset-0 z-10 bg-white/2 backdrop-blur-md" />
       )}
 
       <div className="p-8 lg:ml-[105px] xl:ml-[210px]">
