@@ -1,7 +1,7 @@
 "use client";
 import NavIconProps from "@/types/nav-icon-props";
 
-const MembershipIcon = ({ filled }: NavIconProps) => {
+const MembershipIcon = ({ filled, ...props }: NavIconProps) => {
   return filled ? (
     <svg
       width="24"
@@ -9,6 +9,7 @@ const MembershipIcon = ({ filled }: NavIconProps) => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <path
         fillRule="evenodd"
