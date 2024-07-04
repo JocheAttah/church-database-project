@@ -56,6 +56,7 @@ const config: Config = {
         bourbon: "#BC6C25",
         brandypunch: "#D08A34",
         vividtangerine: "#FF9674",
+        whiskey: "#D4A373",
       },
       keyframes: {
         "accordion-down": {
