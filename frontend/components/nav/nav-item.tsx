@@ -22,7 +22,7 @@ const NavItem = ({ title, Icon, href, setHideSideNav }: NavItemProps) => {
 
   const baseClasses =
     "flex items-center lg:justify-center xl:justify-normal gap-2.5 rounded-[50px] px-4 py-2 transition-all duration-200";
-  const hoverActiveClasses = "bg-white/[0.02] text-white";
+  const hoverActiveClasses = "bg-white/2 text-white";
 
   const isLgScreenOnly = useMediaQuery(
     "(min-width: 1024px) and (max-width: 1279px)",

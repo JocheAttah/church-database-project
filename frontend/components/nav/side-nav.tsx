@@ -89,7 +89,7 @@ const SideNav = ({ hideSideNav, setHideSideNav }: SideNavProps) => {
         ))}
       </ul>
 
-      <div className="mt-[25dvh] hidden w-full items-center justify-center gap-3 rounded-[10px] bg-shark px-2 py-4 text-white lg:flex">
+      <div className="mt-[25dvh] hidden w-full items-center justify-center gap-3 rounded-2.5 bg-shark px-2 py-4 text-white lg:flex">
         <Image
           className="rounded-full"
           src="/images/profile-pic.png"
