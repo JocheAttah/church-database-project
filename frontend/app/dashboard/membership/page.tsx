@@ -3,6 +3,7 @@ import GrowthIcon from "@/components/icons/growth-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
 import MembershipBourBonIcon from "@/components/icons/nav/membership-icon-b";
 import MembershipWhiskeyIcon from "@/components/icons/nav/membership-icon-w";
+import MemberTable from "@/components/MembersTable";
 import { Button } from "@/components/ui/button";
 import { FunnelIcon } from "@heroicons/react/24/outline";
 
@@ -67,7 +68,7 @@ const Membership = () => {
         <Card className="ml-5 w-[207px]"></Card>
       </div>
       {/* Table */}
-      <div className="mt-8">
+      <div className="mt-8 rounded-md bg-shark p-4">
         <Card>
           <div className="flex w-full flex-row items-center justify-between">
             <div className="flex flex-row items-center">
@@ -86,6 +87,7 @@ const Membership = () => {
             </div>
           </div>
         </Card>
+        <MemberTable />
       </div>
     </div>
   );
