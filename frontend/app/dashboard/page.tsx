@@ -1,7 +1,7 @@
 "use client";
-import { BarChart } from "@/components/bar-chart";
 import Card from "@/components/card";
-import { Donut } from "@/components/donut";
+import { BarChart } from "@/components/charts/bar-chart";
+import { Donut } from "@/components/charts/donut";
 import GrowthIcon from "@/components/icons/growth-icon";
 import GivingIcon from "@/components/icons/nav/giving-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
