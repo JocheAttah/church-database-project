@@ -4,21 +4,12 @@ import { Bar, LabelList, BarChart as ReBarChart, XAxis, YAxis } from "recharts";
 
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 
-const chartData = [
-  { meeting: "Sunday", attendance: 710, fill: "#FAA307" },
-  { meeting: "Midweek", attendance: 423, fill: "#FAA307" },
-  { meeting: "Fellowship", attendance: 456, fill: "#FAA307" },
-  { meeting: "Prayer group", attendance: 356, fill: "#FAA307" },
-];
+type BarChartProps = {
+  chartData: unknown[];
+  chartConfig: ChartConfig;
+};
 
-const chartConfig = {
-  Sunday: { label: "Sunday" },
-  Midweek: { label: "Midweek" },
-  Fellowship: { label: "Fellowship" },
-  "Prayer group": { label: "Prayer group" },
-} satisfies ChartConfig;
-
-export function BarChart() {
+export function BarChart({ chartConfig, chartData }: BarChartProps) {
   return (
     <ChartContainer config={chartConfig} className="min-h-[450px] max-w-full">
       <ReBarChart accessibilityLayer data={chartData}>

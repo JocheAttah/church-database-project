@@ -6,7 +6,6 @@ import { PieChart } from "@/components/charts/pie-chart";
 import GrowthIcon from "@/components/icons/growth-icon";
 import GivingIcon from "@/components/icons/nav/giving-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
-import { ChartConfig } from "@/components/ui/chart";
 import {
   Select,
   SelectContent,
@@ -15,26 +14,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-
-const genderChartData = [
-  { gender: "male", value: 77, fill: "#044FA6" },
-  { gender: "female", value: 23, fill: "#9165BD" },
-];
-
-const genderChartConfig = {
-  male: { label: "Male" },
-  female: { label: "Female" },
-} satisfies ChartConfig;
-
-const statusChartData = [
-  { status: "workers", value: 72, fill: "#FAA307" },
-  { status: "members", value: 28, fill: "#38B000" },
-];
-
-const statusChartConfig = {
-  workers: { label: "Workers" },
-  members: { label: "Members" },
-} satisfies ChartConfig;
+import {
+  genderChartConfig,
+  genderChartData,
+  meetingChartConfig,
+  meetingChartData,
+  revenueExpenseChartConfig,
+  revenueExpenseChartData,
+  statusChartConfig,
+  statusChartData,
+} from "./chart-data";
 
 const timeRanges = {
   week: "In the last week",
@@ -42,6 +31,7 @@ const timeRanges = {
   year: "In the last year",
 };
 type TimeRange = keyof typeof timeRanges;
+
 const Dashboard = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>("month");
 
@@ -121,7 +111,10 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <BarChart />
+          <BarChart
+            chartConfig={meetingChartConfig}
+            chartData={meetingChartData}
+          />
         </Card>
 
         <Card className="col-span-2 flex items-center justify-around">
@@ -147,7 +140,10 @@ const Dashboard = () => {
         </Card>
         <Card className="col-span-4">
           <p className="mb-4 text-sm text-dustygray">Revenue and Expenses</p>
-          <LineChart />
+          <LineChart
+            chartConfig={revenueExpenseChartConfig}
+            chartData={revenueExpenseChartData}
+          />
         </Card>
       </div>
     </>
