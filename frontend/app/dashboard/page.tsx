@@ -27,12 +27,12 @@ const genderChartConfig = {
 
 const statusChartData = [
   { status: "workers", value: 72, fill: "#FAA307" },
-  { status: "member", value: 28, fill: "#38B000" },
+  { status: "members", value: 28, fill: "#38B000" },
 ];
 
 const statusChartConfig = {
   workers: { label: "Workers" },
-  member: { label: "Member" },
+  members: { label: "Members" },
 } satisfies ChartConfig;
 
 const timeRanges = {
