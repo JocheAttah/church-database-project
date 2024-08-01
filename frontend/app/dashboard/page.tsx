@@ -1,10 +1,19 @@
 "use client";
+import { BarChart } from "@/components/bar-chart";
 import Card from "@/components/card";
 import { Donut } from "@/components/donut";
 import GrowthIcon from "@/components/icons/growth-icon";
 import GivingIcon from "@/components/icons/nav/giving-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
 import { ChartConfig } from "@/components/ui/chart";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
 
 const genderChartData = [
   { gender: "male", value: 77, fill: "#044FA6" },
@@ -26,11 +35,19 @@ const statusChartConfig = {
   member: { label: "Member" },
 } satisfies ChartConfig;
 
+const timeRanges = {
+  week: "In the last week",
+  month: "In the last month",
+  year: "In the last year",
+};
+type TimeRange = keyof typeof timeRanges;
 const Dashboard = () => {
+  const [timeRange, setTimeRange] = useState<TimeRange>("month");
+
   return (
     <>
       <h1 className="mb-5">Dashboard</h1>
-      <div className="grid grid-cols-4 gap-x-5 gap-y-8">
+      <div className="grid grid-cols-4 gap-6">
         <Card className="space-y-6">
           <div className="flex items-center gap-3.5">
             <div className="rounded-[3px] bg-white/2 p-2.5">
@@ -70,7 +87,42 @@ const Dashboard = () => {
           </div>
         </Card>
 
-        <Card className="col-span-2 row-span-2">ajdlfasd</Card>
+        <Card className="col-span-2 row-span-2">
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-3.5">
+              <div className="rounded-[3px] bg-white/2 p-2.5">
+                <MembershipIcon width={20} height={20} filled />
+              </div>
+              <p className="text-sm text-dustygray">Avg Attendance</p>
+            </div>
+
+            <div className="flex flex-col space-y-2">
+              <Select
+                defaultValue={timeRange}
+                onValueChange={(value: TimeRange) => setTimeRange(value)}
+              >
+                <SelectTrigger className="w-[250px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="week">{timeRanges.week}</SelectItem>
+                  <SelectItem value="month">{timeRanges.month}</SelectItem>
+                  <SelectItem value="year">{timeRanges.year}</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <div className="flex items-center self-end text-xs">
+                <GrowthIcon />
+                <p className="ml-1 text-junglegreen">1.7%</p>
+                <p className="ml-2 text-dustygray">
+                  {timeRanges[timeRange].toLowerCase()}
+                </p>
+              </div>
+            </div>
+          </div>
+          <BarChart />
+        </Card>
+
         <Card className="col-span-2">
           <div className="flex items-center justify-around">
             <div>
