@@ -1,6 +1,7 @@
 "use client";
 import Card from "@/components/card";
 import { BarChart } from "@/components/charts/bar-chart";
+import { LineChart } from "@/components/charts/line-chart";
 import { PieChart } from "@/components/charts/pie-chart";
 import GrowthIcon from "@/components/icons/growth-icon";
 import GivingIcon from "@/components/icons/nav/giving-icon";
@@ -123,28 +124,30 @@ const Dashboard = () => {
           <BarChart />
         </Card>
 
-        <Card className="col-span-2">
-          <div className="flex items-center justify-around">
-            <div>
-              <p className="text-sm text-dustygray">Membership by gender</p>
-              <PieChart
-                chartData={genderChartData}
-                chartConfig={genderChartConfig}
-                nameKey="gender"
-                dataKey="value"
-              />
-            </div>
-            <div className="h-72 w-[1px] bg-mineshaft" />
-            <div>
-              <p className="text-sm text-dustygray">Membership by status</p>
-              <PieChart
-                chartData={statusChartData}
-                chartConfig={statusChartConfig}
-                nameKey="status"
-                dataKey="value"
-              />
-            </div>
+        <Card className="col-span-2 flex items-center justify-around">
+          <div>
+            <p className="text-sm text-dustygray">Membership by gender</p>
+            <PieChart
+              chartData={genderChartData}
+              chartConfig={genderChartConfig}
+              nameKey="gender"
+              dataKey="value"
+            />
           </div>
+          <div className="h-72 w-[1px] bg-mineshaft" />
+          <div>
+            <p className="text-sm text-dustygray">Membership by status</p>
+            <PieChart
+              chartData={statusChartData}
+              chartConfig={statusChartConfig}
+              nameKey="status"
+              dataKey="value"
+            />
+          </div>
+        </Card>
+        <Card className="col-span-4">
+          <p className="mb-4 text-sm text-dustygray">Revenue and Expenses</p>
+          <LineChart />
         </Card>
       </div>
     </>
