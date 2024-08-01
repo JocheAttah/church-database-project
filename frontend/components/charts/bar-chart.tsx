@@ -20,7 +20,7 @@ const chartConfig = {
 
 export function BarChart() {
   return (
-    <ChartContainer config={chartConfig} className="min-h-[500px] max-w-full">
+    <ChartContainer config={chartConfig} className="min-h-[450px] max-w-full">
       <ReBarChart accessibilityLayer data={chartData}>
         <XAxis
           dataKey="meeting"

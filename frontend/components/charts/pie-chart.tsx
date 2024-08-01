@@ -33,7 +33,7 @@ export function PieChart({
           dataKey={dataKey}
           innerRadius={60}
         />
-        <ChartTooltip content={<ChartTooltipContent />} />
+        <ChartTooltip content={<ChartTooltipContent suffix="%" />} />
         <ChartLegend content={<ChartLegendContent />} />
       </RePieChart>
     </ChartContainer>
