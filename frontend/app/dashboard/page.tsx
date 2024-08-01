@@ -1,7 +1,7 @@
 "use client";
 import Card from "@/components/card";
 import { BarChart } from "@/components/charts/bar-chart";
-import { Donut } from "@/components/charts/donut";
+import { PieChart } from "@/components/charts/pie-chart";
 import GrowthIcon from "@/components/icons/growth-icon";
 import GivingIcon from "@/components/icons/nav/giving-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
@@ -127,7 +127,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-around">
             <div>
               <p className="text-sm text-dustygray">Membership by gender</p>
-              <Donut
+              <PieChart
                 chartData={genderChartData}
                 chartConfig={genderChartConfig}
                 nameKey="gender"
@@ -137,7 +137,7 @@ const Dashboard = () => {
             <div className="h-72 w-[1px] bg-mineshaft" />
             <div>
               <p className="text-sm text-dustygray">Membership by status</p>
-              <Donut
+              <PieChart
                 chartData={statusChartData}
                 chartConfig={statusChartConfig}
                 nameKey="status"
