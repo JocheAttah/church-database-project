@@ -8,6 +8,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import formatMoney from "@/utils/formatMoney";
 
 type LineChartProps = {
   chartData: unknown[];
@@ -15,12 +17,13 @@ type LineChartProps = {
 };
 
 export function LineChart({ chartConfig, chartData }: LineChartProps) {
+  const isSmallScreen = useMediaQuery("(max-width: 640px)");
   return (
     <ChartContainer config={chartConfig} className="max-h-[300px] min-w-full">
       <ReLineChart
         accessibilityLayer
         data={chartData}
-        margin={{ left: 24, right: 24 }}
+        margin={{ left: isSmallScreen ? -5 : 24, right: 24 }}
       >
         <XAxis
           dataKey="month"
@@ -29,21 +32,28 @@ export function LineChart({ chartConfig, chartData }: LineChartProps) {
           axisLine={false}
           tickFormatter={(value) => value.slice(0, 3)}
           style={{ fill: "#979797" }}
-          className="text-sm"
+          className="sm:text-sm"
         />
         <YAxis
           tickLine={false}
           axisLine={false}
           style={{ fill: "#979797" }}
-          className="text-sm"
-          tickFormatter={(value) => `N${value.toLocaleString()}`}
+          className="sm:text-sm"
+          tickFormatter={(value) =>
+            formatMoney(value, {
+              ...(isSmallScreen && {
+                shouldRoundDown: true,
+                roundDownAmount: 1000,
+              }),
+            })
+          }
           tickMargin={10}
           tickCount={4}
         />
         <ChartTooltip
           cursor={false}
           content={
-            <ChartTooltipContent labelClassName="text-black" prefix="N" />
+            <ChartTooltipContent labelClassName="text-black" prefix="₦" />
           }
         />
         <Line

@@ -39,7 +39,7 @@ const Dashboard = () => {
     <>
       <h1 className="mb-5">Dashboard</h1>
       <div className="grid grid-cols-4 gap-6">
-        <Card className="space-y-6">
+        <Card className="col-span-4 space-y-6 sm:col-span-2 xl:col-span-1">
           <div className="flex items-center gap-3.5">
             <div className="rounded-[3px] bg-white/2 p-2.5">
               <MembershipIcon width={20} height={20} filled />
@@ -56,7 +56,7 @@ const Dashboard = () => {
           </div>
         </Card>
 
-        <Card className="space-y-6">
+        <Card className="col-span-4 space-y-6 sm:col-span-2 xl:col-span-1">
           <div className="flex items-center gap-3.5">
             <div className="rounded-[3px] bg-white/2 p-2.5">
               <GivingIcon
@@ -78,8 +78,8 @@ const Dashboard = () => {
           </div>
         </Card>
 
-        <Card className="col-span-2 row-span-2">
-          <div className="flex items-start justify-between">
+        <Card className="col-span-4 xl:col-span-2 xl:row-span-2">
+          <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="flex items-center gap-3.5">
               <div className="rounded-[3px] bg-white/2 p-2.5">
                 <MembershipIcon width={20} height={20} filled />
@@ -87,12 +87,12 @@ const Dashboard = () => {
               <p className="text-sm text-dustygray">Avg Attendance</p>
             </div>
 
-            <div className="flex flex-col space-y-2">
+            <div className="mb-4 flex flex-col space-y-2">
               <Select
                 defaultValue={timeRange}
                 onValueChange={(value: TimeRange) => setTimeRange(value)}
               >
-                <SelectTrigger className="w-[250px]">
+                <SelectTrigger className="w-full sm:w-[250px]">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -117,7 +117,7 @@ const Dashboard = () => {
           />
         </Card>
 
-        <Card className="col-span-2 flex items-center justify-around">
+        <Card className="col-span-4 flex flex-col items-center justify-around sm:flex-row xl:col-span-2">
           <div>
             <p className="text-sm text-dustygray">Membership by gender</p>
             <PieChart
@@ -127,7 +127,7 @@ const Dashboard = () => {
               dataKey="value"
             />
           </div>
-          <div className="h-72 w-[1px] bg-mineshaft" />
+          <div className="my-6 h-[1px] w-full bg-mineshaft sm:my-0 sm:-ml-5 sm:h-72 sm:w-[1px]" />
           <div>
             <p className="text-sm text-dustygray">Membership by status</p>
             <PieChart

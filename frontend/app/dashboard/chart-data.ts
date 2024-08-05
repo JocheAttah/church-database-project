@@ -30,10 +30,7 @@ const meetingChartData = [
 ];
 
 const meetingChartConfig = {
-  Sunday: { label: "Sunday" },
-  Midweek: { label: "Midweek" },
-  Fellowship: { label: "Fellowship" },
-  "Prayer group": { label: "Prayer group" },
+  attendance: { label: "Attendance" },
 } satisfies ChartConfig;
 
 // Line chart
