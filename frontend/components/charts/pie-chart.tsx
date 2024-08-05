@@ -16,6 +16,7 @@ type PieChartProps = {
   chartConfig: ChartConfig;
   nameKey: string;
   dataKey: string;
+  slim?: boolean;
 };
 
 export function PieChart({
@@ -23,15 +24,19 @@ export function PieChart({
   chartConfig,
   nameKey,
   dataKey,
+  slim,
 }: PieChartProps) {
   return (
-    <ChartContainer config={chartConfig} className="-ml-5 h-[280px] w-[230px]">
+    <ChartContainer
+      config={chartConfig}
+      className={`${slim ? "-mt-5 h-[180px] w-[180px]" : "-ml-5 h-[280px] w-[230px]"}`}
+    >
       <RePieChart>
         <Pie
           data={chartData}
           nameKey={nameKey}
           dataKey={dataKey}
-          innerRadius={60}
+          innerRadius={slim ? 40 : 60}
         />
         <ChartTooltip content={<ChartTooltipContent suffix="%" />} />
         <ChartLegend content={<ChartLegendContent />} />
