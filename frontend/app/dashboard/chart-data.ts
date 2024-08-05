@@ -2,7 +2,7 @@ import { ChartConfig } from "@/components/ui/chart";
 
 // Pie chart
 const genderChartData = [
-  { gender: "male", value: 77, fill: "#044FA6" },
+  { gender: "male", value: 77, fill: "#38B000" },
   { gender: "female", value: 23, fill: "#9165BD" },
 ];
 
