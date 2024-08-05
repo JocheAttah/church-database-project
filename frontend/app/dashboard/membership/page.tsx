@@ -1,4 +1,5 @@
 import Card from "@/components/card";
+import { PieChart } from "@/components/charts/pie-chart";
 import GrowthIcon from "@/components/icons/growth-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
 import MembershipBourBonIcon from "@/components/icons/nav/membership-icon-b";
@@ -6,12 +7,13 @@ import MembershipWhiskeyIcon from "@/components/icons/nav/membership-icon-w";
 import MemberTable from "@/components/MembersTable";
 import { Button } from "@/components/ui/button";
 import { FunnelIcon } from "@heroicons/react/24/outline";
+import { genderChartConfig, genderChartData } from "../chart-data";
 
 const Membership = () => {
   return (
     <div className="flex w-full flex-col">
-      <div className="flex w-full flex-1 flex-row">
-        <div className="grid w-full grid-cols-3 gap-x-5 gap-y-8">
+      <div className="flex w-full flex-1 flex-col items-start md:flex-row">
+        <div className="grid w-full grid-cols-1 gap-x-5 gap-y-8 md:grid-cols-3">
           {/* Total membership */}
           <Card className="space-y-6">
             <div className="flex items-center gap-3.5">
@@ -65,7 +67,15 @@ const Membership = () => {
           </Card>
         </div>
         {/* Gender Chart */}
-        <Card className="ml-5 w-[207px]"></Card>
+        <Card className="mt-8 h-[180px] w-full md:ml-5 md:mt-0 md:w-[207px]">
+          <PieChart
+            chartData={genderChartData}
+            chartConfig={genderChartConfig}
+            nameKey="gender"
+            dataKey="value"
+            slim
+          />
+        </Card>
       </div>
       {/* Table */}
       <div className="mt-8 rounded-md bg-shark p-4">
