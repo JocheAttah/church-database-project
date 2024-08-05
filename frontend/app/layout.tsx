@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 
-const openSans = Open_Sans({ subsets: ["latin"] });
+const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "SCC Abuja Database",
@@ -17,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-screen", openSans.className)}>{children}</body>
+      <body className={cn("min-h-screen font-sans", openSans.variable)}>
+        {children}
+      </body>
     </html>
   );
 }
