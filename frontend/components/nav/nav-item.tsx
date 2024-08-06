@@ -20,10 +20,6 @@ const NavItem = ({ title, Icon, href, setHideSideNav }: NavItemProps) => {
   const isCurrentPath = pathname === href;
   const isActive = isHovered || isCurrentPath;
 
-  const baseClasses =
-    "flex items-center lg:justify-center xl:justify-normal gap-2.5 rounded-[50px] px-4 py-2 transition-all duration-200";
-  const hoverActiveClasses = "bg-white/2 text-white";
-
   const isLgScreenOnly = useMediaQuery(
     "(min-width: 1024px) and (max-width: 1279px)",
   );
@@ -37,8 +33,8 @@ const NavItem = ({ title, Icon, href, setHideSideNav }: NavItemProps) => {
         href={href}
         onClick={() => setHideSideNav(true)}
         className={cn(
-          baseClasses,
-          isActive && hoverActiveClasses,
+          "flex items-center gap-2.5 rounded-[50px] px-4 py-2 transition-all duration-200 lg:justify-center xl:justify-normal",
+          isActive && "bg-white/2 text-white",
           isCurrentPath && "font-semibold",
         )}
       >
@@ -49,7 +45,7 @@ const NavItem = ({ title, Icon, href, setHideSideNav }: NavItemProps) => {
   );
   return isLgScreenOnly ? (
     <NavTooltip
-      className={hoverActiveClasses}
+      className={"bg-shark text-white"}
       content={<Link href={href}>{title}</Link>}
     >
       {listItem}
