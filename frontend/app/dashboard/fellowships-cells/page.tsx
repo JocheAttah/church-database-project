@@ -88,11 +88,6 @@ const FellowshipsCells = () => {
               <p className="text-xs">View membership</p>
               <ArrowSmallRightIcon />
             </div>
-            {/* <div className="flex items-center text-xs">
-              <GrowthIcon />
-              <p className="ml-1 text-junglegreen">1.7%</p>
-              <p className="ml-2 text-dustygray">in the last month</p>
-            </div> */}
           </Card>
         ))}
       </div>
