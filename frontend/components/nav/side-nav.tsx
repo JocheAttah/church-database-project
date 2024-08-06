@@ -6,7 +6,7 @@ import { Dispatch, SetStateAction } from "react";
 import ActivitiesIcon from "../icons/nav/activities-icon";
 import AttendanceIcon from "../icons/nav/attendance-icon";
 import DashboardIcon from "../icons/nav/dashboard-icon";
-import FellowshipsIcon from "../icons/nav/fellowships-icon";
+import FellowshipsCellsIcon from "../icons/nav/fellowships-cells-icon";
 import GivingIcon from "../icons/nav/giving-icon";
 import MembershipIcon from "../icons/nav/membership-icon";
 import ReportsIcon from "../icons/nav/reports-icon";
@@ -27,9 +27,9 @@ const sideMenu = [
     href: "/dashboard/membership",
   },
   {
-    title: "Fellowships",
-    Icon: FellowshipsIcon,
-    href: "/dashboard/fellowships",
+    title: "Fellowships/Cells",
+    Icon: FellowshipsCellsIcon,
+    href: "/dashboard/fellowships-cells",
   },
   {
     title: "Attendance",

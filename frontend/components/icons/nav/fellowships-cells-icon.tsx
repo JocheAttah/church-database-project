@@ -1,7 +1,7 @@
 "use client";
 import NavIconProps from "@/types/nav-icon-props";
 
-const FellowshipsIcon = ({ filled }: NavIconProps) => {
+const FellowshipsCellsIcon = ({ filled, ...props }: NavIconProps) => {
   return filled ? (
     <svg
       width="24"
@@ -9,6 +9,7 @@ const FellowshipsIcon = ({ filled }: NavIconProps) => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <path
         d="M4.5 6.375C4.5 4.09683 6.34683 2.25 8.625 2.25C10.9032 2.25 12.75 4.09683 12.75 6.375C12.75 8.65317 10.9032 10.5 8.625 10.5C6.34683 10.5 4.5 8.65317 4.5 6.375Z"
@@ -50,4 +51,4 @@ const FellowshipsIcon = ({ filled }: NavIconProps) => {
   );
 };
 
-export default FellowshipsIcon;
+export default FellowshipsCellsIcon;
