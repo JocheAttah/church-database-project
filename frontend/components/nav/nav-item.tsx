@@ -17,7 +17,9 @@ type NavItemProps = {
 const NavItem = ({ title, Icon, href, setHideSideNav }: NavItemProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const pathname = usePathname();
-  const isCurrentPath = pathname === href;
+  console.log({ pathname, href });
+  const isCurrentPath =
+    href === "/dashboard" ? pathname === href : pathname.startsWith(href);
   const isActive = isHovered || isCurrentPath;
 
   const isLgScreenOnly = useMediaQuery(
