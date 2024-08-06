@@ -3,52 +3,53 @@ import ArrowSmallRightIcon from "@/components/icons/arrow-small-right-icon";
 import GrowthIcon from "@/components/icons/growth-icon";
 import FellowshipsCellsIcon from "@/components/icons/nav/fellowships-cells-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
+import Link from "next/link";
 
 const data = [
   {
     name: "Durumi Fellowship",
+    key: "durumi",
     size: 2100,
-    data: [],
   },
   {
     name: "Wuse Fellowship",
+    key: "wuse",
     size: 2100,
-    data: [],
   },
   {
     name: "Jikwoyi Cell",
+    key: "jikwoyi",
     size: 2100,
-    data: [],
   },
   {
     name: "Lugbe Cell",
+    key: "lugbe",
     size: 2100,
-    data: [],
   },
   {
     name: "Pigbakasa Cell",
+    key: "pigbakasa",
     size: 2100,
-    data: [],
   },
   {
     name: "Karu Fellowship",
+    key: "karu",
     size: 2100,
-    data: [],
   },
   {
     name: "Kuje Cell",
+    key: "kuje",
     size: 2100,
-    data: [],
   },
   {
     name: "Lokogoma Cell",
+    key: "lokogoma",
     size: 2100,
-    data: [],
   },
   {
     name: "Kubwa Cell",
+    key: "kubwa",
     size: 2100,
-    data: [],
   },
 ];
 const FellowshipsCells = () => {
@@ -73,22 +74,24 @@ const FellowshipsCells = () => {
           </div>
         </Card>
 
-        {data.map(({ name, data, size }) => (
-          <Card key={name} className="flex flex-col space-y-6">
-            <div className="flex items-center gap-3.5">
-              <div className="rounded-[3px] bg-white/2 p-2.5">
-                <FellowshipsCellsIcon width={20} height={20} filled />
+        {data.map(({ name, key, size }) => (
+          <Link key={key} href={`/dashboard/fellowships-cells/${key}`}>
+            <Card className="flex flex-col space-y-6">
+              <div className="flex items-center gap-3.5">
+                <div className="rounded-[3px] bg-white/2 p-2.5">
+                  <FellowshipsCellsIcon width={20} height={20} filled />
+                </div>
+                <p className="text-sm text-dustygray">{name}</p>
               </div>
-              <p className="text-sm text-dustygray">{name}</p>
-            </div>
 
-            <h1>{size.toLocaleString()}</h1>
+              <h1>{size.toLocaleString()}</h1>
 
-            <div className="flex items-center self-end text-dustygray">
-              <p className="text-xs">View membership</p>
-              <ArrowSmallRightIcon />
-            </div>
-          </Card>
+              <div className="flex items-center self-end text-dustygray">
+                <p className="text-xs">View membership</p>
+                <ArrowSmallRightIcon />
+              </div>
+            </Card>
+          </Link>
         ))}
       </div>
     </>
