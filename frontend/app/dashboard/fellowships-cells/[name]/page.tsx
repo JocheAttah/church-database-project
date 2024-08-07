@@ -6,7 +6,7 @@ import SearchInput from "@/components/search-input";
 import FellowshipCellsTable from "@/components/tables/fellowship-cells-table";
 import { FunnelIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import { data } from "../page";
+import data from "../data";
 
 type FellowshipCellNameProps = { params: { name: string } };
 
