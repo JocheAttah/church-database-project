@@ -1,4 +1,4 @@
-// components/MemberTable.js
+import Pill from "../pill";
 import {
   Table,
   TableBody,
@@ -6,8 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import Pill from "./pill";
+} from "../ui/table";
 
 const data = [
   {
@@ -112,7 +111,7 @@ const data = [
   },
 ];
 
-export default function MemberTable() {
+const FellowshipCellsTable = () => {
   return (
     <Table>
       <TableHeader className="bg-woodsmoke">
@@ -123,21 +122,19 @@ export default function MemberTable() {
           <TableHead>Gender</TableHead>
           <TableHead>Phone number</TableHead>
           <TableHead>Membership Status</TableHead>
-          <TableHead>Cell/Fellowship</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {data.map((member, index) => (
-          <TableRow key={member.id}>
+          <TableRow key={index}>
             <TableCell>{index + 1}</TableCell>
             <TableCell>{member.firstName}</TableCell>
             <TableCell>{member.lastName}</TableCell>
             <TableCell>{member.gender}</TableCell>
             <TableCell>{member.phoneNumber}</TableCell>
             <TableCell>{member.membershipStatus}</TableCell>
-            <TableCell>{member.cell}</TableCell>
             <TableCell>
               {member.status === "Consistent" ? (
                 <Pill>
@@ -155,4 +152,6 @@ export default function MemberTable() {
       </TableBody>
     </Table>
   );
-}
+};
+
+export default FellowshipCellsTable;

@@ -5,7 +5,7 @@ import FellowshipsCellsIcon from "@/components/icons/nav/fellowships-cells-icon"
 import MembershipIcon from "@/components/icons/nav/membership-icon";
 import Link from "next/link";
 
-const data = [
+export const data = [
   {
     name: "Durumi Fellowship",
     key: "durumi",
