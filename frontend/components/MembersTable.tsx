@@ -130,7 +130,7 @@ export default function MemberTable() {
       </TableHeader>
       <TableBody>
         {data.map((member, index) => (
-          <TableRow key={member.id}>
+          <TableRow key={member.id} className="even:bg-shark-darker">
             <TableCell>{index + 1}</TableCell>
             <TableCell>{member.firstName}</TableCell>
             <TableCell>{member.lastName}</TableCell>

@@ -128,7 +128,7 @@ const FellowshipCellsTable = () => {
       </TableHeader>
       <TableBody>
         {data.map((member, index) => (
-          <TableRow key={index}>
+          <TableRow key={index} className="even:bg-shark-darker">
             <TableCell>{index + 1}</TableCell>
             <TableCell>{member.firstName}</TableCell>
             <TableCell>{member.lastName}</TableCell>
@@ -146,6 +146,7 @@ const FellowshipCellsTable = () => {
                 </Pill>
               )}
             </TableCell>
+            {/* TODO: change to dropdown */}
             <TableCell>Actions</TableCell>
           </TableRow>
         ))}

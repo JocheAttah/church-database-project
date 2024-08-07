@@ -52,6 +52,7 @@ const config: Config = {
         woodsmoke: "#151618",
         mineshaft: "#2A2A2A",
         shark: "#1D1E20",
+        "shark-darker": "#1A1B1D",
         dustygray: "#979797",
         greenhaze: "#04A65B",
         junglegreen: "#27AE60",
