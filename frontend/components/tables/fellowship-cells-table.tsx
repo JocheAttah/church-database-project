@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ChevronDownIcon from "../icons/chevron-down-icon";
 import Pill from "../pill";
 import {
@@ -118,7 +119,7 @@ const data = [
   },
 ];
 
-const FellowshipCellsTable = () => {
+const FellowshipCellsTable = ({ name }: { name: string }) => {
   return (
     <Table>
       <TableHeader className="bg-woodsmoke">
@@ -160,7 +161,9 @@ const FellowshipCellsTable = () => {
                   <ChevronDownIcon />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem>View Details</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href={`${name}/${member.id}`}>View Details</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

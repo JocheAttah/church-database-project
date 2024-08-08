@@ -29,7 +29,7 @@ const FellowshipsCells = () => {
         </Card>
 
         {data.map(({ name, key, size }) => (
-          <Link key={key} href={`/dashboard/fellowships-cells/${key}`}>
+          <Link key={key} href={`fellowships-cells/${key}`}>
             <Card className="flex flex-col space-y-6">
               <div className="flex items-center gap-3.5">
                 <div className="rounded-[3px] bg-white/2 p-2.5">

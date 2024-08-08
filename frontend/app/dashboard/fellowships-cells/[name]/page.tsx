@@ -40,7 +40,7 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
             <span>Filter</span>
           </div>
         </div>
-        <FellowshipCellsTable />
+        <FellowshipCellsTable name={params.name} />
 
         <div className="flex items-center justify-between">
           <p className="text-xs text-dustygray">
