@@ -4,6 +4,12 @@ import Card from "@/components/card";
 import ArrowSmallLeftIcon from "@/components/icons/arrow-small-left-icon";
 import SearchInput from "@/components/search-input";
 import FellowshipCellsTable from "@/components/tables/fellowship-cells-table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination";
 import { FunnelIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import data from "../data";
@@ -35,6 +41,28 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
           </div>
         </div>
         <FellowshipCellsTable />
+
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-dustygray">
+            Showing 1 to 10 of 120 results
+          </p>
+          <Pagination className="mx-0 w-fit justify-end">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">2</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">4</PaginationLink>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </Card>
     </div>
   );
