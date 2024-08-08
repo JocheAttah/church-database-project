@@ -1,4 +1,11 @@
+import ChevronDownIcon from "../icons/chevron-down-icon";
 import Pill from "../pill";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -146,8 +153,18 @@ const FellowshipCellsTable = () => {
                 </Pill>
               )}
             </TableCell>
-            {/* TODO: change to dropdown */}
-            <TableCell>Actions</TableCell>
+            <TableCell>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center">
+                  <span>Actions</span>
+                  <ChevronDownIcon />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>View Details</DropdownMenuItem>
+                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
