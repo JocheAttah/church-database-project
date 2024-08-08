@@ -10,7 +10,7 @@ const FellowshipsCells = () => {
   return (
     <>
       <h1 className="mb-5">Fellowships/Cells</h1>
-      <div className="grid grid-cols-3 gap-7">
+      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-3">
         <Card className="space-y-6">
           <div className="flex items-center gap-3.5">
             <div className="rounded-[3px] bg-white/2 p-2.5">

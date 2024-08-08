@@ -5,7 +5,7 @@ const SearchInput = () => {
   return (
     <div className="relative">
       <Input
-        className="w-[250px] rounded-md border-none bg-woodsmoke p-3 text-xs placeholder:text-dustygray"
+        className="w-full rounded-md border-none bg-woodsmoke p-3 text-xs placeholder:text-dustygray sm:w-[250px]"
         placeholder="Search"
       />
       <div className="absolute right-3 top-2 bg-woodsmoke text-dustygray">

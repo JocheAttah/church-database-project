@@ -30,8 +30,8 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
       </div>
 
       <Card className="space-y-5 p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-5">
+        <div className="flex flex-wrap items-center justify-between gap-5">
+          <div className="flex flex-wrap items-center gap-5">
             <h2>{data.find((item) => item.key === params.name)?.name}</h2>
             <SearchInput />
           </div>
@@ -42,7 +42,7 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
         </div>
         <FellowshipCellsTable name={params.name} />
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-5">
           <p className="text-xs text-dustygray">
             Showing 1 to 10 of 120 results
           </p>
