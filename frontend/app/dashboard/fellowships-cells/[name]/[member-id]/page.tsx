@@ -2,10 +2,45 @@
 
 import Card from "@/components/card";
 import ArrowSmallLeftIcon from "@/components/icons/arrow-small-left-icon";
+import { Button } from "@/components/ui/button";
+import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import { useRouter } from "next/navigation";
 
-const FellowshipCellMember = () => {
+type FellowshipCellMemberProps = {
+  params: { name: string; "member-id": string };
+};
+const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
   const router = useRouter();
+
+  const userData = {
+    id: "USER00001",
+    fName: "Jonathan",
+    lName: "David",
+    gender: "Male",
+    marital: "Single",
+    qualification: "Worker",
+    "fellowship-cell": capitalizeFirstLetter(params.name),
+    phone: "+2348112345678",
+    email: "jonathan@gmail.com",
+    dob: "23rd October, 1996",
+    class: "Student",
+    discipledBy: "Pastor",
+  };
+
+  const data = [
+    { key: "User ID", value: userData.id },
+    { key: "First Name", value: userData.fName },
+    { key: "Last Name", value: userData.lName },
+    { key: "Gender", value: userData.gender },
+    { key: "Marital Status", value: userData.marital },
+    { key: "Qualification", value: userData.qualification },
+    { key: "Fellowship/Cell", value: userData["fellowship-cell"] },
+    { key: "Phone", value: userData.phone },
+    { key: "Email Address", value: userData.email },
+    { key: "Date of Birth", value: userData.dob },
+    { key: "Class", value: userData.class },
+    { key: "Discipled By", value: userData.discipledBy },
+  ];
 
   return (
     <div>
@@ -17,7 +52,19 @@ const FellowshipCellMember = () => {
         <p className="text-xs">Fellowships/Cells</p>
       </div>
 
-      <Card className="p-9">member</Card>
+      <Card className="p-10">
+        <div className="flex flex-wrap items-center gap-16">
+          {data.map(({ key, value }, index) => (
+            <div className="space-y-2" key={index}>
+              <p className="text-sm text-dustygray">{key}</p>
+              <p className="font-semibold">{value}</p>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-end">
+          <Button variant="secondary">Edit User</Button>
+        </div>
+      </Card>
     </div>
   );
 };
