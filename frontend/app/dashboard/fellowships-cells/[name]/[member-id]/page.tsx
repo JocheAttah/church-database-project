@@ -3,6 +3,13 @@
 import Card from "@/components/card";
 import ArrowSmallLeftIcon from "@/components/icons/arrow-small-left-icon";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
 import { useRouter } from "next/navigation";
 
@@ -53,7 +60,7 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
       </div>
 
       <Card className="p-10">
-        <div className="flex flex-wrap items-center gap-16">
+        <div className="mb-4 flex flex-wrap items-center gap-16">
           {data.map(({ key, value }, index) => (
             <div className="space-y-2" key={index}>
               <p className="text-sm text-dustygray">{key}</p>
@@ -62,7 +69,19 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
           ))}
         </div>
         <div className="flex justify-end">
-          <Button variant="secondary">Edit User</Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="secondary">Edit User</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit User</DialogTitle>
+              </DialogHeader>
+              <div className="border-t border-mineshaft pt-7 text-white">
+                alsdjfkajdl
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </Card>
     </div>
