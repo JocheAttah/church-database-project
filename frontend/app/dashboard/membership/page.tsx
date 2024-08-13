@@ -1,3 +1,5 @@
+"use client";
+
 import Card from "@/components/card";
 import { PieChart } from "@/components/charts/pie-chart";
 import GrowthIcon from "@/components/icons/growth-icon";
@@ -5,7 +7,8 @@ import MembershipIcon from "@/components/icons/nav/membership-icon";
 import MembershipBourBonIcon from "@/components/icons/nav/membership-icon-b";
 import MembershipWhiskeyIcon from "@/components/icons/nav/membership-icon-w";
 import { Button } from "@/components/ui/button";
-import { FunnelIcon } from "@heroicons/react/24/outline";
+import { DocumentIcon, FunnelIcon } from "@heroicons/react/24/outline";
+import { CloudArrowDownIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { genderChartConfig, genderChartData } from "../chart-data";
 import MemberTable from "@/components/tables/MembersTable";
 import {
@@ -23,8 +26,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ChevronDownIcon from "@/components/icons/chevron-down-icon";
 import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import Uploader from "@/components/Uploader";
+import { useState } from "react";
+import { formatFileSize } from "@/utils/formatFileSize";
+import { truncateMiddle } from "@/utils/truncateText";
 
 const Membership = () => {
+  const [files, setFiles] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className="flex w-full flex-col">
       <h1 className="mb-5">Membership</h1>
@@ -104,24 +123,67 @@ const Membership = () => {
             <div className="flex flex-row items-center">
               <FunnelIcon className="mr-[5px] size-8 text-dustygray" />
               <p className="text-sm text-dustygray">Filter</p>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center">
-                  <Button
-                    className="ml-6 w-full bg-sapphire-700 hover:bg-sapphire-800 active:bg-sapphire-900"
-                    type="submit"
-                  >
-                    Update membership
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>
-                    <Link href={"/"}>Upload Excel Sheet</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href={"/"}>Add Invidiual Member</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Dialog>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center">
+                    <div
+                      className="ml-6 w-full rounded-md bg-sapphire-700 px-[20px] py-2.5 text-sm hover:bg-sapphire-800 active:bg-sapphire-900"
+                      type="submit"
+                    >
+                      Update membership
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      {/* <Link href={"/"}>Upload Excel Sheet</Link> */}
+                      <DialogTrigger>Upload Excel Sheet</DialogTrigger>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href={"/"}>Add Single Member</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Upload Excel Sheet</DialogTitle>
+                  </DialogHeader>
+                  <div className="h-[1px] w-full bg-mineshaft" />
+                  <Uploader setFiles={setFiles} />
+                  {files && (
+                    <div className="rounded-xl bg-[#1D1E20] px-2.5 pb-5 pt-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#232325]">
+                            <DocumentIcon className="w-6 text-white" />
+                          </div>
+                          <div className="ml-1 w-[95%] overflow-hidden text-ellipsis whitespace-nowrap text-white">
+                            <div className="text-sm">
+                              {truncateMiddle(files[0]?.name, 50)}
+                            </div>
+                            <div className="text-[8px] text-[#979797]">
+                              {formatFileSize(files[0]?.size)}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div onClick={() => setFiles(null)}>
+                          <XMarkIcon className="h-6 w-6 text-white" />
+                        </div>
+                      </div>
+                      {/* progress */}
+                      {/* <div className=""></div> */}
+                    </div>
+                  )}
+                  <DialogFooter>
+                    <Button
+                      type="submit"
+                      className="rounded-md bg-sapphire-700 text-sm hover:bg-sapphire-800 active:bg-sapphire-900"
+                    >
+                      Update list
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </Card>
