@@ -54,7 +54,6 @@ const Login = () => {
                       <FormLabel>Email Address</FormLabel>
                       <FormControl>
                         <Input
-                          className="bg-transparent"
                           placeholder="E.g jonathan@email.com"
                           {...field}
                         />
@@ -70,11 +69,7 @@ const Login = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input
-                          className="bg-transparent"
-                          placeholder="Enter your password"
-                          {...field}
-                        />
+                        <Input placeholder="Enter your password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

@@ -10,8 +10,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 type FellowshipCellMemberProps = {
   params: { name: string; "member-id": string };
@@ -19,11 +38,26 @@ type FellowshipCellMemberProps = {
 const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
   const router = useRouter();
 
+  const fieldConfigurations = [
+    { name: "id", label: "User ID" },
+    { name: "fName", label: "First Name" },
+    { name: "lName", label: "Last Name" },
+    { name: "gender", label: "Gender" },
+    { name: "marital", label: "Marital Status" },
+    { name: "qualification", label: "Qualification" },
+    { name: "fellowship-cell", label: "Fellowship/Cell" },
+    { name: "phone", label: "Phone" },
+    { name: "email", label: "Email Address" },
+    { name: "dob", label: "Date of Birth" },
+    { name: "class", label: "Class" },
+    { name: "discipledBy", label: "Discipled By" },
+  ] as const;
+
   const userData = {
     id: "USER00001",
     fName: "Jonathan",
     lName: "David",
-    gender: "Male",
+    gender: "male",
     marital: "Single",
     qualification: "Worker",
     "fellowship-cell": capitalizeFirstLetter(params.name),
@@ -34,20 +68,52 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
     discipledBy: "Pastor",
   };
 
-  const data = [
-    { key: "User ID", value: userData.id },
-    { key: "First Name", value: userData.fName },
-    { key: "Last Name", value: userData.lName },
-    { key: "Gender", value: userData.gender },
-    { key: "Marital Status", value: userData.marital },
-    { key: "Qualification", value: userData.qualification },
-    { key: "Fellowship/Cell", value: userData["fellowship-cell"] },
-    { key: "Phone", value: userData.phone },
-    { key: "Email Address", value: userData.email },
-    { key: "Date of Birth", value: userData.dob },
-    { key: "Class", value: userData.class },
-    { key: "Discipled By", value: userData.discipledBy },
+  const data = fieldConfigurations.map(({ name, label }) => ({
+    key: label,
+    value: userData[name],
+  }));
+
+  const formSchema = z.object({
+    id: z.string(),
+    fName: z.string(),
+    lName: z.string(),
+    gender: z.string(),
+    marital: z.string(),
+    qualification: z.string(),
+    "fellowship-cell": z.string(),
+    phone: z.string(),
+    email: z.string(),
+    dob: z.string(),
+    class: z.string(),
+    discipledBy: z.string(),
+  });
+
+  const genderConfig = [
+    { key: "male", label: "Male" },
+    { key: "female", label: "Female" },
   ];
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      id: userData.id,
+      fName: userData.fName,
+      lName: userData.lName,
+      gender: userData.gender,
+      marital: userData.marital,
+      qualification: userData.qualification,
+      "fellowship-cell": userData["fellowship-cell"],
+      phone: userData.phone,
+      email: userData.email,
+      dob: userData.dob,
+      class: userData.class,
+      discipledBy: userData.discipledBy,
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
 
   return (
     <div>
@@ -73,12 +139,83 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
             <DialogTrigger asChild>
               <Button variant="secondary">Edit User</Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-7xl">
               <DialogHeader>
                 <DialogTitle>Edit User</DialogTitle>
               </DialogHeader>
               <div className="border-t border-mineshaft pt-7 text-white">
-                alsdjfkajdl
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <div className="grid grid-cols-2 gap-x-5 gap-y-10">
+                      {fieldConfigurations
+                        .filter(
+                          ({ name }) =>
+                            ![
+                              "gender",
+                              "marital",
+                              "dob",
+                              "qualification",
+                              "fellowship-cell",
+                              "class",
+                            ].includes(name),
+                        )
+                        .map(({ name, label }, index) => (
+                          <FormField
+                            key={index}
+                            control={form.control}
+                            name={name}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-xs text-dustygray">
+                                  {label}
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    className="border-mineshaft text-sm"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        ))}
+
+                      <FormField
+                        control={form.control}
+                        name="gender"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              Gender
+                            </FormLabel>
+                            <FormControl>
+                              <Select defaultValue={field.value}>
+                                <SelectTrigger
+                                  className="border border-mineshaft text-white"
+                                  {...field}
+                                >
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent className="border border-mineshaft">
+                                  {genderConfig.map(({ key, label }, index) => (
+                                    <SelectItem value={key} key={index}>
+                                      {label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <Button variant="secondary" type="submit">
+                      Submit
+                    </Button>
+                  </form>
+                </Form>
               </div>
             </DialogContent>
           </Dialog>
