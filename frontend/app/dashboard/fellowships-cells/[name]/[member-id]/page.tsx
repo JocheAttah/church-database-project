@@ -26,11 +26,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import capitalizeFirstLetter from "@/utils/capitalizeFirstLetter";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import data from "../../data";
 
 type FellowshipCellMemberProps = {
   params: { name: string; "member-id": string };
@@ -58,17 +59,17 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
     fName: "Jonathan",
     lName: "David",
     gender: "male",
-    marital: "Single",
-    qualification: "Worker",
-    fellowshipsCells: capitalizeFirstLetter(params.name),
+    marital: "single",
+    qualification: "worker",
+    fellowshipsCells: params.name,
     phone: "+2348112345678",
     email: "jonathan@gmail.com",
     dob: "23rd October, 1996",
-    class: "Student",
+    class: "student",
     discipledBy: "Pastor",
   };
 
-  const data = fieldConfigurations.map(({ name, label }) => ({
+  const displayData = fieldConfigurations.map(({ name, label }) => ({
     key: label,
     value: userData[name],
   }));
@@ -92,6 +93,32 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
     { key: "male", label: "Male" },
     { key: "female", label: "Female" },
   ];
+  const maritalConfig = [
+    { key: "single", label: "Single" },
+    { key: "married", label: "Married" },
+  ];
+  const qualificationConfig = [
+    { key: "worker", label: "Worker in Training" },
+    { key: "member", label: "Member" },
+  ];
+  const fellowshipsCellConfig = data.map(({ key, name }) => ({
+    key,
+    label: name,
+  }));
+  const classConfig = [
+    { key: "working", label: "Working Class" },
+    { key: "unemployed", label: "Unemployed" },
+    { key: "student", label: "Student" },
+  ];
+
+  const selectData = {
+    gender: genderConfig,
+    marital: maritalConfig,
+    qualification: qualificationConfig,
+    fellowshipsCells: fellowshipsCellConfig,
+    class: classConfig,
+  };
+  const selectKeys = Object.keys(selectData);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -102,7 +129,7 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
       gender: userData.gender,
       marital: userData.marital,
       qualification: userData.qualification,
-      fellowshipsCells: userData["fellowshipsCells"],
+      fellowshipsCells: userData.fellowshipsCells,
       phone: userData.phone,
       email: userData.email,
       dob: userData.dob,
@@ -127,10 +154,17 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
 
       <Card className="p-10">
         <div className="mb-4 flex flex-wrap items-center gap-16">
-          {data.map(({ key, value }, index) => (
+          {displayData.map(({ key, value }, index) => (
             <div className="space-y-2" key={index}>
               <p className="text-sm text-dustygray">{key}</p>
-              <p className="font-semibold">{value}</p>
+              <p
+                className={cn(
+                  "font-semibold",
+                  !(key === "Email Address") && "capitalize",
+                )}
+              >
+                {value}
+              </p>
             </div>
           ))}
         </div>
@@ -148,16 +182,15 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
                   <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="grid grid-cols-2 gap-x-5 gap-y-10">
                       {fieldConfigurations
-                        .filter(
-                          ({ name }) =>
-                            ![
-                              "gender",
-                              "marital",
-                              "dob",
-                              "qualification",
-                              "fellowship-cell",
-                              "class",
-                            ].includes(name),
+                        .filter(({ name }) =>
+                          [
+                            "id",
+                            "fName",
+                            "lName",
+                            "phone",
+                            "email",
+                            "discipledBy",
+                          ].includes(name),
                         )
                         .map(({ name, label }, index) => (
                           <FormField
@@ -181,30 +214,59 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
                           />
                         ))}
 
+                      {fieldConfigurations
+                        .filter(({ name }) => selectKeys.includes(name))
+                        .map(({ name, label }, index) => {
+                          const validName = name as keyof typeof selectData;
+                          return (
+                            <FormField
+                              key={index}
+                              control={form.control}
+                              name={validName}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-xs text-dustygray">
+                                    {label}
+                                  </FormLabel>
+                                  <FormControl>
+                                    <Select defaultValue={field.value}>
+                                      <SelectTrigger
+                                        className="border border-mineshaft text-white"
+                                        {...field}
+                                      >
+                                        <SelectValue />
+                                      </SelectTrigger>
+                                      <SelectContent className="border border-mineshaft">
+                                        {selectData[validName].map(
+                                          ({ key, label }, index) => (
+                                            <SelectItem value={key} key={index}>
+                                              {label}
+                                            </SelectItem>
+                                          ),
+                                        )}
+                                      </SelectContent>
+                                    </Select>
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          );
+                        })}
+
                       <FormField
                         control={form.control}
-                        name="gender"
+                        name="dob"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-xs text-dustygray">
-                              Gender
+                              Date of Birth
                             </FormLabel>
                             <FormControl>
-                              <Select defaultValue={field.value}>
-                                <SelectTrigger
-                                  className="border border-mineshaft text-white"
-                                  {...field}
-                                >
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent className="border border-mineshaft">
-                                  {genderConfig.map(({ key, label }, index) => (
-                                    <SelectItem value={key} key={index}>
-                                      {label}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
+                              <Input
+                                className="border-mineshaft text-sm"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
