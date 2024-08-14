@@ -7,7 +7,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Pill from "./pill";
+import Pill from "../pill";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import ChevronDownIcon from "../icons/chevron-down-icon";
+import Link from "next/link";
 
 const data = [
   {
@@ -149,7 +157,20 @@ export default function MemberTable() {
                 </Pill>
               )}
             </TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center">
+                  <span>Actions</span>
+                  <ChevronDownIcon />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>
+                    <Link href={`membership/${member.id}`}>View Details</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
