@@ -41,7 +41,7 @@ import { formatFileSize } from "@/utils/formatFileSize";
 import { truncateMiddle } from "@/utils/truncateText";
 
 const Membership = () => {
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
   return (
