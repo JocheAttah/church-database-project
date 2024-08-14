@@ -119,7 +119,7 @@ const data = [
   },
 ];
 
-const FellowshipCellsTable = ({ name }: { name: string }) => {
+const FellowshipsCellsTable = ({ name }: { name: string }) => {
   return (
     <Table>
       <TableHeader className="bg-woodsmoke">
@@ -175,4 +175,4 @@ const FellowshipCellsTable = ({ name }: { name: string }) => {
   );
 };
 
-export default FellowshipCellsTable;
+export default FellowshipsCellsTable;

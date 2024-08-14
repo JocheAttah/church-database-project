@@ -3,7 +3,7 @@
 import Card from "@/components/card";
 import ArrowSmallLeftIcon from "@/components/icons/arrow-small-left-icon";
 import SearchInput from "@/components/search-input";
-import FellowshipCellsTable from "@/components/tables/fellowship-cells-table";
+import FellowshipsCellsTable from "@/components/tables/fellowships-cells-table";
 import {
   Pagination,
   PaginationContent,
@@ -40,7 +40,7 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
             <span>Filter</span>
           </div>
         </div>
-        <FellowshipCellsTable name={params.name} />
+        <FellowshipsCellsTable name={params.name} />
 
         <div className="flex flex-wrap items-center justify-between gap-5">
           <p className="text-xs text-dustygray">
