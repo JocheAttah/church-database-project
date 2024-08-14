@@ -4,19 +4,19 @@ import { CloudArrowDownIcon } from "@heroicons/react/24/solid";
 import React, { useRef, useState } from "react";
 import { Input } from "./ui/input";
 
-function Uploader({ setFiles }) {
+function Uploader({ setFiles }: any) {
   const inputRef = useRef();
 
   const handleClick = () => inputRef.current.click();
 
-  const handleInputOnchnage = ({ target: { files } }) => {
+  const handleInputOnchnage = ({ target: { files } }: any) => {
     console.log({ files });
     setFiles(files);
   };
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: any) => {
     e.preventDefault();
   };
-  const handleDrop = (e) => {
+  const handleDrop = (e: any) => {
     e.preventDefault();
     console.log("files", e.dataTransfer.files);
     setFiles(e.dataTransfer.files);
