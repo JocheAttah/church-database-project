@@ -1,4 +1,4 @@
-function truncateMiddle(text, maxLength) {
+function truncateMiddle(text: string = "", maxLength: number) {
   if (text.length <= maxLength) {
     return text;
   }

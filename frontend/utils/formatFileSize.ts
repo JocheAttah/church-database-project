@@ -1,4 +1,4 @@
-function formatFileSize(bytes: number) {
+function formatFileSize(bytes: number = 0) {
   const kb = 1024;
   const mb = kb * 1024;
 

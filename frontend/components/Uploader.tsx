@@ -1,13 +1,13 @@
 "use client";
 
 import { CloudArrowDownIcon } from "@heroicons/react/24/solid";
-import React, { useRef, useState } from "react";
+import { useRef } from "react";
 import { Input } from "./ui/input";
 
 function Uploader({ setFiles }: any) {
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleClick = () => inputRef.current.click();
+  const handleClick = () => inputRef.current?.click();
 
   const handleInputOnchnage = ({ target: { files } }: any) => {
     console.log({ files });

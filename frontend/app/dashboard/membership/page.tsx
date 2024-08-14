@@ -41,8 +41,7 @@ import { formatFileSize } from "@/utils/formatFileSize";
 import { truncateMiddle } from "@/utils/truncateText";
 
 const Membership = () => {
-  const [files, setFiles] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
 
   return (
     <div className="flex w-full flex-col">
@@ -166,7 +165,7 @@ const Membership = () => {
                           </div>
                         </div>
 
-                        <div onClick={() => setFiles(null)}>
+                        <div onClick={() => setFiles([])}>
                           <XMarkIcon className="h-6 w-6 text-white" />
                         </div>
                       </div>
