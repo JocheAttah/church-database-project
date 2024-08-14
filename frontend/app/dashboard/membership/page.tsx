@@ -126,12 +126,12 @@ const Membership = () => {
               <Dialog>
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex items-center">
-                    <div
+                    <Button
                       className="ml-6 w-full rounded-md bg-sapphire-700 px-[20px] py-2.5 text-sm hover:bg-sapphire-800 active:bg-sapphire-900"
                       type="submit"
                     >
                       Update membership
-                    </div>
+                    </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem>
