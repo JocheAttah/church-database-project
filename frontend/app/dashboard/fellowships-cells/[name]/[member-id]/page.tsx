@@ -3,9 +3,12 @@
 import Card from "@/components/card";
 import ArrowSmallLeftIcon from "@/components/icons/arrow-small-left-icon";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -20,6 +23,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -27,7 +35,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import formatDate from "@/utils/formatDate";
+import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { parse } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -64,7 +75,7 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
     fellowshipsCells: params.name,
     phone: "+2348112345678",
     email: "jonathan@gmail.com",
-    dob: "23rd October, 1996",
+    dob: parse("23rd October, 1996", "do MMMM, yyyy", new Date()),
     class: "student",
     discipledBy: "Pastor",
   };
@@ -83,8 +94,8 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
     qualification: z.string(),
     fellowshipsCells: z.string(),
     phone: z.string(),
-    email: z.string(),
-    dob: z.string(),
+    email: z.string().email(),
+    dob: z.date(),
     class: z.string(),
     discipledBy: z.string(),
   });
@@ -110,15 +121,6 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
     { key: "unemployed", label: "Unemployed" },
     { key: "student", label: "Student" },
   ];
-
-  const selectData = {
-    gender: genderConfig,
-    marital: maritalConfig,
-    qualification: qualificationConfig,
-    fellowshipsCells: fellowshipsCellConfig,
-    class: classConfig,
-  };
-  const selectKeys = Object.keys(selectData);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -163,7 +165,7 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
                   !(key === "Email Address") && "capitalize",
                 )}
               >
-                {value}
+                {typeof value === "object" ? formatDate(value) : value}
               </p>
             </div>
           ))}
@@ -181,78 +183,124 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="grid grid-cols-2 gap-x-5 gap-y-10">
-                      {fieldConfigurations
-                        .filter(({ name }) =>
-                          [
-                            "id",
-                            "fName",
-                            "lName",
-                            "phone",
-                            "email",
-                            "discipledBy",
-                          ].includes(name),
-                        )
-                        .map(({ name, label }, index) => (
-                          <FormField
-                            key={index}
-                            control={form.control}
-                            name={name}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="text-xs text-dustygray">
-                                  {label}
-                                </FormLabel>
-                                <FormControl>
-                                  <Input
-                                    className="border-mineshaft text-sm"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        ))}
+                      <FormField
+                        control={form.control}
+                        name="id"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              User ID
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                className="border-mineshaft text-sm"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                      {fieldConfigurations
-                        .filter(({ name }) => selectKeys.includes(name))
-                        .map(({ name, label }, index) => {
-                          const validName = name as keyof typeof selectData;
-                          return (
-                            <FormField
-                              key={index}
-                              control={form.control}
-                              name={validName}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel className="text-xs text-dustygray">
-                                    {label}
-                                  </FormLabel>
-                                  <FormControl>
-                                    <Select defaultValue={field.value}>
-                                      <SelectTrigger
-                                        className="border border-mineshaft text-white"
-                                        {...field}
-                                      >
-                                        <SelectValue />
-                                      </SelectTrigger>
-                                      <SelectContent className="border border-mineshaft">
-                                        {selectData[validName].map(
-                                          ({ key, label }, index) => (
-                                            <SelectItem value={key} key={index}>
-                                              {label}
-                                            </SelectItem>
-                                          ),
-                                        )}
-                                      </SelectContent>
-                                    </Select>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          );
-                        })}
+                      <FormField
+                        control={form.control}
+                        name="fName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              First Name
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                className="border-mineshaft text-sm"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="lName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              Last Name
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                className="border-mineshaft text-sm"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="gender"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              Gender
+                            </FormLabel>
+                            <FormControl>
+                              <Select defaultValue={field.value}>
+                                <SelectTrigger
+                                  className="border border-mineshaft text-white"
+                                  {...field}
+                                >
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent className="border border-mineshaft">
+                                  {genderConfig.map(({ key, label }, index) => (
+                                    <SelectItem value={key} key={index}>
+                                      {label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="marital"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              Marital Status
+                            </FormLabel>
+                            <FormControl>
+                              <Select defaultValue={field.value}>
+                                <SelectTrigger
+                                  className="border border-mineshaft text-white"
+                                  {...field}
+                                >
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent className="border border-mineshaft">
+                                  {maritalConfig.map(
+                                    ({ key, label }, index) => (
+                                      <SelectItem value={key} key={index}>
+                                        {label}
+                                      </SelectItem>
+                                    ),
+                                  )}
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
                       <FormField
                         control={form.control}
@@ -261,6 +309,185 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
                           <FormItem>
                             <FormLabel className="text-xs text-dustygray">
                               Date of Birth
+                            </FormLabel>
+                            <Popover modal>
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  <Button
+                                    variant="outline"
+                                    className={cn(
+                                      "flex w-full border border-mineshaft bg-transparent pl-3 text-left font-normal hover:bg-transparent hover:text-inherit",
+                                      !field.value && "text-muted-foreground",
+                                    )}
+                                  >
+                                    {field.value ? (
+                                      formatDate(field.value)
+                                    ) : (
+                                      <span>Pick a date</span>
+                                    )}
+                                    <CalendarDaysIcon className="ml-auto h-4 w-4" />
+                                  </Button>
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                              >
+                                <Calendar
+                                  mode="single"
+                                  selected={field.value}
+                                  onSelect={field.onChange}
+                                  disabled={(date) =>
+                                    date > new Date() ||
+                                    date < new Date("1900-01-01")
+                                  }
+                                  initialFocus
+                                />
+                              </PopoverContent>
+                            </Popover>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="qualification"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              Qualification
+                            </FormLabel>
+                            <FormControl>
+                              <Select defaultValue={field.value}>
+                                <SelectTrigger
+                                  className="border border-mineshaft text-white"
+                                  {...field}
+                                >
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent className="border border-mineshaft">
+                                  {qualificationConfig.map(
+                                    ({ key, label }, index) => (
+                                      <SelectItem value={key} key={index}>
+                                        {label}
+                                      </SelectItem>
+                                    ),
+                                  )}
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="fellowshipsCells"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              Fellowship/Cell
+                            </FormLabel>
+                            <FormControl>
+                              <Select defaultValue={field.value}>
+                                <SelectTrigger
+                                  className="border border-mineshaft text-white"
+                                  {...field}
+                                >
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent className="border border-mineshaft">
+                                  {fellowshipsCellConfig.map(
+                                    ({ key, label }, index) => (
+                                      <SelectItem value={key} key={index}>
+                                        {label}
+                                      </SelectItem>
+                                    ),
+                                  )}
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="class"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              Class
+                            </FormLabel>
+                            <FormControl>
+                              <Select defaultValue={field.value}>
+                                <SelectTrigger
+                                  className="border border-mineshaft text-white"
+                                  {...field}
+                                >
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent className="border border-mineshaft">
+                                  {classConfig.map(({ key, label }, index) => (
+                                    <SelectItem value={key} key={index}>
+                                      {label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              Phone
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                className="border-mineshaft text-sm"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              Email Address
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                className="border-mineshaft text-sm"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="discipledBy"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs text-dustygray">
+                              Discipled By
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -273,9 +500,13 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
                         )}
                       />
                     </div>
-                    <Button variant="secondary" type="submit">
-                      Submit
-                    </Button>
+                    <DialogFooter className="mt-4 flex justify-end">
+                      <DialogClose asChild>
+                        <Button variant="secondary" type="submit">
+                          Save
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
                   </form>
                 </Form>
               </div>
