@@ -1,6 +1,7 @@
 import Card from "@/components/card";
 import SearchInput from "@/components/search-input";
 import AttendanceTable from "@/components/tables/attendance-table";
+import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -67,9 +68,13 @@ const Attendance = () => {
             <h2>Attendance breakdown</h2>
             <SearchInput />
           </div>
-          <div className="flex items-center gap-1 text-sm text-dustygray">
-            <FunnelIcon width={24} height={24} />
-            <span>Filter</span>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <Button variant="secondary">Upload attendance</Button>
+            <div className="flex items-center gap-1 text-sm text-dustygray">
+              <FunnelIcon width={24} height={24} />
+              <span>Filter</span>
+            </div>
           </div>
         </div>
         <AttendanceTable />
