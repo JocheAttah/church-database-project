@@ -141,7 +141,7 @@ const AttendanceTable = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem>
-                    <Link href={`${meeting.id}`}>View Details</Link>
+                    <Link href={`attendance/${meeting.id}`}>View Details</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
