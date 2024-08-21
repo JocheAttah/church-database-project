@@ -6,39 +6,36 @@ import GrowthIcon from "@/components/icons/growth-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
 import MembershipBourBonIcon from "@/components/icons/nav/membership-icon-b";
 import MembershipWhiskeyIcon from "@/components/icons/nav/membership-icon-w";
-import { Button } from "@/components/ui/button";
-import { DocumentIcon, FunnelIcon } from "@heroicons/react/24/outline";
-import { CloudArrowDownIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { genderChartConfig, genderChartData } from "../chart-data";
-import MemberTable from "@/components/tables/MembersTable";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
 import SearchInput from "@/components/search-input";
+import MemberTable from "@/components/tables/MembersTable";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ChevronDownIcon from "@/components/icons/chevron-down-icon";
-import Link from "next/link";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination";
 import Uploader from "@/components/Uploader";
-import { useState } from "react";
 import { formatFileSize } from "@/utils/formatFileSize";
 import { truncateMiddle } from "@/utils/truncateText";
+import { DocumentIcon, FunnelIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/solid";
+import { useState } from "react";
+import { genderChartConfig, genderChartData } from "../chart-data";
 
 const Membership = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -134,11 +131,10 @@ const Membership = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem>
-                      {/* <Link href={"/"}>Upload Excel Sheet</Link> */}
                       <DialogTrigger>Upload Excel Sheet</DialogTrigger>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <Link href={"/"}>Add Single Member</Link>
+                      <p>Add Single Member</p>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
