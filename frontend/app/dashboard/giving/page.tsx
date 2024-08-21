@@ -46,7 +46,7 @@ import { truncateMiddle } from "@/utils/truncateText";
 import GivingTable from "@/components/tables/GivingTable";
 
 const Giving = () => {
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<FileList | null>(null);
 
   return (
     <div className="flex w-full flex-col">
@@ -104,7 +104,7 @@ const Giving = () => {
                 {/* </DropdownMenuTrigger> */}
                 {/* <DropdownMenuContent> */}
                 {/* <DropdownMenuItem>
-                      
+
                       <DialogTrigger>Upload Excel Sheet</DialogTrigger>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
@@ -159,7 +159,7 @@ const Giving = () => {
                           </div>
                         </div>
 
-                        <div onClick={() => setFiles([])}>
+                        <div onClick={() => setFiles(null)}>
                           <XMarkIcon className="h-6 w-6 text-white" />
                         </div>
                       </div>
