@@ -85,21 +85,6 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
     value: userData[name],
   }));
 
-  const formSchema = z.object({
-    id: z.string(),
-    fName: z.string(),
-    lName: z.string(),
-    gender: z.string(),
-    marital: z.string(),
-    qualification: z.string(),
-    fellowshipsCells: z.string(),
-    phone: z.string(),
-    email: z.string().email(),
-    dob: z.date(),
-    class: z.string(),
-    discipledBy: z.string(),
-  });
-
   const genderConfig = [
     { key: "male", label: "Male" },
     { key: "female", label: "Female" },
@@ -121,6 +106,21 @@ const FellowshipCellMember = ({ params }: FellowshipCellMemberProps) => {
     { key: "unemployed", label: "Unemployed" },
     { key: "student", label: "Student" },
   ];
+
+  const formSchema = z.object({
+    id: z.string(),
+    fName: z.string(),
+    lName: z.string(),
+    gender: z.string(),
+    marital: z.string(),
+    qualification: z.string(),
+    fellowshipsCells: z.string(),
+    phone: z.string(),
+    email: z.string().email(),
+    dob: z.date(),
+    class: z.string(),
+    discipledBy: z.string(),
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
