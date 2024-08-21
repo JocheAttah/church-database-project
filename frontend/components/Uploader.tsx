@@ -1,22 +1,31 @@
 "use client";
 
 import { CloudArrowDownIcon } from "@heroicons/react/24/solid";
-import { useRef } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  DragEvent,
+  SetStateAction,
+  useRef,
+} from "react";
 import { Input } from "./ui/input";
 
-function Uploader({ setFiles }: any) {
+function Uploader({
+  setFiles,
+}: {
+  setFiles: Dispatch<SetStateAction<FileList | null>>;
+}) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => inputRef.current?.click();
 
-  const handleInputOnchnage = ({ target: { files } }: any) => {
-    console.log({ files });
-    setFiles(files);
+  const handleInputOnchnage = (e: ChangeEvent<HTMLInputElement>) => {
+    setFiles(e.target.files);
   };
-  const handleDragOver = (e: any) => {
+  const handleDragOver = (e: DragEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
-  const handleDrop = (e: any) => {
+  const handleDrop = (e: DragEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("files", e.dataTransfer.files);
     setFiles(e.dataTransfer.files);
