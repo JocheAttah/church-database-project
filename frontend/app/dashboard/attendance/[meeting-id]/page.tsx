@@ -32,7 +32,7 @@ const AttendanceMeeting = ({ params }: FellowshipCellNameProps) => {
         <p className="text-xs">Attendance</p>
       </div>
 
-      <div className="mb-8 flex w-full flex-wrap items-center gap-5">
+      <div className="mb-8 grid w-full grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
         <Card
           className={cn(
             "flex flex-1 cursor-pointer flex-col space-y-7 pb-10 pt-7",
