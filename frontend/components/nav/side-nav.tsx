@@ -1,7 +1,6 @@
 "use client";
 import useClickOutside from "@/hooks/useClickOutside";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import ActivitiesIcon from "../icons/nav/activities-icon";
 import AttendanceIcon from "../icons/nav/attendance-icon";
@@ -11,7 +10,6 @@ import GivingIcon from "../icons/nav/giving-icon";
 import MembershipIcon from "../icons/nav/membership-icon";
 import ReportsIcon from "../icons/nav/reports-icon";
 import UserAccessIcon from "../icons/nav/user-access-icon";
-import RightArrowIcon from "../icons/right-arrow-icon";
 import Logo from "../logo";
 import NavItem from "./nav-item";
 
@@ -88,18 +86,6 @@ const SideNav = ({ hideSideNav, setHideSideNav }: SideNavProps) => {
           />
         ))}
       </ul>
-
-      <div className="mt-[25dvh] hidden w-full items-center justify-center gap-3 rounded-2.5 bg-shark px-2 py-4 text-white lg:flex">
-        <Image
-          className="rounded-full"
-          src="/images/profile-pic.png"
-          alt="Profile Picture"
-          width={40}
-          height={40}
-        />
-        <span className="lg:hidden xl:block">David Attah</span>
-        <RightArrowIcon className="lg:hidden xl:block" />
-      </div>
     </nav>
   );
 };
