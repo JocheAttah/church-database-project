@@ -2,14 +2,11 @@
 import useClickOutside from "@/hooks/useClickOutside";
 import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction } from "react";
-import ActivitiesIcon from "../icons/nav/activities-icon";
 import AttendanceIcon from "../icons/nav/attendance-icon";
 import DashboardIcon from "../icons/nav/dashboard-icon";
 import FellowshipsCellsIcon from "../icons/nav/fellowships-cells-icon";
 import GivingIcon from "../icons/nav/giving-icon";
 import MembershipIcon from "../icons/nav/membership-icon";
-import ReportsIcon from "../icons/nav/reports-icon";
-import UserAccessIcon from "../icons/nav/user-access-icon";
 import Logo from "../logo";
 import NavItem from "./nav-item";
 
@@ -39,21 +36,21 @@ const sideMenu = [
     Icon: GivingIcon,
     href: "/dashboard/giving",
   },
-  {
-    title: "Activities",
-    Icon: ActivitiesIcon,
-    href: "/dashboard/activities",
-  },
-  {
-    title: "Reports",
-    Icon: ReportsIcon,
-    href: "/dashboard/reports",
-  },
-  {
-    title: "User Access",
-    Icon: UserAccessIcon,
-    href: "/dashboard/user-access",
-  },
+  // {
+  //   title: "Activities",
+  //   Icon: ActivitiesIcon,
+  //   href: "/dashboard/activities",
+  // },
+  // {
+  //   title: "Reports",
+  //   Icon: ReportsIcon,
+  //   href: "/dashboard/reports",
+  // },
+  // {
+  //   title: "User Access",
+  //   Icon: UserAccessIcon,
+  //   href: "/dashboard/user-access",
+  // },
 ];
 
 type SideNavProps = {
