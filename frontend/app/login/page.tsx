@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { startHolyLoader } from "holy-loader";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -34,6 +35,7 @@ const Login = () => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    startHolyLoader();
     router.push("/dashboard");
   };
 
@@ -55,6 +57,7 @@ const Login = () => {
                       <FormControl>
                         <Input
                           placeholder="E.g jonathan@email.com"
+                          type="email"
                           {...field}
                         />
                       </FormControl>
@@ -69,7 +72,11 @@ const Login = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your password" {...field} />
+                        <Input
+                          placeholder="Enter your password"
+                          type="password"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
+import HolyLoader from "holy-loader";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("min-h-screen font-sans", openSans.variable)}>
+        <HolyLoader showSpinner />
         {children}
       </body>
     </html>

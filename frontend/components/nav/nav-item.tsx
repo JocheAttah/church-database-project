@@ -34,7 +34,7 @@ const NavItem = ({ title, Icon, href, setHideSideNav }: NavItemProps) => {
         href={href}
         onClick={() => setHideSideNav(true)}
         className={cn(
-          "flex items-center gap-2.5 rounded-[50px] px-4 py-2 transition-all duration-200 lg:justify-center xl:justify-normal",
+          "flex items-center gap-2.5 whitespace-nowrap rounded-[50px] px-4 py-2 transition-all duration-200 lg:justify-center xl:justify-normal",
           isActive && "bg-white/2 text-white",
           isCurrentPath && "font-semibold",
         )}

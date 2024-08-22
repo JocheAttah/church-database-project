@@ -1,6 +1,7 @@
 "use client";
 import SideNav from "@/components/nav/side-nav";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { startHolyLoader } from "holy-loader";
 import { LogOutIcon, MenuIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -33,7 +34,10 @@ export default function DashboardLayout({
 
           <div
             className="flex items-center justify-center"
-            onClick={() => router.push("/login")}
+            onClick={() => {
+              startHolyLoader();
+              router.push("/login");
+            }}
           >
             <LogOutIcon />
           </div>
