@@ -39,6 +39,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Uploader from "@/components/Uploader";
 import { cn } from "@/lib/utils";
 import formatDate from "@/utils/formatDate";
 import { FunnelIcon } from "@heroicons/react/24/outline";
@@ -226,6 +227,7 @@ const Attendance = () => {
                           </FormItem>
                         )}
                       />
+                      <Uploader />
                       <DialogFooter>
                         <DialogClose asChild>
                           <Button variant="secondary" type="submit">
