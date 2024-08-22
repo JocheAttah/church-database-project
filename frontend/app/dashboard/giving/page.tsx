@@ -8,6 +8,7 @@ import GivingTable from "@/components/tables/GivingTable";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -26,16 +27,73 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Uploader from "@/components/Uploader";
 import { formatFileSize } from "@/utils/formatFileSize";
 import { truncateMiddle } from "@/utils/truncateText";
 import { DocumentIcon, FunnelIcon } from "@heroicons/react/24/outline";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { CalendarDaysIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { cn } from "@/lib/utils";
+import formatDate from "@/utils/formatDate";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
 
 const Giving = () => {
   const [files, setFiles] = useState<FileList | null>(null);
+
+  const givingConfig = [
+    { key: "offering", label: "Offering" },
+    { key: "monthlyPledge", label: "Monthly Pledge" },
+    { key: "facilityGiving", label: "Facility Giving" },
+    { key: "pastor'sHonorarium", label: "Pastor's Honorarium" },
+  ];
+
+  const formSchema = z.object({
+    type: z.string(),
+    amount: z.string(),
+    desc: z.string(),
+    date: z.date(),
+    file: z.string(),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      type: "",
+      amount: "",
+      desc: "",
+      date: undefined,
+      file: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
 
   return (
     <div className="flex w-full flex-col">
@@ -84,86 +142,165 @@ const Giving = () => {
         <Card>
           <div className="flex w-full flex-row items-center justify-between">
             <div className="flex flex-row items-center">
-              <div className="mr-4 flex flex-row items-center">
-                {/* <DropdownMenu> */}
-                {/* <DropdownMenuTrigger className="flex items-center"> */}
-                <p className="text-xl text-white">Inflow</p>
-                <ChevronDownIcon className="h-6 w-6" />
-
-                {/* </DropdownMenuTrigger> */}
-                {/* <DropdownMenuContent> */}
-                {/* <DropdownMenuItem>
-
-                      <DialogTrigger>Upload Excel Sheet</DialogTrigger>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href={"/"}>Add Single Member</Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent> */}
-                {/* </DropdownMenu> */}
-              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild className="flex items-center">
+                  <div className="mr-4 flex flex-row items-center">
+                    <p className="text-xl text-white">Inflow</p>
+                    <ChevronDownIcon className="h-6 w-6" />
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem>
+                    <p>Outflow</p>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <SearchInput />
             </div>
             <div className="flex flex-row items-center">
               <Dialog>
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="flex items-center">
-                    <Button
-                      className="ml-6 w-full rounded-md bg-sapphire-700 px-[20px] py-2.5 text-sm hover:bg-sapphire-800 active:bg-sapphire-900"
-                      type="submit"
-                    >
-                      New inflow
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      {/* <Link href={"/"}>Upload Excel Sheet</Link> */}
-                      <DialogTrigger>Upload Excel Sheet</DialogTrigger>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href={"/"}>Add Single Member</Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <DialogTrigger asChild>
+                  <Button variant="secondary">New inflow</Button>
+                </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Upload Excel Sheet</DialogTitle>
+                    <DialogTitle>New inflow</DialogTitle>
                   </DialogHeader>
-                  <div className="h-[1px] w-full bg-mineshaft" />
-                  <Uploader setFiles={setFiles} />
-                  {files && (
-                    <div className="rounded-xl bg-shark px-2.5 pb-5 pt-3">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#232325]">
-                            <DocumentIcon className="w-6 text-white" />
-                          </div>
-                          <div className="ml-1 w-[95%] overflow-hidden text-ellipsis whitespace-nowrap text-white">
-                            <div className="text-sm">
-                              {truncateMiddle(files[0]?.name, 50)}
-                            </div>
-                            <div className="text-[8px] text-dustygray">
-                              {formatFileSize(files[0]?.size)}
-                            </div>
-                          </div>
-                        </div>
+                  <div className="border-t border-mineshaft pt-5 text-white">
+                    <Form {...form}>
+                      <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-7"
+                      >
+                        <FormField
+                          control={form.control}
+                          name="type"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-xs text-dustygray">
+                                Type
+                              </FormLabel>
+                              <FormControl>
+                                <Select>
+                                  <SelectTrigger
+                                    className="border border-mineshaft text-white"
+                                    {...field}
+                                  >
+                                    <SelectValue placeholder="Select a option" />
+                                  </SelectTrigger>
+                                  <SelectContent className="border border-mineshaft">
+                                    {givingConfig.map(
+                                      ({ key, label }, index) => (
+                                        <SelectItem value={key} key={index}>
+                                          {label}
+                                        </SelectItem>
+                                      ),
+                                    )}
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        {/* Amount */}
+                        <FormField
+                          control={form.control}
+                          name="amount"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-xs text-dustygray">
+                                Amount
+                              </FormLabel>
+                              <FormControl>
+                                <Input disabled type="text" placeholder="₦" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        {/* Amount */}
+                        <FormField
+                          control={form.control}
+                          name="desc"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-xs text-dustygray">
+                                Description
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  disabled
+                                  type="text"
+                                  placeholder="Enter text"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                        <div onClick={() => setFiles(null)}>
-                          <XMarkIcon className="h-6 w-6 text-white" />
-                        </div>
-                      </div>
-                      {/* progress */}
-                      {/* <div className=""></div> */}
-                    </div>
-                  )}
-                  <DialogFooter>
-                    <Button
-                      type="submit"
-                      className="rounded-md bg-sapphire-700 text-sm hover:bg-sapphire-800 active:bg-sapphire-900"
-                    >
-                      Update list
-                    </Button>
-                  </DialogFooter>
+                        <FormField
+                          control={form.control}
+                          name="date"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-xs text-dustygray">
+                                Meeting date
+                              </FormLabel>
+                              <Popover modal>
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    <Button
+                                      variant="outline"
+                                      className={cn(
+                                        "flex w-full border border-mineshaft bg-transparent pl-3 text-left font-normal hover:bg-transparent hover:text-inherit",
+                                        !field.value && "text-muted-foreground",
+                                      )}
+                                    >
+                                      {field.value ? (
+                                        formatDate(field.value, "dd/MM/yyyy")
+                                      ) : (
+                                        <span>DD/MM/YYYY</span>
+                                      )}
+                                      <CalendarDaysIcon className="ml-auto h-4 w-4" />
+                                    </Button>
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                  className="w-auto p-0"
+                                  align="start"
+                                >
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) =>
+                                      date > new Date() ||
+                                      date < new Date("1900-01-01")
+                                    }
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <DialogFooter className="sm:justify-start">
+                          <DialogClose asChild>
+                            <Button
+                              variant="secondary"
+                              className="bg-sapphire-700 text-white"
+                              type="submit"
+                            >
+                              Save
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </form>
+                    </Form>
+                  </div>
                 </DialogContent>
               </Dialog>
               <FunnelIcon className="ml-[10px] size-8 text-dustygray" />
