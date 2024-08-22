@@ -154,9 +154,7 @@ export default function GivingTable() {
                   <ChevronDownIcon />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem>
-                    <Link href={`membership/${member.id}`}>Edit</Link>
-                  </DropdownMenuItem>
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
                   <DropdownMenuItem>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
