@@ -1,6 +1,8 @@
 "use client";
 import useClickOutside from "@/hooks/useClickOutside";
 import { cn } from "@/lib/utils";
+import { LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 import AttendanceIcon from "../icons/nav/attendance-icon";
 import DashboardIcon from "../icons/nav/dashboard-icon";
@@ -62,6 +64,7 @@ const SideNav = ({ hideSideNav, setHideSideNav }: SideNavProps) => {
   const sidebarRef = useClickOutside(
     () => !hideSideNav && setHideSideNav(true),
   );
+  const router = useRouter();
 
   return (
     <nav
@@ -83,6 +86,14 @@ const SideNav = ({ hideSideNav, setHideSideNav }: SideNavProps) => {
           />
         ))}
       </ul>
+
+      <div
+        className="group mt-[25dvh] flex w-full cursor-pointer items-center gap-2.5 rounded-[50px] px-4 py-2 transition-all duration-200 hover:bg-white/2 hover:text-white lg:justify-center xl:justify-normal"
+        onClick={() => router.push("/login")}
+      >
+        <LogOutIcon className="group-hover:text-red-500" />
+        <span className="lg:hidden xl:block">Logout</span>
+      </div>
     </nav>
   );
 };
