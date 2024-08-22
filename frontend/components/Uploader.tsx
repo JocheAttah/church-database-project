@@ -31,7 +31,7 @@ function Uploader() {
         onClick={handleClick}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className="flex w-full cursor-pointer items-center justify-center rounded-2xl border border-dashed border-white bg-shark px-[120px] py-[59px]"
+        className="flex min-h-[200px] w-full cursor-pointer items-center justify-center rounded-2xl border border-dashed border-white bg-shark"
       >
         <div className="flex flex-col items-center justify-center">
           <CloudArrowUpIcon className="h-5 w-[26px] text-sapphire-700" />
