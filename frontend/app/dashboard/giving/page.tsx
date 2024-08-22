@@ -27,16 +27,10 @@ import {
   PaginationLink,
 } from "@/components/ui/pagination";
 import Uploader from "@/components/Uploader";
-import { formatFileSize } from "@/utils/formatFileSize";
-import { truncateMiddle } from "@/utils/truncateText";
-import { DocumentIcon, FunnelIcon } from "@heroicons/react/24/outline";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { FunnelIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { useState } from "react";
 
 const Giving = () => {
-  const [files, setFiles] = useState<FileList | null>(null);
-
   return (
     <div className="flex w-full flex-col">
       <h1 className="mb-5">Giving</h1>
@@ -130,32 +124,7 @@ const Giving = () => {
                     <DialogTitle>Upload Excel Sheet</DialogTitle>
                   </DialogHeader>
                   <div className="h-[1px] w-full bg-mineshaft" />
-                  <Uploader setFiles={setFiles} />
-                  {files && (
-                    <div className="rounded-xl bg-shark px-2.5 pb-5 pt-3">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#232325]">
-                            <DocumentIcon className="w-6 text-white" />
-                          </div>
-                          <div className="ml-1 w-[95%] overflow-hidden text-ellipsis whitespace-nowrap text-white">
-                            <div className="text-sm">
-                              {truncateMiddle(files[0]?.name, 50)}
-                            </div>
-                            <div className="text-[8px] text-dustygray">
-                              {formatFileSize(files[0]?.size)}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div onClick={() => setFiles(null)}>
-                          <XMarkIcon className="h-6 w-6 text-white" />
-                        </div>
-                      </div>
-                      {/* progress */}
-                      {/* <div className=""></div> */}
-                    </div>
-                  )}
+                  <Uploader />
                   <DialogFooter>
                     <Button
                       type="submit"
