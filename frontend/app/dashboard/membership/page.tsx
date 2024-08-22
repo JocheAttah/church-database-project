@@ -145,7 +145,7 @@ const Membership = () => {
                   <div className="h-[1px] w-full bg-mineshaft" />
                   <Uploader setFiles={setFiles} />
                   {files && (
-                    <div className="rounded-xl bg-[#1D1E20] px-2.5 pb-5 pt-3">
+                    <div className="rounded-xl bg-shark px-2.5 pb-5 pt-3">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#232325]">
@@ -155,7 +155,7 @@ const Membership = () => {
                             <div className="text-sm">
                               {truncateMiddle(files[0]?.name, 50)}
                             </div>
-                            <div className="text-[8px] text-[#979797]">
+                            <div className="text-[8px] text-dustygray">
                               {formatFileSize(files[0]?.size)}
                             </div>
                           </div>

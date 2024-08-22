@@ -1,49 +1,38 @@
 "use client";
 
 import Card from "@/components/card";
-import { PieChart } from "@/components/charts/pie-chart";
+import ChevronDownIcon from "@/components/icons/chevron-down-icon";
 import GrowthIcon from "@/components/icons/growth-icon";
-import MembershipIcon from "@/components/icons/nav/membership-icon";
-import MembershipBourBonIcon from "@/components/icons/nav/membership-icon-b";
-import MembershipWhiskeyIcon from "@/components/icons/nav/membership-icon-w";
-import { Button } from "@/components/ui/button";
-import { DocumentIcon, FunnelIcon } from "@heroicons/react/24/outline";
-import {
-  ChevronDoubleDownIcon,
-  CloudArrowDownIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/solid";
-import { genderChartConfig, genderChartData } from "../chart-data";
-import MemberTable from "@/components/tables/MembersTable";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
 import SearchInput from "@/components/search-input";
+import GivingTable from "@/components/tables/GivingTable";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ChevronDownIcon from "@/components/icons/chevron-down-icon";
-import Link from "next/link";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination";
 import Uploader from "@/components/Uploader";
-import { useState } from "react";
 import { formatFileSize } from "@/utils/formatFileSize";
 import { truncateMiddle } from "@/utils/truncateText";
-import GivingTable from "@/components/tables/GivingTable";
+import { DocumentIcon, FunnelIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
+import { useState } from "react";
 
 const Giving = () => {
   const [files, setFiles] = useState<FileList | null>(null);
@@ -143,7 +132,7 @@ const Giving = () => {
                   <div className="h-[1px] w-full bg-mineshaft" />
                   <Uploader setFiles={setFiles} />
                   {files && (
-                    <div className="rounded-xl bg-[#1D1E20] px-2.5 pb-5 pt-3">
+                    <div className="rounded-xl bg-shark px-2.5 pb-5 pt-3">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#232325]">
@@ -153,7 +142,7 @@ const Giving = () => {
                             <div className="text-sm">
                               {truncateMiddle(files[0]?.name, 50)}
                             </div>
-                            <div className="text-[8px] text-[#979797]">
+                            <div className="text-[8px] text-dustygray">
                               {formatFileSize(files[0]?.size)}
                             </div>
                           </div>

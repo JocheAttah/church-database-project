@@ -1,6 +1,6 @@
 "use client";
 
-import { CloudArrowDownIcon } from "@heroicons/react/24/solid";
+import { CloudArrowUpIcon } from "@heroicons/react/24/solid";
 import {
   ChangeEvent,
   Dispatch,
@@ -39,10 +39,10 @@ function Uploader({
       className="flex w-full cursor-pointer items-center justify-center rounded-2xl border border-dashed border-white px-[120px] py-[59px]"
     >
       <div className="flex flex-col items-center justify-center">
-        <CloudArrowDownIcon className="h-5 w-[26px] text-[#4A51A2]" />
+        <CloudArrowUpIcon className="h-5 w-[26px] text-sapphire-700" />
         <div className="mt-3 text-xs text-white">
           Drag and drop or
-          <span className="cursor-pointer text-[#4A51A2]">
+          <span className="cursor-pointer text-sapphire-700">
             {" "}
             Choose file
             <Input
@@ -56,7 +56,7 @@ function Uploader({
           </span>{" "}
           to upload
         </div>
-        <p className="mt-2 text-xs text-[#979797]">
+        <p className="mt-2 text-xs text-dustygray">
           CSV format only is allowed
         </p>
       </div>
