@@ -1,4 +1,5 @@
 "use client";
+import { signOutAction } from "@/app/actions";
 import useClickOutside from "@/hooks/useClickOutside";
 import { cn } from "@/lib/utils";
 import { startHolyLoader } from "holy-loader";
@@ -92,7 +93,7 @@ const SideNav = ({ hideSideNav, setHideSideNav }: SideNavProps) => {
         className="group mt-[25dvh] flex w-full cursor-pointer items-center gap-2.5 rounded-[50px] px-4 py-2 transition-all duration-200 hover:bg-white/2 hover:text-white lg:justify-center xl:justify-normal"
         onClick={() => {
           startHolyLoader();
-          router.push("/login");
+          signOutAction();
         }}
       >
         <LogOutIcon className="group-hover:text-red-500" />

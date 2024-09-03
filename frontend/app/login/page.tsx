@@ -11,19 +11,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { startHolyLoader } from "holy-loader";
-import { useRouter } from "next/navigation";
+import { startHolyLoader, stopHolyLoader } from "holy-loader";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
+import { signInAction } from "../actions";
 
 const Login = () => {
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const formSchema = z.object({
     email: z.string().email({ message: "Invalid email address" }),
     password: z
       .string()
-      .min(8, { message: "Must be 8 or more characters long" }),
+      .min(5, { message: "Password must be at least 5 characters" }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -34,9 +36,19 @@ const Login = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     startHolyLoader();
-    router.push("/dashboard");
+    setIsLoading(true);
+
+    const res = await signInAction(values);
+
+    setIsLoading(false);
+    stopHolyLoader();
+    if (res?.error) {
+      toast.error(res.error, {
+        description: "Please check your email and password",
+      });
+    }
   };
 
   return (
@@ -84,6 +96,7 @@ const Login = () => {
                 />
               </div>
               <Button
+                loading={isLoading}
                 className="mt-20 w-full bg-sapphire-700 hover:bg-sapphire-800 active:bg-sapphire-900"
                 type="submit"
               >

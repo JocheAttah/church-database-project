@@ -5,6 +5,7 @@ import { startHolyLoader } from "holy-loader";
 import { LogOutIcon, MenuIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { signOutAction } from "../actions";
 
 export default function DashboardLayout({
   children,
@@ -36,7 +37,7 @@ export default function DashboardLayout({
             className="flex items-center justify-center"
             onClick={() => {
               startHolyLoader();
-              router.push("/login");
+              signOutAction();
             }}
           >
             <LogOutIcon />

@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import HolyLoader from "holy-loader";
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn("min-h-screen font-sans", openSans.variable)}>
         <HolyLoader showSpinner />
+        <Toaster />
         {children}
       </body>
     </html>
