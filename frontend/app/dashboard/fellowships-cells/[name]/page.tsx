@@ -1,7 +1,7 @@
 "use client";
 
+import BackButton from "@/components/back-button";
 import Card from "@/components/card";
-import ArrowSmallLeftIcon from "@/components/icons/arrow-small-left-icon";
 import SearchInput from "@/components/search-input";
 import FellowshipsCellsTable from "@/components/tables/fellowships-cells-table";
 import {
@@ -11,23 +11,14 @@ import {
   PaginationLink,
 } from "@/components/ui/pagination";
 import { FunnelIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
 import data from "../data";
 
 type FellowshipCellNameProps = { params: { name: string } };
 
 const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
-  const router = useRouter();
-
   return (
     <div>
-      <div
-        className="mb-11 flex w-fit cursor-pointer items-center gap-1.5 self-end text-dustygray hover:underline"
-        onClick={router.back}
-      >
-        <ArrowSmallLeftIcon />
-        <p className="text-xs">Fellowships/Cells</p>
-      </div>
+      <BackButton text="Fellowships/Cells" />
 
       <Card className="space-y-5 p-6">
         <div className="flex flex-wrap items-center justify-between gap-5">

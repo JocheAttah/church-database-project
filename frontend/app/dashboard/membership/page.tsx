@@ -23,17 +23,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 import Uploader from "@/components/Uploader";
+import { useGenderChartData } from "@/hooks/useGenderChartData";
+import { useMembership } from "@/hooks/useMembership";
 import { FunnelIcon } from "@heroicons/react/24/outline";
-import { genderChartConfig, genderChartData } from "../chart-data";
+import { genderChartConfig } from "../chart-data";
 
 const Membership = () => {
+  const { totalCount, qualificationData, isLoading } = useMembership();
+  const { genderChartData, isLoadingGender } = useGenderChartData();
+
   return (
     <div className="flex w-full flex-col">
       <h1 className="mb-5">Membership</h1>
@@ -48,7 +48,13 @@ const Membership = () => {
               <p className="text-sm text-dustygray">Total membership</p>
             </div>
 
-            <h1>10,000</h1>
+            {isLoading ? (
+              <Skeleton className="h-9 w-10" />
+            ) : (
+              <h1 className="duration-500 animate-in fade-in slide-in-from-bottom-3">
+                {totalCount}
+              </h1>
+            )}
 
             <div className="flex items-center text-xs">
               <GrowthIcon />
@@ -65,7 +71,17 @@ const Membership = () => {
               <p className="text-sm text-dustygray">Workers in Training</p>
             </div>
 
-            <h1>300</h1>
+            {isLoading ? (
+              <Skeleton className="h-9 w-10" />
+            ) : (
+              <h1 className="duration-500 animate-in fade-in slide-in-from-bottom-3">
+                {
+                  qualificationData.filter(
+                    (member) => member.qualification === "Worker",
+                  ).length
+                }
+              </h1>
+            )}
 
             <div className="flex items-center text-xs">
               <GrowthIcon />
@@ -82,7 +98,17 @@ const Membership = () => {
               <p className="text-sm text-dustygray">Members and Disciples</p>
             </div>
 
-            <h1>7,700</h1>
+            {isLoading ? (
+              <Skeleton className="h-9 w-10" />
+            ) : (
+              <h1 className="duration-500 animate-in fade-in slide-in-from-bottom-3">
+                {
+                  qualificationData.filter(
+                    (member) => member.qualification === "Member",
+                  ).length
+                }
+              </h1>
+            )}
 
             <div className="flex items-center text-xs">
               <GrowthIcon />
@@ -93,13 +119,20 @@ const Membership = () => {
         </div>
         {/* Gender Chart */}
         <Card className="mt-8 h-[180px] w-full md:ml-5 md:mt-0 md:w-[207px]">
-          <PieChart
-            chartData={genderChartData}
-            chartConfig={genderChartConfig}
-            nameKey="gender"
-            dataKey="value"
-            slim
-          />
+          {isLoadingGender ? (
+            <div className="flex flex-col items-center justify-center space-y-5">
+              <Skeleton className="h-[100px] w-[100px] rounded-full" />
+              <Skeleton className="h-8 w-3/4" />
+            </div>
+          ) : (
+            <PieChart
+              chartData={genderChartData}
+              chartConfig={genderChartConfig}
+              nameKey="gender"
+              dataKey="value"
+              slim
+            />
+          )}
         </Card>
       </div>
       {/* Table */}
@@ -152,27 +185,6 @@ const Membership = () => {
           </div>
         </Card>
         <MemberTable />
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-5">
-          <p className="text-xs text-dustygray">
-            Showing 1 to 10 of 120 results
-          </p>
-          <Pagination className="mx-0 w-fit justify-end">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">2</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">4</PaginationLink>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
       </div>
     </div>
   );

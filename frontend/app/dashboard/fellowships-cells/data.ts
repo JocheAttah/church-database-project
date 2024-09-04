@@ -1,47 +1,47 @@
 const data = [
   {
     name: "Durumi Fellowship",
-    key: "durumi",
+    key: "Durumi",
     size: 2100,
   },
   {
     name: "Wuse Fellowship",
-    key: "wuse",
+    key: "Wuse",
     size: 2100,
   },
   {
     name: "Jikwoyi Cell",
-    key: "jikwoyi",
+    key: "Jikwoyi",
     size: 2100,
   },
   {
     name: "Lugbe Cell",
-    key: "lugbe",
+    key: "Lugbe",
     size: 2100,
   },
   {
     name: "Pigbakasa Cell",
-    key: "pigbakasa",
+    key: "Pigbakasa",
     size: 2100,
   },
   {
     name: "Karu Fellowship",
-    key: "karu",
+    key: "Karu",
     size: 2100,
   },
   {
     name: "Kuje Cell",
-    key: "kuje",
+    key: "Kuje",
     size: 2100,
   },
   {
     name: "Lokogoma Cell",
-    key: "lokogoma",
+    key: "Lokogoma",
     size: 2100,
   },
   {
     name: "Kubwa Cell",
-    key: "kubwa",
+    key: "Kubwa",
     size: 2100,
   },
 ];

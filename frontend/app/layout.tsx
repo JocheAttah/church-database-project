@@ -1,3 +1,4 @@
+import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
@@ -18,12 +19,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={cn("min-h-screen font-sans", openSans.variable)}>
-        <HolyLoader showSpinner />
-        <Toaster />
-        {children}
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang="en">
+        <body className={cn("min-h-screen font-sans", openSans.variable)}>
+          <HolyLoader showSpinner />
+          <Toaster />
+          {children}
+        </body>
+      </html>
+    </ReactQueryClientProvider>
   );
 }

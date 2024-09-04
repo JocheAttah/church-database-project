@@ -1,20 +1,10 @@
 import { ChartConfig } from "@/components/ui/chart";
 
 // Pie chart
-const genderChartData = [
-  { gender: "male", value: 77, fill: "#38B000" },
-  { gender: "female", value: 23, fill: "#9165BD" },
-];
-
 const genderChartConfig = {
   male: { label: "Male" },
   female: { label: "Female" },
 } satisfies ChartConfig;
-
-const statusChartData = [
-  { status: "workers", value: 72, fill: "#FAA307" },
-  { status: "members", value: 28, fill: "#38B000" },
-];
 
 const statusChartConfig = {
   workers: { label: "Workers" },
@@ -57,11 +47,9 @@ const revenueExpenseChartConfig = {
 
 export {
   genderChartConfig,
-  genderChartData,
   meetingChartConfig,
   meetingChartData,
   revenueExpenseChartConfig,
   revenueExpenseChartData,
   statusChartConfig,
-  statusChartData,
 };

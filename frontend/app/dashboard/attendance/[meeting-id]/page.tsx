@@ -1,6 +1,6 @@
 "use client";
+import BackButton from "@/components/back-button";
 import Card from "@/components/card";
-import ArrowSmallLeftIcon from "@/components/icons/arrow-small-left-icon";
 import SearchInput from "@/components/search-input";
 import AttendanceMeetingTable from "@/components/tables/attendance-meeting-table";
 import { Button } from "@/components/ui/button";
@@ -24,13 +24,7 @@ const AttendanceMeeting = ({ params }: FellowshipCellNameProps) => {
 
   return (
     <>
-      <div
-        className="mb-11 flex w-fit cursor-pointer items-center gap-1.5 self-end text-dustygray hover:underline"
-        onClick={router.back}
-      >
-        <ArrowSmallLeftIcon />
-        <p className="text-xs">Attendance</p>
-      </div>
+      <BackButton text="Attendance" />
 
       <div className="mb-8 grid w-full grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
         <Card
