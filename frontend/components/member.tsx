@@ -40,6 +40,7 @@ import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PostgrestError } from "@supabase/supabase-js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { format } from "date-fns";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -378,8 +379,16 @@ const Member = ({ id }: { id: string }) => {
                             >
                               <Calendar
                                 mode="single"
-                                selected={new Date(field.value)}
-                                onSelect={field.onChange}
+                                selected={
+                                  field.value
+                                    ? new Date(field.value)
+                                    : undefined
+                                }
+                                onSelect={(date) =>
+                                  field.onChange(
+                                    date ? format(date, "yyyy-MM-dd") : "",
+                                  )
+                                }
                                 disabled={(date) =>
                                   date > new Date() ||
                                   date < new Date("1900-01-01")
