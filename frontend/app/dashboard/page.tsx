@@ -1,5 +1,6 @@
 "use client";
 import Card from "@/components/card";
+import TotalMembershipCard from "@/components/cards/total-membership-card";
 import { BarChart } from "@/components/charts/bar-chart";
 import { LineChart } from "@/components/charts/line-chart";
 import { PieChart } from "@/components/charts/pie-chart";
@@ -15,7 +16,6 @@ import {
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGenderChartData } from "@/hooks/useGenderChartData";
-import { useMembership } from "@/hooks/useMembership";
 import { useStatusChartData } from "@/hooks/useStatusChartData";
 import { useState } from "react";
 import {
@@ -36,7 +36,6 @@ type TimeRange = keyof typeof timeRanges;
 
 const Dashboard = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>("month");
-  const { totalCount, isLoading } = useMembership();
   const { genderChartData, isLoadingGender } = useGenderChartData();
   const { statusChartData, isLoadingStatus } = useStatusChartData();
 
@@ -44,29 +43,7 @@ const Dashboard = () => {
     <>
       <h1 className="mb-5">Dashboard</h1>
       <div className="grid grid-cols-4 gap-6">
-        <Card className="col-span-4 space-y-6 sm:col-span-2 xl:col-span-1">
-          <div className="flex items-center gap-3.5">
-            <div className="rounded-[3px] bg-white/2 p-2.5">
-              <MembershipIcon width={20} height={20} filled />
-            </div>
-            <p className="text-sm text-dustygray">Total membership</p>
-          </div>
-          {isLoading ? (
-            <Skeleton className="h-9 w-10" />
-          ) : (
-            <h1 className="duration-500 animate-in fade-in slide-in-from-bottom-3">
-              {totalCount}
-            </h1>
-          )}
-
-          <div className="flex items-center text-xs">
-            <GrowthIcon />
-            {/* TODO: Calculate growth of members per month */}
-            <p className="ml-1 text-junglegreen">1.7%</p>
-            <p className="ml-2 text-dustygray">in the last month</p>
-          </div>
-        </Card>
-
+        <TotalMembershipCard />
         <Card className="col-span-4 space-y-6 sm:col-span-2 xl:col-span-1">
           <div className="flex items-center gap-3.5">
             <div className="rounded-[3px] bg-white/2 p-2.5">
