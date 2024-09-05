@@ -13,11 +13,11 @@ INSERT INTO public.meeting_type (type_name) VALUES
 
 -- Seed data for members table
 INSERT INTO public.members (first_name, middle_name, last_name, gender, marital_status, qualification, cell_or_fellowship, phone, email, dob, class, discipled_by) VALUES
-('John', 'Michael', 'Doe', 'Male', 'Single', 'Member', 'Fellowship A', '1234567890', 'john.doe@email.com', '1990-05-15', 'Working Class', NULL),
-('Jane', NULL, 'Smith', 'Female', 'Married', 'Worker', 'Fellowship B', '9876543210', 'jane.smith@email.com', '1985-09-22', 'Working Class', 'John Doe'),
-('Alice', 'Marie', 'Johnson', 'Female', 'Single', 'Member', 'Fellowship A', '5551234567', 'alice.johnson@email.com', '1995-03-10', 'Student', NULL),
-('Bob', NULL, 'Williams', 'Male', 'Married', 'Worker', 'Fellowship C', '7778889999', 'bob.williams@email.com', '1980-11-30', 'Working Class', 'Jane Smith'),
-('Eva', 'Rose', 'Brown', 'Female', 'Single', 'Member', 'Fellowship B', '3334445555', 'eva.brown@email.com', '1992-07-18', 'Unemployed', 'Alice Johnson');
+('John', 'Michael', 'Doe', 'Male', 'Single', 'Member', 'Durumi', '1234567890', 'john.doe@email.com', '1990-05-15', 'Working Class', NULL),
+('Jane', NULL, 'Smith', 'Female', 'Married', 'Worker', 'Wuse', '9876543210', 'jane.smith@email.com', '1985-09-22', 'Working Class', 'John Doe'),
+('Alice', 'Marie', 'Johnson', 'Female', 'Single', 'Member', 'Jikwoyi', '5551234567', 'alice.johnson@email.com', '1995-03-10', 'Student', NULL),
+('Bob', NULL, 'Williams', 'Male', 'Married', 'Worker', 'Lugbe', '7778889999', 'bob.williams@email.com', '1980-11-30', 'Working Class', 'Jane Smith'),
+('Eva', 'Rose', 'Brown', 'Female', 'Single', 'Member', 'Pigbakasa', '3334445555', 'eva.brown@email.com', '1992-07-18', 'Unemployed', 'Alice Johnson');
 
 -- Seed data for attendance table
 INSERT INTO public.attendance (meeting_type, attendance, absentee, meeting_date, created_by) VALUES
