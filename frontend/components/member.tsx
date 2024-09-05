@@ -45,6 +45,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { Skeleton } from "./ui/skeleton";
 
 const Member = ({ id }: { id: string }) => {
   const fieldConfigurations = [
@@ -209,7 +210,22 @@ const Member = ({ id }: { id: string }) => {
     setOpen(false);
   }
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <Card className="p-10">
+        <div className="mb-4 flex flex-wrap items-center gap-16">
+          {[...Array(9)].map((_, index) => (
+            <div key={index} className="space-y-2">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-6 w-32" />
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-end">
+          <Skeleton className="h-10 w-24" />
+        </div>
+      </Card>
+    );
   if (!userData) return <div>Member not found</div>;
   if (error) return <div>Error: {error.details}</div>;
 
