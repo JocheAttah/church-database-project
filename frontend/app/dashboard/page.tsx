@@ -39,6 +39,7 @@ const Dashboard = () => {
   const { genderChartData, isLoadingGender } = useGenderChartData();
   const { statusChartData, isLoadingStatus } = useStatusChartData();
   const { attendanceChartData, isLoadingAttendance } = useAttendanceChartData();
+  const isLoading = isLoadingGender || isLoadingStatus || isLoadingAttendance;
 
   return (
     <>
@@ -100,7 +101,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          {isLoadingAttendance ? (
+          {isLoading ? (
             <div className="flex h-[400px] w-full items-end justify-around">
               <Skeleton className="h-[70%] w-10" />
               <Skeleton className="h-[60%] w-10" />
@@ -118,7 +119,7 @@ const Dashboard = () => {
         <Card className="col-span-4 flex flex-col items-center justify-around sm:flex-row xl:col-span-2">
           <div className="h-[300px] w-[210px]">
             <p className="text-sm text-dustygray">Membership by gender</p>
-            {isLoadingGender ? (
+            {isLoading ? (
               <div className="mt-5 space-y-5">
                 <Skeleton className="h-[200px] w-[200px] rounded-full" />
                 <Skeleton className="mx-auto h-10 w-3/4" />
@@ -137,7 +138,7 @@ const Dashboard = () => {
 
           <div className="h-[300px] w-[210px]">
             <p className="text-sm text-dustygray">Membership by status</p>
-            {isLoadingStatus ? (
+            {isLoading ? (
               <div className="mt-5 space-y-5">
                 <Skeleton className="h-[200px] w-[200px] rounded-full" />
                 <Skeleton className="mx-auto h-10 w-3/4" />
