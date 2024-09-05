@@ -42,6 +42,30 @@ export type Database = {
         }
         Relationships: []
       }
+      cell_fellowship: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          name: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          name?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       class: {
         Row: {
           class_name: string
@@ -74,7 +98,7 @@ export type Database = {
       }
       members: {
         Row: {
-          cell_or_fellowship: string
+          cell_fellowship_id: number | null
           class: string
           created_at: string
           discipled_by: string | null
@@ -91,7 +115,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          cell_or_fellowship: string
+          cell_fellowship_id?: number | null
           class: string
           created_at?: string
           discipled_by?: string | null
@@ -108,7 +132,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          cell_or_fellowship?: string
+          cell_fellowship_id?: number | null
           class?: string
           created_at?: string
           discipled_by?: string | null
@@ -124,7 +148,15 @@ export type Database = {
           qualification?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "members_cell_fellowship_id_fkey"
+            columns: ["cell_fellowship_id"]
+            isOneToOne: false
+            referencedRelation: "cell_fellowship"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -223,3 +255,4 @@ export type Enums<
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
+
