@@ -22,12 +22,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -247,28 +241,6 @@ const Attendance = () => {
           </div>
         </div>
         <AttendanceTable />
-
-        <div className="flex flex-wrap items-center justify-between gap-5">
-          <p className="text-xs text-dustygray">
-            Showing 1 to 10 of 120 results
-          </p>
-          <Pagination className="mx-0 w-fit justify-end">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">2</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">4</PaginationLink>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
       </Card>
     </>
   );

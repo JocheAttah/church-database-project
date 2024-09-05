@@ -8,14 +8,14 @@ export const useMembership = () => {
   const queries = useQueries({
     queries: [
       {
-        queryKey: ["totalCount"],
+        queryKey: ["members", "totalCount"],
         queryFn: async () =>
           await supabase
             .from("members")
             .select("id", { count: "exact", head: true }),
       },
       {
-        queryKey: ["previousCount"],
+        queryKey: ["members", "previousCount"],
         queryFn: async () => {
           const oneMonthAgo = new Date();
           oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
@@ -26,17 +26,17 @@ export const useMembership = () => {
         },
       },
       {
-        queryKey: ["genderData"],
+        queryKey: ["members", "genderData"],
         queryFn: async () =>
           await supabase.from("members").select("gender").throwOnError(),
       },
       {
-        queryKey: ["qualificationData"],
+        queryKey: ["members", "qualificationData"],
         queryFn: async () =>
           await supabase.from("members").select("qualification"),
       },
       {
-        queryKey: ["previousQualificationData"],
+        queryKey: ["members", "previousQualificationData"],
         queryFn: async () => {
           const oneMonthAgo = new Date();
           oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);

@@ -54,8 +54,8 @@ const Login = () => {
     <main className="relative h-screen bg-login-bg bg-cover bg-center">
       <div className="absolute inset-0 bg-black opacity-70" />
       <div className="relative mx-4 flex h-full items-center justify-center text-white md:mx-auto">
-        <div className="flex h-[500px] w-[500px] flex-col items-center justify-center rounded-xl bg-white/2 p-8 backdrop-blur-md">
-          <Logo className="mb-10" width={115.2} height={52.8} />
+        <div className="flex h-[450px] w-[500px] flex-col items-center justify-center rounded-xl bg-white/2 p-8 backdrop-blur-md">
+          <Logo className="mb-8" width={115.2} height={52.8} />
           <Form {...form}>
             <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
               <div className="space-y-8">
