@@ -1,11 +1,13 @@
+"use client";
 import Card from "@/components/card";
 import GrowthIcon from "@/components/icons/growth-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMembership } from "@/hooks/useMembership";
+import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 
-const TotalMembershipCard = () => {
+const TotalMembershipCard = ({ className }: { className?: string }) => {
   const { totalCount, previousCount, isLoading } = useMembership();
 
   const membershipGrowth = useMemo(() => {
@@ -14,7 +16,12 @@ const TotalMembershipCard = () => {
   }, [totalCount, previousCount]);
 
   return (
-    <Card className="col-span-4 space-y-6 sm:col-span-2 xl:col-span-1">
+    <Card
+      className={cn(
+        "col-span-4 space-y-6 sm:col-span-2 xl:col-span-1",
+        className,
+      )}
+    >
       <div className="flex items-center gap-3.5">
         <div className="rounded-[3px] bg-white/2 p-2.5">
           <MembershipIcon width={20} height={20} filled />

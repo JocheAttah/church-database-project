@@ -1,8 +1,7 @@
 import Card from "@/components/card";
+import TotalMembershipCard from "@/components/cards/total-membership-card";
 import ArrowSmallRightIcon from "@/components/icons/arrow-small-right-icon";
-import GrowthIcon from "@/components/icons/growth-icon";
 import FellowshipsCellsIcon from "@/components/icons/nav/fellowships-cells-icon";
-import MembershipIcon from "@/components/icons/nav/membership-icon";
 import Link from "next/link";
 import data from "./data";
 
@@ -11,22 +10,7 @@ const FellowshipsCells = () => {
     <>
       <h1 className="mb-5">Fellowships/Cells</h1>
       <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-3">
-        <Card className="space-y-6">
-          <div className="flex items-center gap-3.5">
-            <div className="rounded-[3px] bg-white/2 p-2.5">
-              <MembershipIcon width={20} height={20} filled />
-            </div>
-            <p className="text-sm text-dustygray">Total membership</p>
-          </div>
-
-          <h1>10,000</h1>
-
-          <div className="flex items-center text-xs">
-            <GrowthIcon />
-            <p className="ml-1 text-junglegreen">1.7%</p>
-            <p className="ml-2 text-dustygray">in the last month</p>
-          </div>
-        </Card>
+        <TotalMembershipCard className="col-span-1 sm:col-span-1 xl:col-span-1" />
 
         {data.map(({ name, key, size }) => (
           <Link key={key} href={`fellowships-cells/${key}`}>
