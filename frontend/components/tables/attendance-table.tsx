@@ -1,7 +1,6 @@
 import { useAttendance } from "@/hooks/useAttendance";
 import { createClient } from "@/utils/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
 import { useState } from "react";
 import ChevronDownIcon from "../icons/chevron-down-icon";
 import {
@@ -108,11 +107,12 @@ const AttendanceTable = () => {
                         <ChevronDownIcon />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuItem>
+                        {/* TODO: decide on what to do with the detailed attendance page */}
+                        {/* <DropdownMenuItem>
                           <Link href={`attendance/${meeting.id}`}>
                             View Details
                           </Link>
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> */}
                         <DropdownMenuItem>Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
