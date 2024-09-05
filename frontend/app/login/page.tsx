@@ -6,7 +6,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -55,20 +54,20 @@ const Login = () => {
     <main className="relative h-screen bg-login-bg bg-cover bg-center">
       <div className="absolute inset-0 bg-black opacity-70" />
       <div className="relative mx-4 flex h-full items-center justify-center text-white md:mx-auto">
-        <div className="flex h-[500px] w-[500px] flex-col items-center rounded-2.5 bg-white/2 p-11 backdrop-blur-[25px]">
-          <Logo className="mb-10" width={144} height={66} />
+        <div className="flex h-[500px] w-[500px] flex-col items-center justify-center rounded-xl bg-white/2 p-10 backdrop-blur-lg">
+          <Logo className="mb-10" width={115.2} height={52.8} />
           <Form {...form}>
             <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email Address</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="E.g jonathan@email.com"
+                          className="rounded-xl"
+                          placeholder="Enter your email address"
                           type="email"
                           {...field}
                         />
@@ -82,9 +81,9 @@ const Login = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
                       <FormControl>
                         <Input
+                          className="rounded-xl"
                           placeholder="Enter your password"
                           type="password"
                           {...field}
@@ -94,15 +93,15 @@ const Login = () => {
                     </FormItem>
                   )}
                 />
+                <Button
+                  variant="secondary"
+                  loading={isLoading}
+                  className="w-full rounded-xl"
+                  type="submit"
+                >
+                  Submit
+                </Button>
               </div>
-              <Button
-                variant="secondary"
-                loading={isLoading}
-                className="mt-10 w-full"
-                type="submit"
-              >
-                Submit
-              </Button>
             </form>
           </Form>
         </div>

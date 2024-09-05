@@ -22,7 +22,11 @@ export default function RootLayout({
     <ReactQueryClientProvider>
       <html lang="en">
         <body className={cn("min-h-screen font-sans", openSans.variable)}>
-          <HolyLoader showSpinner color="white" />
+          <HolyLoader
+            showSpinner
+            color="white"
+            boxShadow="0 0 5px #ffffff, 0 0 7px #ffffff, 0 0 10px #ffffff"
+          />
           <Toaster />
           {children}
         </body>
