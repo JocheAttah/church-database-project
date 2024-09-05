@@ -15,13 +15,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAttendanceChartData } from "@/hooks/useAttendanceChartData";
 import { useGenderChartData } from "@/hooks/useGenderChartData";
 import { useStatusChartData } from "@/hooks/useStatusChartData";
 import { useState } from "react";
 import {
+  attendanceChartConfig,
   genderChartConfig,
-  meetingChartConfig,
-  meetingChartData,
   revenueExpenseChartConfig,
   revenueExpenseChartData,
   statusChartConfig,
@@ -38,6 +38,7 @@ const Dashboard = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>("month");
   const { genderChartData, isLoadingGender } = useGenderChartData();
   const { statusChartData, isLoadingStatus } = useStatusChartData();
+  const { attendanceChartData, isLoadingAttendance } = useAttendanceChartData();
 
   return (
     <>
@@ -99,10 +100,19 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <BarChart
-            chartConfig={meetingChartConfig}
-            chartData={meetingChartData}
-          />
+          {isLoadingAttendance ? (
+            <div className="flex h-[400px] w-full items-end justify-around">
+              <Skeleton className="h-[70%] w-10" />
+              <Skeleton className="h-[60%] w-10" />
+              <Skeleton className="h-[90%] w-10" />
+              <Skeleton className="h-[40%] w-10" />
+            </div>
+          ) : (
+            <BarChart
+              chartConfig={attendanceChartConfig}
+              chartData={attendanceChartData}
+            />
+          )}
         </Card>
 
         <Card className="col-span-4 flex flex-col items-center justify-around sm:flex-row xl:col-span-2">

@@ -12,14 +12,7 @@ const statusChartConfig = {
 } satisfies ChartConfig;
 
 // Bar chart
-const meetingChartData = [
-  { meeting: "Sunday", attendance: 710, fill: "#FAA307" },
-  { meeting: "Midweek", attendance: 423, fill: "#FAA307" },
-  { meeting: "Fellowship", attendance: 456, fill: "#FAA307" },
-  { meeting: "Prayer group", attendance: 356, fill: "#FAA307" },
-];
-
-const meetingChartConfig = {
+const attendanceChartConfig = {
   attendance: { label: "Attendance" },
 } satisfies ChartConfig;
 
@@ -46,9 +39,8 @@ const revenueExpenseChartConfig = {
 } satisfies ChartConfig;
 
 export {
+  attendanceChartConfig,
   genderChartConfig,
-  meetingChartConfig,
-  meetingChartData,
   revenueExpenseChartConfig,
   revenueExpenseChartData,
   statusChartConfig,

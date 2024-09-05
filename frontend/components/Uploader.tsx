@@ -25,6 +25,7 @@ function Uploader() {
     setFiles(e.dataTransfer.files);
   };
 
+  // TODO: change file upload to something else. Form can't be descendant of form
   return (
     <>
       <form
