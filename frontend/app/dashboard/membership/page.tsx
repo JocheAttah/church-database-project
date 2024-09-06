@@ -53,7 +53,7 @@ const Membership = () => {
       cell_fellowship_id: undefined,
       phone: "",
       email: "",
-      dob: "",
+      dob: null,
       class: "",
       discipled_by: "",
     },
@@ -82,7 +82,9 @@ const Membership = () => {
     },
     onError: (error) => {
       console.error("Error adding member:", error);
-      toast.error("Error adding member");
+      toast.error("Error adding member", {
+        description: error.message,
+      });
     },
   });
 

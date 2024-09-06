@@ -84,7 +84,9 @@ const AttendanceTable = () => {
       },
       onError: (error) => {
         console.error("Error deleting attendance:", error);
-        toast.error("Error deleting attendance");
+        toast.error("Error deleting attendance", {
+          description: error.message,
+        });
       },
       onSettled: () => {
         setOpen(false);

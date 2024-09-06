@@ -51,6 +51,9 @@ const Member = ({ id }: { id: string }) => {
         ? `${userCellFellowship.name} ${userCellFellowship.type}`
         : "-";
     }
+    if (name === "dob") {
+      return formatDate(userData?.dob);
+    }
     return (
       (userData?.[name as keyof typeof userData] as string | number | null) ||
       "-"
@@ -73,7 +76,7 @@ const Member = ({ id }: { id: string }) => {
       cell_fellowship_id: undefined,
       phone: "",
       email: "",
-      dob: "",
+      dob: null,
       class: "",
       discipled_by: "",
     },
@@ -121,7 +124,9 @@ const Member = ({ id }: { id: string }) => {
     },
     onError: (error) => {
       console.error("Error updating member:", error);
-      toast.error("Error updating member");
+      toast.error("Error updating member", {
+        description: error.message,
+      });
     },
     onSettled: () => {
       setOpen(false);
@@ -173,7 +178,7 @@ const Member = ({ id }: { id: string }) => {
                 !(key === "Email Address") && "capitalize",
               )}
             >
-              {key === "Date of Birth" ? formatDate(value.toString()) : value}
+              {value}
             </p>
           </div>
         ))}

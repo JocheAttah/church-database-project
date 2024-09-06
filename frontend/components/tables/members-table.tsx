@@ -120,7 +120,9 @@ export default function MemberTable({
     },
     onError: (error) => {
       console.error("Error deleting member:", error);
-      toast.error("Error deleting member");
+      toast.error("Error deleting member", {
+        description: error.message,
+      });
     },
     onSettled: () => {
       setOpen(false);

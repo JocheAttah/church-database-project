@@ -59,7 +59,7 @@ export const memberFormSchema = z.object({
     })
     .optional(),
   email: z.string().email().optional().or(z.literal("")),
-  dob: z.string(),
+  dob: z.string().optional().nullable(),
   class: z.string().min(1, { message: "Class must be selected" }),
   discipled_by: z.string().optional(),
 });

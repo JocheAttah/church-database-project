@@ -102,7 +102,7 @@ export type Database = {
           class: string
           created_at: string
           discipled_by: string | null
-          dob: string
+          dob: string | null
           email: string | null
           first_name: string
           gender: string
@@ -119,7 +119,7 @@ export type Database = {
           class: string
           created_at?: string
           discipled_by?: string | null
-          dob: string
+          dob?: string | null
           email?: string | null
           first_name: string
           gender: string
@@ -136,7 +136,7 @@ export type Database = {
           class?: string
           created_at?: string
           discipled_by?: string | null
-          dob?: string
+          dob?: string | null
           email?: string | null
           first_name?: string
           gender?: string
