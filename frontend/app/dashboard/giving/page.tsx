@@ -6,6 +6,7 @@ import GrowthIcon from "@/components/icons/growth-icon";
 import SearchInput from "@/components/search-input";
 import GivingTable from "@/components/tables/GivingTable";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogClose,
@@ -22,12 +23,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
-import {
   Form,
   FormControl,
   FormField,
@@ -35,6 +30,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination";
 import {
   Popover,
   PopoverContent,
@@ -47,20 +49,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Uploader from "@/components/Uploader";
-import { formatFileSize } from "@/utils/formatFileSize";
-import { truncateMiddle } from "@/utils/truncateText";
-import { DocumentIcon, FunnelIcon } from "@heroicons/react/24/outline";
-import { CalendarDaysIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { cn } from "@/lib/utils";
+import formatDate from "@/utils/formatDate";
+import { FunnelIcon } from "@heroicons/react/24/outline";
+import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
-import formatDate from "@/utils/formatDate";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
 
 const Giving = () => {
   const [files, setFiles] = useState<FileList | null>(null);
@@ -279,7 +275,6 @@ const Giving = () => {
                                       date > new Date() ||
                                       date < new Date("1900-01-01")
                                     }
-                                    initialFocus
                                   />
                                 </PopoverContent>
                               </Popover>
