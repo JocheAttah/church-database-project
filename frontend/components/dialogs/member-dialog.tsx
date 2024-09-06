@@ -109,7 +109,7 @@ const MemberDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-7xl">
+      <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription />
@@ -128,6 +128,7 @@ const MemberDialog = ({
                       </FormLabel>
                       <FormControl>
                         <Input
+                          placeholder="Enter first name"
                           className="border-mineshaft text-sm"
                           {...field}
                         />
@@ -147,6 +148,7 @@ const MemberDialog = ({
                       </FormLabel>
                       <FormControl>
                         <Input
+                          placeholder="Enter last name"
                           className="border-mineshaft text-sm"
                           {...field}
                         />
@@ -169,8 +171,8 @@ const MemberDialog = ({
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white">
-                            <SelectValue />
+                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                            <SelectValue placeholder="Select gender" />
                           </SelectTrigger>
                           <SelectContent className="border border-mineshaft">
                             {genderConfig.map(({ key, label }, index) => (
@@ -199,8 +201,8 @@ const MemberDialog = ({
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white">
-                            <SelectValue />
+                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                            <SelectValue placeholder="Select marital status" />
                           </SelectTrigger>
                           <SelectContent className="border border-mineshaft">
                             {maritalConfig.map(({ key, label }, index) => (
@@ -231,7 +233,7 @@ const MemberDialog = ({
                               variant="outline"
                               className={cn(
                                 "flex w-full border border-mineshaft bg-transparent pl-3 text-left font-normal hover:bg-transparent hover:text-inherit",
-                                !field.value && "text-muted-foreground",
+                                !field.value && "text-dustygray",
                               )}
                             >
                               {field.value ? (
@@ -257,7 +259,7 @@ const MemberDialog = ({
                             disabled={(date) =>
                               date > new Date() || date < new Date("1900-01-01")
                             }
-                            initialFocus
+                            autoFocus
                           />
                         </PopoverContent>
                       </Popover>
@@ -279,8 +281,8 @@ const MemberDialog = ({
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white">
-                            <SelectValue />
+                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                            <SelectValue placeholder="Select qualification" />
                           </SelectTrigger>
                           <SelectContent className="border border-mineshaft">
                             {qualificationConfig.map(
@@ -313,8 +315,8 @@ const MemberDialog = ({
                           }
                           defaultValue={field.value?.toString() ?? ""}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white">
-                            <SelectValue />
+                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                            <SelectValue placeholder="Select fellowship/cell" />
                           </SelectTrigger>
                           <SelectContent className="border border-mineshaft">
                             {fellowshipsCellConfig.map(
@@ -345,8 +347,8 @@ const MemberDialog = ({
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white">
-                            <SelectValue />
+                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                            <SelectValue placeholder="Select class" />
                           </SelectTrigger>
                           <SelectContent className="border border-mineshaft">
                             {classConfig.map(({ key, label }, index) => (
@@ -371,6 +373,7 @@ const MemberDialog = ({
                       </FormLabel>
                       <FormControl>
                         <Input
+                          placeholder="Enter phone number"
                           className="border-mineshaft text-sm"
                           {...field}
                         />
@@ -390,6 +393,7 @@ const MemberDialog = ({
                       </FormLabel>
                       <FormControl>
                         <Input
+                          placeholder="Enter email address"
                           className="border-mineshaft text-sm"
                           {...field}
                         />
@@ -409,6 +413,7 @@ const MemberDialog = ({
                       </FormLabel>
                       <FormControl>
                         <Input
+                          placeholder="Enter discipled by"
                           className="border-mineshaft text-sm"
                           {...field}
                         />

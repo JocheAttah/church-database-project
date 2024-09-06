@@ -4,9 +4,9 @@ import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import HolyLoader from "holy-loader";
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
+import { Albert_Sans } from "next/font/google";
 
-const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-sans" });
+const albertSans = Albert_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "SCC Abuja Database",
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <ReactQueryClientProvider>
       <html lang="en">
-        <body className={cn("min-h-screen font-sans", openSans.variable)}>
+        <body className={cn("min-h-screen font-sans", albertSans.variable)}>
           <HolyLoader
             showSpinner
             color="white"
