@@ -1,4 +1,5 @@
 import { useAttendance } from "@/hooks/useAttendance";
+import formatDate from "@/utils/formatDate";
 import { createClient } from "@/utils/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -97,8 +98,12 @@ const AttendanceTable = () => {
                   <TableCell>{meeting.meeting_type}</TableCell>
                   <TableCell>{meeting.attendance}</TableCell>
                   <TableCell>{meeting.absentee}</TableCell>
-                  <TableCell>{meeting.meeting_date}</TableCell>
-                  <TableCell>{meeting.created_at}</TableCell>
+                  <TableCell>
+                    {formatDate(meeting.meeting_date, "dd/MM/yyyy")}
+                  </TableCell>
+                  <TableCell>
+                    {formatDate(meeting.created_at, "dd/MM/yyyy")}
+                  </TableCell>
                   <TableCell>{meeting.created_by}</TableCell>
                   <TableCell>
                     <DropdownMenu>

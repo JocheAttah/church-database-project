@@ -12,7 +12,7 @@ export const useAttendance = () => {
         queryFn: async () =>
           await supabase
             .from("attendance")
-            .select("id", { count: "exact", head: true }),
+            .select("*", { count: "exact", head: true }),
       },
     ],
   });

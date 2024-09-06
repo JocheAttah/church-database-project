@@ -12,7 +12,7 @@ export const useMembership = () => {
         queryFn: async () =>
           await supabase
             .from("members")
-            .select("id", { count: "exact", head: true }),
+            .select("*", { count: "exact", head: true }),
       },
       {
         queryKey: ["members", "previousCount"],
@@ -21,7 +21,7 @@ export const useMembership = () => {
           oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
           return await supabase
             .from("members")
-            .select("id", { count: "exact", head: true })
+            .select("*", { count: "exact", head: true })
             .lte("created_at", oneMonthAgo.toISOString());
         },
       },
