@@ -50,6 +50,7 @@ export default function MemberTable({
       .from("members")
       .select("*, cell_fellowship(name,type)")
       .eq("cell_fellowship_id", cellFellowshipId)
+      .order("first_name", { ascending: true })
       .range((page - 1) * 10, page * 10 - 1);
 
     if (error) throw error;
@@ -65,6 +66,7 @@ export default function MemberTable({
       const { data, error } = await supabase
         .from("members")
         .select("*, cell_fellowship(name,type)")
+        .order("first_name", { ascending: true })
         .range((page - 1) * 10, page * 10 - 1);
 
       if (error) throw error;
