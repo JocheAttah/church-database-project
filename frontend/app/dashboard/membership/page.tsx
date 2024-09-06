@@ -153,15 +153,16 @@ const Membership = () => {
             <DialogTitle>Upload Excel Sheet</DialogTitle>
             <DialogDescription />
           </DialogHeader>
-          <div className="h-[1px] w-full bg-mineshaft" />
-          <Uploader />
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="submit" variant="secondary">
-                Update list
-              </Button>
-            </DialogClose>
-          </DialogFooter>
+          <div className="border-t border-mineshaft pt-7 text-white">
+            <Uploader />
+            <DialogFooter className="mt-7">
+              <DialogClose asChild>
+                <Button type="submit" variant="secondary">
+                  Update list
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </div>
         </DialogContent>
       </Dialog>
 

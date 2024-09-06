@@ -429,7 +429,7 @@ const MemberDialog = ({
                   )}
                 />
               </div>
-              <DialogFooter className="mt-4 flex justify-end">
+              <DialogFooter className="mt-7 flex justify-end">
                 <Button
                   variant="secondary"
                   type="submit"

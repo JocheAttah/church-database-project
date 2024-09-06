@@ -1,14 +1,9 @@
-function formatFileSize(bytes: number = 0) {
-  const kb = 1024;
-  const mb = kb * 1024;
+export function formatFileSize(bytes: number | undefined): string {
+  if (bytes === undefined) return "0 Bytes";
 
-  if (bytes >= mb) {
-    return (bytes / mb).toFixed(2) + " MB";
-  } else if (bytes >= kb) {
-    return (bytes / kb).toFixed(2) + " KB";
-  } else {
-    return bytes + " bytes";
-  }
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 }
-
-export { formatFileSize };
