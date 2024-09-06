@@ -11,6 +11,8 @@ import MemberDialog, {
   MemberType,
   memberFormSchema,
 } from "./dialogs/member-dialog";
+import { Button } from "./ui/button";
+import { DialogTrigger } from "./ui/dialog";
 import { Skeleton } from "./ui/skeleton";
 
 const Member = ({ id }: { id: string }) => {
@@ -182,7 +184,11 @@ const Member = ({ id }: { id: string }) => {
           isOpen={open}
           onClose={setOpen}
           form={form}
-          triggerTitle="Edit Member"
+          trigger={
+            <DialogTrigger asChild>
+              <Button variant="secondary">Edit Member</Button>
+            </DialogTrigger>
+          }
           title="Edit Member"
           onSubmit={onSubmit}
           isPending={isPending}

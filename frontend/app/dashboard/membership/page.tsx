@@ -5,6 +5,10 @@ import MembersCard from "@/components/cards/members-card";
 import TotalMembershipCard from "@/components/cards/total-membership-card";
 import WorkersCard from "@/components/cards/workers-card";
 import { PieChart } from "@/components/charts/pie-chart";
+import MemberDialog, {
+  memberFormSchema,
+  MemberType,
+} from "@/components/dialogs/member-dialog";
 import SearchInput from "@/components/search-input";
 import MemberTable from "@/components/tables/MembersTable";
 import { Button } from "@/components/ui/button";
@@ -26,11 +30,66 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import Uploader from "@/components/Uploader";
 import { useGenderChartData } from "@/hooks/useGenderChartData";
+import { createClient } from "@/utils/supabase/client";
 import { FunnelIcon } from "@heroicons/react/24/outline";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { genderChartConfig } from "../chart-data";
 
 const Membership = () => {
   const { genderChartData, isLoadingGender } = useGenderChartData();
+
+  const form = useForm<MemberType>({
+    resolver: zodResolver(memberFormSchema),
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      gender: "",
+      marital_status: "",
+      qualification: "",
+      cell_fellowship_id: undefined,
+      phone: "",
+      email: "",
+      dob: "",
+      class: "",
+      discipled_by: "",
+    },
+    mode: "all",
+  });
+
+  const [open, setOpen] = useState(false);
+
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (values: MemberType) => {
+      const supabase = createClient();
+      const { error } = await supabase.from("members").insert(values);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["members"],
+        refetchType: "all",
+      });
+      toast.success("Member added successfully");
+    },
+    onError: (error) => {
+      console.error("Error adding member:", error);
+      toast.error("Error adding member");
+    },
+    onSettled: () => {
+      setOpen(false);
+    },
+  });
+
+  function onSubmit(values: MemberType) {
+    mutate(values);
+  }
 
   return (
     <>
@@ -80,6 +139,7 @@ const Membership = () => {
                     <DialogContent>
                       <DialogHeader>
                         <DialogTitle>Upload Excel Sheet</DialogTitle>
+                        <DialogDescription />
                       </DialogHeader>
                       <div className="h-[1px] w-full bg-mineshaft" />
                       <Uploader />
@@ -93,7 +153,17 @@ const Membership = () => {
                     </DialogContent>
                   </Dialog>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Add Single Member</DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => e.preventDefault()}>
+                  <MemberDialog
+                    isOpen={open}
+                    onClose={setOpen}
+                    trigger={<DialogTrigger>Add Single Member</DialogTrigger>}
+                    title="Add Member"
+                    isPending={isPending}
+                    form={form}
+                    onSubmit={onSubmit}
+                  />
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
