@@ -143,7 +143,7 @@ export default function MemberTable({
                 <TableCell>{member.first_name}</TableCell>
                 <TableCell>{member.last_name}</TableCell>
                 <TableCell>{member.gender}</TableCell>
-                <TableCell>{member.phone ?? "-"}</TableCell>
+                <TableCell>{member.phone || "-"}</TableCell>
                 <TableCell>{member.qualification}</TableCell>
                 <TableCell>
                   {member.cell_fellowship

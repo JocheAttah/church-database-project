@@ -85,7 +85,7 @@ const Member = ({ id }: { id: string }) => {
         : "-";
     }
     return (
-      (userData?.[name as keyof typeof userData] as string | number | null) ??
+      (userData?.[name as keyof typeof userData] as string | number | null) ||
       "-"
     );
   };
