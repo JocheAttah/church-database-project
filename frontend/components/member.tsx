@@ -77,14 +77,22 @@ const Member = ({ id }: { id: string }) => {
 
   const { cellFellowships } = useCellFellowships();
 
+  const getValue = (name: string) => {
+    const userCellFellowship = userData?.cell_fellowship;
+    if (name === "cell_fellowship_id") {
+      return userCellFellowship
+        ? `${userCellFellowship.name} ${userCellFellowship.type}`
+        : "-";
+    }
+    return (
+      (userData?.[name as keyof typeof userData] as string | number | null) ??
+      "-"
+    );
+  };
+
   const displayData = fieldConfigurations.map(({ name, label }) => ({
     key: label,
-    value:
-      name === "cell_fellowship_id"
-        ? `${userData?.cell_fellowship?.name} ${
-            userData?.cell_fellowship?.type
-          }`
-        : userData?.[name],
+    value: getValue(name),
   }));
 
   const genderConfig = [
@@ -186,7 +194,14 @@ const Member = ({ id }: { id: string }) => {
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["member", id] });
+      queryClient.invalidateQueries({
+        queryKey: ["member"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["members"],
+        refetchType: "all",
+      });
       toast.success("Member updated successfully");
     },
     onError: (error) => {
@@ -243,11 +258,7 @@ const Member = ({ id }: { id: string }) => {
                 !(key === "Email Address") && "capitalize",
               )}
             >
-              {key === "Date of Birth"
-                ? formatDate(value)
-                : !value
-                  ? "-"
-                  : value}
+              {key === "Date of Birth" ? formatDate(value.toString()) : value}
             </p>
           </div>
         ))}

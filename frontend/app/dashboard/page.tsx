@@ -77,6 +77,7 @@ const Dashboard = () => {
               <p className="text-sm text-dustygray">Avg Attendance</p>
             </div>
 
+            {/* TODO: Add filter for attendance - time ranges */}
             <div className="mb-4 flex flex-col space-y-2">
               <Select
                 defaultValue={timeRange}
