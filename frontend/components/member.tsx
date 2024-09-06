@@ -1,4 +1,3 @@
-import data from "@/app/dashboard/fellowships-cells/data";
 import Card from "@/components/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -32,13 +31,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCellFellowships } from "@/hooks/useCellFellowships";
 import { cn } from "@/lib/utils";
-import { Tables } from "@/utils/database.types";
 import formatDate from "@/utils/formatDate";
 import { createClient } from "@/utils/supabase/client";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PostgrestError } from "@supabase/supabase-js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -54,7 +52,7 @@ const Member = ({ id }: { id: string }) => {
     { name: "gender", label: "Gender" },
     { name: "marital_status", label: "Marital Status" },
     { name: "qualification", label: "Qualification" },
-    { name: "cell_or_fellowship", label: "Fellowship/Cell" },
+    { name: "cell_fellowship_id", label: "Fellowship/Cell" },
     { name: "phone", label: "Phone" },
     { name: "email", label: "Email Address" },
     { name: "dob", label: "Date of Birth" },
@@ -62,17 +60,13 @@ const Member = ({ id }: { id: string }) => {
     { name: "discipled_by", label: "Discipled By" },
   ] as const;
 
-  const {
-    data: userData,
-    isLoading,
-    error,
-  } = useQuery<Tables<"members">, PostgrestError>({
+  const { data: userData, isLoading } = useQuery({
     queryKey: ["member", id],
     queryFn: async () => {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("members")
-        .select("*")
+        .select("*, cell_fellowship(name,type)")
         .eq("id", id)
         .single();
 
@@ -81,9 +75,16 @@ const Member = ({ id }: { id: string }) => {
     },
   });
 
+  const { cellFellowships } = useCellFellowships();
+
   const displayData = fieldConfigurations.map(({ name, label }) => ({
     key: label,
-    value: userData?.[name],
+    value:
+      name === "cell_fellowship_id"
+        ? `${userData?.cell_fellowship?.name} ${
+            userData?.cell_fellowship?.type
+          }`
+        : userData?.[name],
   }));
 
   const genderConfig = [
@@ -98,8 +99,8 @@ const Member = ({ id }: { id: string }) => {
     { key: "Worker", label: "Worker in Training" },
     { key: "Member", label: "Member" },
   ];
-  const fellowshipsCellConfig = data.map(({ key, name }) => ({
-    key,
+  const fellowshipsCellConfig = cellFellowships.map(({ id, name }) => ({
+    key: id,
     label: name,
   }));
   const classConfig = [
@@ -122,9 +123,10 @@ const Member = ({ id }: { id: string }) => {
     qualification: z
       .string()
       .min(1, { message: "Qualification must be selected" }),
-    cell_or_fellowship: z
-      .string()
-      .min(1, { message: "Fellowship/Cell must be selected" }),
+    cell_fellowship_id: z
+      .number()
+      .min(1, { message: "Fellowship/Cell must be selected" })
+      .nullable(),
     phone: z
       .string()
       .refine((value) => value === "" || value.length >= 11, {
@@ -145,13 +147,14 @@ const Member = ({ id }: { id: string }) => {
       gender: "",
       marital_status: "",
       qualification: "",
-      cell_or_fellowship: "",
+      cell_fellowship_id: null,
       phone: "",
       email: "",
       dob: "",
       class: "",
       discipled_by: "",
     },
+    mode: "all",
     values: userData
       ? {
           first_name: userData.first_name,
@@ -159,7 +162,7 @@ const Member = ({ id }: { id: string }) => {
           gender: userData.gender,
           marital_status: userData.marital_status,
           qualification: userData.qualification,
-          cell_or_fellowship: userData.cell_or_fellowship,
+          cell_fellowship_id: userData.cell_fellowship_id ?? null,
           phone: userData.phone ?? "",
           email: userData.email ?? "",
           dob: userData.dob,
@@ -227,7 +230,6 @@ const Member = ({ id }: { id: string }) => {
       </Card>
     );
   if (!userData) return <div>Member not found</div>;
-  if (error) return <div>Error: {error.details}</div>;
 
   return (
     <Card className="p-10">
@@ -452,7 +454,7 @@ const Member = ({ id }: { id: string }) => {
 
                     <FormField
                       control={form.control}
-                      name="cell_or_fellowship"
+                      name="cell_fellowship_id"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-xs text-dustygray">
@@ -460,8 +462,10 @@ const Member = ({ id }: { id: string }) => {
                           </FormLabel>
                           <FormControl>
                             <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
+                              onValueChange={(value) =>
+                                field.onChange(Number(value))
+                              }
+                              defaultValue={field.value?.toString() ?? ""}
                             >
                               <SelectTrigger className="border border-mineshaft text-white">
                                 <SelectValue />
@@ -469,7 +473,10 @@ const Member = ({ id }: { id: string }) => {
                               <SelectContent className="border border-mineshaft">
                                 {fellowshipsCellConfig.map(
                                   ({ key, label }, index) => (
-                                    <SelectItem value={key} key={index}>
+                                    <SelectItem
+                                      value={key.toString()}
+                                      key={index}
+                                    >
                                       {label}
                                     </SelectItem>
                                   ),

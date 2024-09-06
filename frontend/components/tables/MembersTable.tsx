@@ -37,7 +37,7 @@ export default function MemberTable() {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("members")
-        .select("*")
+        .select("*, cell_fellowship(name,type)")
         .range((page - 1) * 10, page * 10 - 1);
 
       if (error) throw error;
@@ -104,7 +104,13 @@ export default function MemberTable() {
                   <TableCell>{member.gender}</TableCell>
                   <TableCell>{member.phone ?? "-"}</TableCell>
                   <TableCell>{member.qualification}</TableCell>
-                  <TableCell>{member.cell_or_fellowship}</TableCell>
+                  <TableCell>
+                    {member.cell_fellowship
+                      ? `${member.cell_fellowship.name} ${
+                          member.cell_fellowship.type
+                        }`
+                      : "-"}
+                  </TableCell>
                   <TableCell>
                     {member.qualification === "Worker" ? (
                       <Pill>
