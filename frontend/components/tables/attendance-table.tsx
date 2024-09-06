@@ -1,9 +1,21 @@
 import { useAttendance } from "@/hooks/useAttendance";
 import formatDate from "@/utils/formatDate";
 import { createClient } from "@/utils/supabase/client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { toast } from "sonner";
 import ChevronDownIcon from "../icons/chevron-down-icon";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
+import { buttonVariants } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,6 +58,39 @@ const AttendanceTable = () => {
     },
   });
   const { attendance } = data ?? { attendance: [] };
+
+  const [selectedMeetingId, setSelectedMeetingId] = useState<number | null>(
+    null,
+  );
+  const [open, setOpen] = useState(false);
+
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteAttendance, isPending: isDeletingAttendance } =
+    useMutation({
+      mutationFn: async (meetingId: number) => {
+        const { error } = await supabase
+          .from("attendance")
+          .delete()
+          .eq("id", meetingId);
+        if (error) throw error;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["attendance"],
+          refetchType: "all",
+        });
+        toast.success("Attendance deleted successfully");
+      },
+      onError: (error) => {
+        console.error("Error deleting attendance:", error);
+        toast.error("Error deleting attendance");
+      },
+      onSettled: () => {
+        setOpen(false);
+        setSelectedMeetingId(null);
+      },
+    });
 
   return (
     <>
@@ -118,7 +163,14 @@ const AttendanceTable = () => {
                             View Details
                           </Link>
                         </DropdownMenuItem> */}
-                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                        <DropdownMenuItem
+                          onSelect={() => {
+                            setSelectedMeetingId(meeting.id);
+                            setOpen(true);
+                          }}
+                        >
+                          Delete
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -151,6 +203,32 @@ const AttendanceTable = () => {
           </Pagination>
         )}
       </div>
+
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Attendance</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this attendance record?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className={buttonVariants({ variant: "destructive" })}
+              disabled={isDeletingAttendance}
+              onClick={(e) => {
+                e.preventDefault();
+                if (selectedMeetingId !== null) {
+                  deleteAttendance(selectedMeetingId);
+                }
+              }}
+            >
+              {isDeletingAttendance ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };
