@@ -91,6 +91,8 @@ const Giving = () => {
     console.log(values);
   }
 
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
   return (
     <div className="flex w-full flex-col">
       <h1 className="mb-5">Giving</h1>
@@ -244,7 +246,11 @@ const Giving = () => {
                               <FormLabel className="text-xs text-dustygray">
                                 Meeting date
                               </FormLabel>
-                              <Popover modal>
+                              <Popover
+                                open={isCalendarOpen}
+                                onOpenChange={setIsCalendarOpen}
+                                modal
+                              >
                                 <PopoverTrigger asChild>
                                   <FormControl>
                                     <Button
@@ -270,7 +276,14 @@ const Giving = () => {
                                   <Calendar
                                     mode="single"
                                     selected={field.value}
-                                    onSelect={field.onChange}
+                                    onSelect={(date) => {
+                                      field.onChange(
+                                        date
+                                          ? formatDate(date, "yyyy-MM-dd")
+                                          : "",
+                                      );
+                                      setIsCalendarOpen(false);
+                                    }}
                                     disabled={(date) =>
                                       date > new Date() ||
                                       date < new Date("1900-01-01")

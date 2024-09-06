@@ -21,7 +21,7 @@ import { useCellFellowships } from "@/hooks/useCellFellowships";
 import { cn } from "@/lib/utils";
 import formatDate from "@/utils/formatDate";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { Calendar } from "../ui/calendar";
@@ -106,6 +106,8 @@ const MemberDialog = ({
     { key: "Unemployed", label: "Unemployed" },
     { key: "Student", label: "Student" },
   ];
+
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -226,7 +228,11 @@ const MemberDialog = ({
                       <FormLabel className="text-xs text-dustygray">
                         Date of Birth
                       </FormLabel>
-                      <Popover modal>
+                      <Popover
+                        open={isCalendarOpen}
+                        onOpenChange={setIsCalendarOpen}
+                        modal
+                      >
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
@@ -251,11 +257,12 @@ const MemberDialog = ({
                             selected={
                               field.value ? new Date(field.value) : undefined
                             }
-                            onSelect={(date) =>
+                            onSelect={(date) => {
                               field.onChange(
                                 date ? formatDate(date, "yyyy-MM-dd") : "",
-                              )
-                            }
+                              );
+                              setIsCalendarOpen(false);
+                            }}
                             disabled={(date) =>
                               date > new Date() || date < new Date("1900-01-01")
                             }
