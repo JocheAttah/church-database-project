@@ -8,11 +8,23 @@ import {
 } from "@/components/ui/table";
 import { useMembership } from "@/hooks/useMembership";
 import { createClient } from "@/utils/supabase/client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "sonner";
 import ChevronDownIcon from "../icons/chevron-down-icon";
 import Pill from "../pill";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
+import { buttonVariants } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -81,11 +93,40 @@ export default function MemberTable({
     totalCount: 0,
   };
 
+  const [open, setOpen] = useState(false);
+  const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
   const { totalCount: totalMembers } = useMembership();
   const currentCount = members.length;
   const totalCount = cellFellowshipId
     ? totalMembersInCellFellowship
     : totalMembers;
+
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteMember, isPending: isDeletingMember } = useMutation({
+    mutationFn: async (memberId: number) => {
+      const { error } = await supabase
+        .from("members")
+        .delete()
+        .eq("id", memberId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["members"],
+        refetchType: "all",
+      });
+      toast.success("Member deleted successfully");
+    },
+    onError: (error) => {
+      console.error("Error deleting member:", error);
+      toast.error("Error deleting member");
+    },
+    onSettled: () => {
+      setOpen(false);
+      setSelectedMemberId(null);
+    },
+  });
 
   return (
     <>
@@ -170,12 +211,17 @@ export default function MemberTable({
                       <ChevronDownIcon />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuItem>
-                        <Link href={`membership/${member.id}`}>
-                          View Details
-                        </Link>
+                      <Link href={`membership/${member.id}`}>
+                        <DropdownMenuItem>View Details</DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuItem
+                        onSelect={() => {
+                          setSelectedMemberId(member.id);
+                          setOpen(true);
+                        }}
+                      >
+                        Delete
                       </DropdownMenuItem>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
@@ -215,6 +261,32 @@ export default function MemberTable({
           )}
         </div>
       )}
+
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Member</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this member?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className={buttonVariants({ variant: "destructive" })}
+              disabled={isDeletingMember}
+              onClick={(e) => {
+                e.preventDefault();
+                if (selectedMemberId !== null) {
+                  deleteMember(selectedMemberId);
+                }
+              }}
+            >
+              {isDeletingMember ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

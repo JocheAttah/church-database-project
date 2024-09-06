@@ -12,7 +12,6 @@ import MemberDialog, {
   memberFormSchema,
 } from "./dialogs/member-dialog";
 import { Button } from "./ui/button";
-import { DialogTrigger } from "./ui/dialog";
 import { Skeleton } from "./ui/skeleton";
 
 const Member = ({ id }: { id: string }) => {
@@ -180,15 +179,13 @@ const Member = ({ id }: { id: string }) => {
         ))}
       </div>
       <div className="flex justify-end">
+        <Button variant="secondary" onClick={() => setOpen(true)}>
+          Edit Member
+        </Button>
         <MemberDialog
           isOpen={open}
           onClose={setOpen}
           form={form}
-          trigger={
-            <DialogTrigger asChild>
-              <Button variant="secondary">Edit Member</Button>
-            </DialogTrigger>
-          }
           title="Edit Member"
           onSubmit={onSubmit}
           isPending={isPending}

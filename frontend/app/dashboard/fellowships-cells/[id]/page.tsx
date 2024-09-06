@@ -3,7 +3,7 @@
 import BackButton from "@/components/back-button";
 import Card from "@/components/card";
 import SearchInput from "@/components/search-input";
-import MemberTable from "@/components/tables/MembersTable";
+import MemberTable from "@/components/tables/members-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { createClient } from "@/utils/supabase/client";
 import { FunnelIcon } from "@heroicons/react/24/outline";

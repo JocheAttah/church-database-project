@@ -10,16 +10,16 @@ import MemberDialog, {
   MemberType,
 } from "@/components/dialogs/member-dialog";
 import SearchInput from "@/components/search-input";
-import MemberTable from "@/components/tables/MembersTable";
+import MemberTable from "@/components/tables/members-table";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   DropdownMenu,
@@ -33,7 +33,6 @@ import { useGenderChartData } from "@/hooks/useGenderChartData";
 import { createClient } from "@/utils/supabase/client";
 import { FunnelIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -61,7 +60,8 @@ const Membership = () => {
     mode: "all",
   });
 
-  const [open, setOpen] = useState(false);
+  const [openUploadDialog, setOpenUploadDialog] = useState(false);
+  const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -77,13 +77,12 @@ const Membership = () => {
         refetchType: "all",
       });
       toast.success("Member added successfully");
+      setOpenAddMemberDialog(false);
+      form.reset();
     },
     onError: (error) => {
       console.error("Error adding member:", error);
       toast.error("Error adding member");
-    },
-    onSettled: () => {
-      setOpen(false);
     },
   });
 
@@ -133,36 +132,11 @@ const Membership = () => {
                 <Button variant="secondary">Update membership</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={(e) => e.preventDefault()}>
-                  <Dialog>
-                    <DialogTrigger>Upload Excel Sheet</DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Upload Excel Sheet</DialogTitle>
-                        <DialogDescription />
-                      </DialogHeader>
-                      <div className="h-[1px] w-full bg-mineshaft" />
-                      <Uploader />
-                      <DialogFooter>
-                        <DialogClose asChild>
-                          <Button type="submit" variant="secondary">
-                            Update list
-                          </Button>
-                        </DialogClose>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
+                <DropdownMenuItem onSelect={() => setOpenUploadDialog(true)}>
+                  Upload Excel Sheet
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={(e) => e.preventDefault()}>
-                  <MemberDialog
-                    isOpen={open}
-                    onClose={setOpen}
-                    trigger={<DialogTrigger>Add Single Member</DialogTrigger>}
-                    title="Add Member"
-                    isPending={isPending}
-                    form={form}
-                    onSubmit={onSubmit}
-                  />
+                <DropdownMenuItem onSelect={() => setOpenAddMemberDialog(true)}>
+                  Add Single Member
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -170,6 +144,33 @@ const Membership = () => {
         </div>
         <MemberTable />
       </Card>
+
+      <Dialog open={openUploadDialog} onOpenChange={setOpenUploadDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Upload Excel Sheet</DialogTitle>
+            <DialogDescription />
+          </DialogHeader>
+          <div className="h-[1px] w-full bg-mineshaft" />
+          <Uploader />
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="submit" variant="secondary">
+                Update list
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <MemberDialog
+        isOpen={openAddMemberDialog}
+        onClose={setOpenAddMemberDialog}
+        title="Add Member"
+        isPending={isPending}
+        form={form}
+        onSubmit={onSubmit}
+      />
     </>
   );
 };

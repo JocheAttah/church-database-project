@@ -21,7 +21,7 @@ import { useCellFellowships } from "@/hooks/useCellFellowships";
 import { cn } from "@/lib/utils";
 import formatDate from "@/utils/formatDate";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { Calendar } from "../ui/calendar";
@@ -69,7 +69,6 @@ export type MemberType = z.infer<typeof memberFormSchema>;
 type MemberDialogProps = {
   isOpen: boolean;
   onClose: Dispatch<SetStateAction<boolean>>;
-  trigger: ReactNode;
   title: string;
   isPending: boolean;
   form: UseFormReturn<MemberType>;
@@ -79,7 +78,6 @@ type MemberDialogProps = {
 const MemberDialog = ({
   isOpen,
   onClose,
-  trigger,
   title,
   isPending,
   form,
@@ -111,7 +109,6 @@ const MemberDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      {trigger}
       <DialogContent className="max-w-7xl">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
