@@ -29,8 +29,10 @@ import { Skeleton } from "../ui/skeleton";
 
 export default function MemberTable({
   cellFellowshipId,
+  isLoadingCellFellowship,
 }: {
   cellFellowshipId?: number;
+  isLoadingCellFellowship?: boolean;
 }) {
   const [page, setPage] = useState(1);
   const supabase = createClient();
@@ -54,7 +56,7 @@ export default function MemberTable({
     return { members: data, totalCount: count || 0 };
   };
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading: isLoadingMembers } = useQuery({
     queryKey: ["members", page, cellFellowshipId],
     queryFn: async () => {
       if (cellFellowshipId) {
@@ -69,6 +71,8 @@ export default function MemberTable({
       return { members: data, totalCount: 0 };
     },
   });
+
+  const isLoading = isLoadingCellFellowship || isLoadingMembers;
 
   const { members, totalCount: totalMembersInCellFellowship } = data ?? {
     members: [],
@@ -184,12 +188,12 @@ export default function MemberTable({
           )}
         </TableBody>
       </Table>
-      {currentCount > 0 && (
+      {!isLoading && currentCount > 0 && (
         <div className="mt-4 flex flex-wrap items-center justify-between gap-5">
           <p className="text-xs text-dustygray">
             Showing 1 to {currentCount} of {totalCount} results
           </p>
-          {!isLoading && totalCount > currentCount && (
+          {totalCount > currentCount && (
             <Pagination className="mx-0 w-fit justify-end">
               <PaginationContent>
                 <PaginationItem>

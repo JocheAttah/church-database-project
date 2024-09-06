@@ -60,7 +60,10 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
             <span>Filter</span>
           </div>
         </div>
-        <MemberTable cellFellowshipId={cellFellowship?.id} />
+        <MemberTable
+          cellFellowshipId={cellFellowship?.id}
+          isLoadingCellFellowship={isLoading}
+        />
       </Card>
     </>
   );
