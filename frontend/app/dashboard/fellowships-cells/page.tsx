@@ -44,7 +44,9 @@ const FellowshipsCells = () => {
                   <p className="text-sm text-dustygray">{`${name} ${type}`}</p>
                 </div>
 
-                <h1>{memberCount.toLocaleString()}</h1>
+                <h1 className="duration-500 animate-in fade-in slide-in-from-bottom-3">
+                  {memberCount.toLocaleString()}
+                </h1>
 
                 <div className="flex items-center self-end text-dustygray">
                   <p className="text-xs">View membership</p>
