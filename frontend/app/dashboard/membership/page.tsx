@@ -10,6 +10,7 @@ import MemberTable from "@/components/tables/MembersTable";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -56,56 +57,49 @@ const Membership = () => {
         </Card>
       </div>
       {/* Table */}
-      <div className="mt-8 rounded-md bg-shark p-4">
-        <Card>
-          <div className="flex w-full flex-row items-center justify-between">
-            <div className="flex flex-row items-center">
-              <p className="mr-4 text-xl text-white">Membership list</p>
-              <SearchInput />
-            </div>
-            <div className="flex flex-row items-center">
-              <FunnelIcon className="mr-[5px] size-8 text-dustygray" />
-              <p className="text-sm text-dustygray">Filter</p>
-              <Dialog>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      className="ml-6 w-full rounded-md bg-sapphire-700 px-[20px] py-2.5 text-sm hover:bg-sapphire-800 active:bg-sapphire-900"
-                      type="submit"
-                    >
-                      Update membership
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <DialogTrigger>Upload Excel Sheet</DialogTrigger>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <p>Add Single Member</p>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Upload Excel Sheet</DialogTitle>
-                  </DialogHeader>
-                  <div className="h-[1px] w-full bg-mineshaft" />
-                  <Uploader />
-                  <DialogFooter>
-                    <Button
-                      type="submit"
-                      className="rounded-md bg-sapphire-700 text-sm hover:bg-sapphire-800 active:bg-sapphire-900"
-                    >
-                      Update list
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </div>
+      <Card className="mt-8 space-y-5 p-6">
+        <div className="flex flex-wrap items-center justify-between gap-5">
+          <div className="flex flex-wrap items-center gap-5">
+            <h2>Membership list</h2>
+            <SearchInput />
           </div>
-        </Card>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-1 text-sm text-dustygray">
+              <FunnelIcon width={24} height={24} />
+              <span>Filter</span>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="secondary">Update membership</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={(e) => e.preventDefault()}>
+                  <Dialog>
+                    <DialogTrigger>Upload Excel Sheet</DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Upload Excel Sheet</DialogTitle>
+                      </DialogHeader>
+                      <div className="h-[1px] w-full bg-mineshaft" />
+                      <Uploader />
+                      <DialogFooter>
+                        <DialogClose asChild>
+                          <Button type="submit" variant="secondary">
+                            Update list
+                          </Button>
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Add Single Member</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
         <MemberTable />
-      </div>
+      </Card>
     </>
   );
 };

@@ -128,6 +128,10 @@ const Attendance = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-1 text-sm text-dustygray">
+              <FunnelIcon width={24} height={24} />
+              <span>Filter</span>
+            </div>
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="secondary">Upload attendance</Button>
@@ -234,10 +238,6 @@ const Attendance = () => {
                 </div>
               </DialogContent>
             </Dialog>
-            <div className="flex items-center gap-1 text-sm text-dustygray">
-              <FunnelIcon width={24} height={24} />
-              <span>Filter</span>
-            </div>
           </div>
         </div>
         <AttendanceTable />
