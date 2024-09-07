@@ -10,7 +10,7 @@ import MemberDialog, {
   MemberType,
 } from "@/components/dialogs/member-dialog";
 import SearchInput from "@/components/search-input";
-import MemberTable from "@/components/tables/members-table";
+import MemberTable from "@/components/tables/members/members-table";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
