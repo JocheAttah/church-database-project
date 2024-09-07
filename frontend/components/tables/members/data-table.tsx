@@ -19,7 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { FunnelIcon } from "@heroicons/react/24/outline";
 import { Loader2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { DataTablePagination } from "./data-table-pagination";
@@ -101,13 +100,7 @@ export function DataTable<TData, TValue>({
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-4">
-          <div className="flex items-center gap-1 text-sm text-dustygray">
-            <FunnelIcon width={24} height={24} />
-            <span>Filter</span>
-          </div>
-          {actionButton}
-        </div>
+        {actionButton}
       </div>
       {loading ? (
         <div className="flex h-64 items-center justify-center">
