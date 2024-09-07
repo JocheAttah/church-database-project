@@ -18,6 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAttendanceChartData } from "@/hooks/useAttendanceChartData";
 import { useGenderChartData } from "@/hooks/useGenderChartData";
 import { useStatusChartData } from "@/hooks/useStatusChartData";
+import formatMoney from "@/utils/formatMoney";
 import { useState } from "react";
 import {
   attendanceChartConfig,
@@ -59,7 +60,7 @@ const Dashboard = () => {
             <p className="text-sm text-dustygray">Total revenue</p>
           </div>
 
-          <h1>₦120,050</h1>
+          <h1>{formatMoney(10000000)}</h1>
 
           <div className="flex items-center text-xs">
             <GrowthIcon />

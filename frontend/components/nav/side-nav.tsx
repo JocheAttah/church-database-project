@@ -9,7 +9,6 @@ import { Dispatch, SetStateAction } from "react";
 import AttendanceIcon from "../icons/nav/attendance-icon";
 import DashboardIcon from "../icons/nav/dashboard-icon";
 import FellowshipsCellsIcon from "../icons/nav/fellowships-cells-icon";
-import GivingIcon from "../icons/nav/giving-icon";
 import MembershipIcon from "../icons/nav/membership-icon";
 import Logo from "../logo";
 import NavItem from "./nav-item";
@@ -35,11 +34,11 @@ const sideMenu = [
     Icon: AttendanceIcon,
     href: "/dashboard/attendance",
   },
-  {
-    title: "Giving",
-    Icon: GivingIcon,
-    href: "/dashboard/giving",
-  },
+  // {
+  //   title: "Giving",
+  //   Icon: GivingIcon,
+  //   href: "/dashboard/giving",
+  // },
   // {
   //   title: "Activities",
   //   Icon: ActivitiesIcon,
@@ -90,7 +89,7 @@ const SideNav = ({ hideSideNav, setHideSideNav }: SideNavProps) => {
       </ul>
 
       <div
-        className="group mt-[25dvh] flex w-full cursor-pointer items-center gap-2.5 rounded-[50px] px-4 py-2 transition-all duration-200 hover:bg-white/2 hover:text-white lg:justify-center xl:justify-normal"
+        className="group mt-[15dvh] flex w-full cursor-pointer items-center gap-2.5 rounded-[50px] px-4 py-2 transition-all duration-200 hover:bg-white/2 hover:text-white lg:justify-center xl:justify-normal"
         onClick={() => {
           startHolyLoader();
           signOutAction();
