@@ -166,6 +166,10 @@ const Membership = () => {
         queryKey: ["members"],
         refetchType: "all",
       });
+      queryClient.invalidateQueries({
+        queryKey: ["cell_fellowship"],
+        refetchType: "all",
+      });
       toast.success("Member added successfully");
       setOpenAddMemberDialog(false);
       form.reset();
@@ -228,6 +232,10 @@ const Membership = () => {
       toast.success("Members updated successfully");
       queryClient.invalidateQueries({
         queryKey: ["members"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["cell_fellowship"],
         refetchType: "all",
       });
       setOpenUploadDialog(false);

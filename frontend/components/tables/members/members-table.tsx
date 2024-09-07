@@ -115,6 +115,10 @@ export default function MemberTable({
         queryKey: ["members"],
         refetchType: "all",
       });
+      queryClient.invalidateQueries({
+        queryKey: ["cell_fellowship"],
+        refetchType: "all",
+      });
       toast.success("Member deleted successfully");
     },
     onError: (error) => {

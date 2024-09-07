@@ -120,6 +120,10 @@ const Member = ({ id }: { id: string }) => {
         queryKey: ["members"],
         refetchType: "all",
       });
+      queryClient.invalidateQueries({
+        queryKey: ["cell_fellowship"],
+        refetchType: "all",
+      });
       toast.success("Member updated successfully");
     },
     onError: (error) => {
