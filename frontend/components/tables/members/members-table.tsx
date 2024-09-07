@@ -10,8 +10,7 @@ import {
 import { useMembership } from "@/hooks/useMembership";
 import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { toast } from "sonner";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
@@ -19,9 +18,15 @@ import { DataTable } from "./data-table";
 export default function MemberTable({
   cellFellowshipId,
   isLoadingCellFellowship,
+  title,
+  loadingTitle,
+  actionButton,
 }: {
   cellFellowshipId?: number;
   isLoadingCellFellowship?: boolean;
+  title: string;
+  loadingTitle?: boolean;
+  actionButton?: ReactNode;
 }) {
   const supabase = createClient();
 
@@ -126,25 +131,23 @@ export default function MemberTable({
 
   return (
     <>
-      {isLoading ? (
-        <div className="flex h-64 items-center justify-center">
-          <Loader2 className="text-primary h-8 w-8 animate-spin" />
-        </div>
-      ) : (
-        <DataTable
-          columns={columns({
-            setOpen,
-            setSelectedMemberId,
-            pagination,
-          })}
-          data={members}
-          pagination={{
-            ...pagination,
-            pageCount: Math.ceil(totalCount / pagination.pageSize),
-            onPaginationChange: setPagination,
-          }}
-        />
-      )}
+      <DataTable
+        actionButton={actionButton}
+        loading={isLoading}
+        loadingTitle={loadingTitle}
+        title={title}
+        columns={columns({
+          setOpen,
+          setSelectedMemberId,
+          pagination,
+        })}
+        data={members}
+        pagination={{
+          ...pagination,
+          pageCount: Math.ceil(totalCount / pagination.pageSize),
+          onPaginationChange: setPagination,
+        }}
+      />
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>

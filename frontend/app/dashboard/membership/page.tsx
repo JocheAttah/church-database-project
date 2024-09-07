@@ -9,7 +9,6 @@ import MemberDialog, {
   memberFormSchema,
   MemberType,
 } from "@/components/dialogs/member-dialog";
-import SearchInput from "@/components/search-input";
 import MemberTable from "@/components/tables/members/members-table";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,7 +29,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Uploader from "@/components/Uploader";
 import { useGenderChartData } from "@/hooks/useGenderChartData";
 import { createClient } from "@/utils/supabase/client";
-import { FunnelIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, isValid, parse } from "date-fns";
@@ -270,19 +268,11 @@ const Membership = () => {
           )}
         </Card>
       </div>
-      {/* Table */}
-      <Card className="mt-8 space-y-5 p-6">
-        <div className="flex flex-wrap items-center justify-between gap-5">
-          <div className="flex flex-wrap items-center gap-5">
-            <h2>Membership list</h2>
-            <SearchInput />
-          </div>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <div className="flex items-center gap-1 text-sm text-dustygray">
-              <FunnelIcon width={24} height={24} />
-              <span>Filter</span>
-            </div>
+      <Card className="mt-8 space-y-5 p-6">
+        <MemberTable
+          title="Membership List"
+          actionButton={
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="secondary">Update membership</Button>
@@ -296,9 +286,8 @@ const Membership = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
-        </div>
-        <MemberTable />
+          }
+        />
       </Card>
 
       <Dialog open={openUploadDialog} onOpenChange={setOpenUploadDialog}>
