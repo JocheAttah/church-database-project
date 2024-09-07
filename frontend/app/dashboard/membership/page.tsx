@@ -14,7 +14,6 @@ import MemberTable from "@/components/tables/members-table";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -34,10 +33,101 @@ import { createClient } from "@/utils/supabase/client";
 import { FunnelIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { format, isValid, parse } from "date-fns";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 import { genderChartConfig } from "../chart-data";
+
+// Define a schema for a single member row
+const memberRowSchema = z.object({
+  first_name: z.string().min(1, "First name is required"),
+  middle_name: z.string().optional(),
+  last_name: z.string().min(1, "Last name is required"),
+  gender: z.enum(["Male", "Female"], {
+    errorMap: () => ({ message: "Gender must be either 'Male' or 'Female'" }),
+  }),
+  marital_status: z.enum(["Single", "Married"], {
+    errorMap: () => ({
+      message: "Marital status must be either 'Single' or 'Married'",
+    }),
+  }),
+  qualification: z.enum(["Worker", "Member"], {
+    errorMap: () => ({
+      message: "Qualification must be either 'Worker' or 'Member'",
+    }),
+  }),
+  cell_fellowship: z.string().optional(),
+  phone: z.string().optional(),
+  email: z.string().email("Invalid email address").optional().or(z.literal("")),
+  dob: z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (!val) return null;
+      const convertedDate = convertDateFormat(val);
+      if (!convertedDate) {
+        throw new Error("Invalid date format");
+      }
+      return convertedDate;
+    }),
+  class: z.enum(["Working Class", "Unemployed", "Student"], {
+    errorMap: () => ({
+      message: "Class must be 'Working Class', 'Unemployed', or 'Student'",
+    }),
+  }),
+  discipled_by: z.string().optional(),
+});
+
+// Add this helper function to convert date strings
+const convertDateFormat = (dateString: string): string | null => {
+  const formats = ["dd/MM/yyyy", "MM/dd/yyyy", "yyyy-MM-dd"];
+
+  for (const dateFormat of formats) {
+    const parsedDate = parse(dateString, dateFormat, new Date());
+    if (isValid(parsedDate)) {
+      return format(parsedDate, "yyyy-MM-dd");
+    }
+  }
+
+  return null;
+};
+
+// Function to validate a single row
+const validateRow = (row: any, rowIndex: number) => {
+  try {
+    const validatedRow = memberRowSchema.parse(row);
+    return { rowIndex, validatedData: validatedRow };
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return {
+        rowIndex,
+        errors: error.errors.map(
+          (err) => `${err.path.join(".")}: ${err.message}`,
+        ),
+      };
+    }
+    return { rowIndex, errors: ["Unknown error occurred"] };
+  }
+};
+
+// Function to validate all rows
+const validateCsvData = (data: any[]) => {
+  const errors: { rowIndex: number; errors: string[] }[] = [];
+  const validatedData: any[] = [];
+
+  data.forEach((row, index) => {
+    const result = validateRow(row, index + 1);
+    if (result.errors) {
+      errors.push(result);
+    } else {
+      validatedData.push(result.validatedData);
+    }
+  });
+
+  return { errors, validatedData };
+};
 
 const Membership = () => {
   const { genderChartData, isLoadingGender } = useGenderChartData();
@@ -62,6 +152,8 @@ const Membership = () => {
 
   const [openUploadDialog, setOpenUploadDialog] = useState(false);
   const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
+  const [uploadedData, setUploadedData] = useState<unknown[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -87,6 +179,68 @@ const Membership = () => {
       });
     },
   });
+
+  const handleUpdateMembers = async () => {
+    setLoading(true);
+    if (uploadedData.length === 0) {
+      toast.error("No data to update");
+      setLoading(false);
+      return;
+    }
+
+    // Validate the data
+    const { errors, validatedData } = validateCsvData(uploadedData);
+
+    if (errors.length > 0) {
+      // Display validation errors
+      errors.forEach(({ rowIndex, errors }) => {
+        toast.error(`Row ${rowIndex} has errors:`, {
+          description: errors.join(", "),
+        });
+      });
+      setLoading(false);
+      return;
+    }
+
+    const supabase = createClient();
+
+    try {
+      // Step 1: Insert validated data into staging table
+      const { error: stagingError } = await supabase
+        .from("members_staging")
+        .insert(validatedData);
+
+      if (stagingError) throw stagingError;
+
+      // Step 2: Perform the upsert from staging to members table
+      const { error: upsertError } = await supabase.rpc(
+        "upsert_members_from_staging",
+      );
+
+      if (upsertError) throw upsertError;
+
+      // Step 3: Clear the staging table
+      const { error: clearError } = await supabase
+        .from("members_staging")
+        .delete()
+        .neq("id", 0); // This will delete all rows
+
+      if (clearError) throw clearError;
+
+      toast.success("Members updated successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["members"],
+        refetchType: "all",
+      });
+      setOpenUploadDialog(false);
+    } catch (error) {
+      console.error("Error updating members:", error);
+      toast.error("Error updating members");
+    } finally {
+      setUploadedData([]);
+      setLoading(false);
+    }
+  };
 
   function onSubmit(values: MemberType) {
     mutate(values);
@@ -154,13 +308,16 @@ const Membership = () => {
             <DialogDescription />
           </DialogHeader>
           <div className="border-t border-mineshaft pt-7 text-white">
-            <Uploader />
+            <Uploader onFileUpload={(data) => setUploadedData(data)} />
             <DialogFooter className="mt-7">
-              <DialogClose asChild>
-                <Button type="submit" variant="secondary">
-                  Update list
-                </Button>
-              </DialogClose>
+              <Button
+                variant="secondary"
+                loading={loading}
+                onClick={handleUpdateMembers}
+                disabled={uploadedData.length === 0}
+              >
+                Update list
+              </Button>
             </DialogFooter>
           </div>
         </DialogContent>

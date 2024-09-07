@@ -238,7 +238,7 @@ const Attendance = () => {
                           </FormItem>
                         )}
                       />
-                      <Uploader />
+                      <Uploader onFileUpload={() => {}} />
                       <DialogFooter>
                         <DialogClose asChild>
                           <Button variant="secondary" type="submit">

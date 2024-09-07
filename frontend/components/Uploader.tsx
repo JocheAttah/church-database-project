@@ -4,11 +4,16 @@ import { cn } from "@/lib/utils";
 import { formatFileSize } from "@/utils/formatFileSize";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 import { CloudArrowUpIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import Papa from "papaparse";
 import { useCallback, useEffect, useState } from "react";
 import { ErrorCode, FileRejection, useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 
-function Uploader() {
+type UploaderProps = {
+  onFileUpload: (data: unknown[]) => void;
+};
+
+function Uploader({ onFileUpload }: UploaderProps) {
   const [files, setFiles] = useState<File[]>([]);
 
   const handleDrop = useCallback(
@@ -34,8 +39,18 @@ function Uploader() {
         return;
       }
 
+      const file = acceptedFiles[0];
+      if (!file) return;
+      Papa.parse(file, {
+        complete: (results) => {
+          onFileUpload(results.data);
+        },
+        header: true,
+      });
+
       setFiles(acceptedFiles);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

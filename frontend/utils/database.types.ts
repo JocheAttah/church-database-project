@@ -158,12 +158,69 @@ export type Database = {
           },
         ]
       }
+      members_staging: {
+        Row: {
+          cell_fellowship: string
+          class: string
+          created_at: string
+          discipled_by: string | null
+          dob: string | null
+          email: string | null
+          first_name: string
+          gender: string
+          id: number
+          last_name: string
+          marital_status: string
+          middle_name: string | null
+          phone: string | null
+          qualification: string
+          updated_at: string
+        }
+        Insert: {
+          cell_fellowship: string
+          class: string
+          created_at?: string
+          discipled_by?: string | null
+          dob?: string | null
+          email?: string | null
+          first_name: string
+          gender: string
+          id?: never
+          last_name: string
+          marital_status: string
+          middle_name?: string | null
+          phone?: string | null
+          qualification: string
+          updated_at?: string
+        }
+        Update: {
+          cell_fellowship?: string
+          class?: string
+          created_at?: string
+          discipled_by?: string | null
+          dob?: string | null
+          email?: string | null
+          first_name?: string
+          gender?: string
+          id?: never
+          last_name?: string
+          marital_status?: string
+          middle_name?: string | null
+          phone?: string | null
+          qualification?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      upsert_members_from_staging: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
