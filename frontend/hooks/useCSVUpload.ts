@@ -11,12 +11,14 @@ export const useCSVUpload = <T extends z.ZodType>({
   upsertFunction,
   invalidateQueries,
   setOpenUploadDialog,
+  createdBy,
 }: {
   schema: T;
   stagingTable: keyof Database["public"]["Tables"];
   upsertFunction: keyof Database["public"]["Functions"];
   invalidateQueries: string[];
   setOpenUploadDialog: (open: boolean) => void;
+  createdBy?: string;
 }) => {
   const [uploadedData, setUploadedData] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(false);
@@ -50,7 +52,10 @@ export const useCSVUpload = <T extends z.ZodType>({
       if (result.errors) {
         errors.push(result);
       } else {
-        validatedData.push(result.validatedData);
+        validatedData.push({
+          ...result.validatedData,
+          created_by: createdBy,
+        });
       }
     });
 

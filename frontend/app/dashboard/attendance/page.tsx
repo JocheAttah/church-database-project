@@ -4,12 +4,14 @@ import AttendanceTable from "@/components/tables/attendance-table";
 import { Button } from "@/components/ui/button";
 import UploadDialog from "@/components/upload-dialog";
 import { useCSVUpload } from "@/hooks/useCSVUpload";
+import { useGetCurrentUser } from "@/hooks/useGetCurrentUser";
 import { useMeetingTypes } from "@/hooks/useMeetingTypes";
 import convertDateFormat from "@/utils/convertDateFormat";
 import { useMemo, useState } from "react";
 import { z } from "zod";
 
 const Attendance = () => {
+  const { data: currentUserFullName } = useGetCurrentUser();
   const [openUploadDialog, setOpenUploadDialog] = useState(false);
   const { meetingTypes } = useMeetingTypes();
 
@@ -56,6 +58,7 @@ const Attendance = () => {
     upsertFunction: "upsert_attendance_from_staging",
     invalidateQueries: ["attendance"],
     setOpenUploadDialog,
+    createdBy: currentUserFullName,
   });
 
   return (
