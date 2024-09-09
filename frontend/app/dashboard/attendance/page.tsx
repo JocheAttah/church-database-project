@@ -2,121 +2,166 @@
 import Card from "@/components/card";
 import AttendanceTable from "@/components/tables/attendance-table";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import Uploader from "@/components/Uploader";
-import { cn } from "@/lib/utils";
-import formatDate from "@/utils/formatDate";
-import { CalendarDaysIcon } from "@heroicons/react/24/solid";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useMeetingTypes } from "@/hooks/useMeetingTypes";
+import { createClient } from "@/utils/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { format, isValid, parse } from "date-fns";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
 import { z } from "zod";
 
-const data = [
-  {
-    name: "Durumi Fellowship",
-    key: "durumi",
-    size: 2100,
-  },
-  {
-    name: "Wuse Fellowship",
-    key: "wuse",
-    size: 2100,
-  },
-  {
-    name: "Jikwoyi Cell",
-    key: "jikwoyi",
-    size: 2100,
-  },
-  {
-    name: "Lugbe Cell",
-    key: "lugbe",
-    size: 2100,
-  },
-  {
-    name: "Pigbakasa Cell",
-    key: "pigbakasa",
-    size: 2100,
-  },
-  {
-    name: "Karu Fellowship",
-    key: "karu",
-    size: 2100,
-  },
-  {
-    name: "Kuje Cell",
-    key: "kuje",
-    size: 2100,
-  },
-  {
-    name: "Lokogoma Cell",
-    key: "lokogoma",
-    size: 2100,
-  },
-  {
-    name: "Kubwa Cell",
-    key: "kubwa",
-    size: 2100,
-  },
-];
-
-const meetingConfig = [
-  { key: "sunday", label: "Sunday Service" },
-  { key: "midweek", label: "Midweek Service" },
-  { key: "fellowshipCell", label: "Cell/Fellowship Meeting" },
-  { key: "prayer", label: "Prayer Group" },
-];
-
 const Attendance = () => {
-  const formSchema = z.object({
-    type: z.string(),
-    date: z.date(),
-    file: z.string(),
-  });
+  const [uploadedData, setUploadedData] = useState<unknown[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [openUploadDialog, setOpenUploadDialog] = useState(false);
+  const queryClient = useQueryClient();
+  const { meetingTypes, isLoading: isLoadingMeetingTypes } = useMeetingTypes();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      type: "",
-      date: undefined,
-      file: "",
-    },
-  });
+  // Add this helper function to convert date strings
+  const convertDateFormat = (dateString: string): string | null => {
+    const formats = ["dd/MM/yyyy", "MM/dd/yyyy", "yyyy-MM-dd"];
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+    for (const dateFormat of formats) {
+      const parsedDate = parse(dateString, dateFormat, new Date());
+      if (isValid(parsedDate)) {
+        return format(parsedDate, "yyyy-MM-dd");
+      }
+    }
 
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+    return null;
+  };
+
+  // Update the schema to match the database structure
+  const attendanceRowSchema = useMemo(
+    () =>
+      z.object({
+        meeting_date: z
+          .string()
+          .min(1, "Meeting date is required")
+          .transform((val) => {
+            if (!val) return null;
+            const convertedDate = convertDateFormat(val);
+            if (!convertedDate) {
+              throw new Error("Invalid date format");
+            }
+            return convertedDate;
+          }),
+        attendance: z
+          .string()
+          .min(1, "Attendance is required")
+          .refine((val) => !isNaN(Number(val)), "Attendance must be a number")
+          .transform(Number),
+        meeting_type: z.enum(meetingTypes as [string, ...string[]], {
+          errorMap: () => ({ message: "Invalid meeting type" }),
+        }),
+        absentee: z
+          .string()
+          .min(1, "Absentee is required")
+          .refine((val) => !isNaN(Number(val)), "Absentee must be a number")
+          .transform(Number),
+      }),
+    [meetingTypes],
+  );
+
+  // Function to validate a single row
+  const validateRow = (row: any, rowIndex: number) => {
+    try {
+      const validatedRow = attendanceRowSchema.parse(row);
+      return { rowIndex, validatedData: validatedRow };
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return {
+          rowIndex,
+          errors: error.errors.map(
+            (err) => `${err.path.join(".")}: ${err.message}`,
+          ),
+        };
+      } else if (error instanceof Error) {
+        return { rowIndex, errors: [error.message] };
+      }
+      return { rowIndex, errors: ["Unknown error occurred"] };
+    }
+  };
+
+  // Function to validate all rows
+  const validateAttendanceData = (data: any[]) => {
+    const errors: { rowIndex: number; errors: string[] }[] = [];
+    const validatedData: any[] = [];
+
+    data.forEach((row, index) => {
+      const result = validateRow(row, index + 1);
+      if (result.errors) {
+        errors.push(result);
+      } else {
+        // TODO: Get the current user
+        validatedData.push({ ...result.validatedData, created_by: "Pastor" });
+      }
+    });
+
+    return { errors, validatedData };
+  };
+
+  const handleUpdateAttendance = async () => {
+    setLoading(true);
+    if (uploadedData.length === 0) {
+      toast.error("No data to update");
+      setLoading(false);
+      return;
+    }
+
+    const { errors, validatedData } = validateAttendanceData(uploadedData);
+
+    if (errors.length > 0) {
+      errors.forEach(({ rowIndex, errors }) => {
+        toast.error(`Row ${rowIndex} has errors:`, {
+          description: errors.join(", "),
+        });
+      });
+      setLoading(false);
+      return;
+    }
+
+    const supabase = createClient();
+
+    try {
+      // Step 1: Insert validated data into staging table
+      const { error: stagingError } = await supabase
+        .from("attendance_staging")
+        .insert(validatedData);
+
+      if (stagingError) throw stagingError;
+
+      // Step 2: Perform the upsert from staging to attendance table
+      const { error: upsertError } = await supabase.rpc(
+        "upsert_attendance_from_staging",
+      );
+
+      if (upsertError) throw upsertError;
+
+      toast.success("Attendance updated successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["attendance"],
+        refetchType: "all",
+      });
+      setOpenUploadDialog(false);
+    } catch (error) {
+      console.error("Error updating attendance:", error);
+      toast.error("Error updating attendance");
+    } finally {
+      setUploadedData([]);
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -124,119 +169,27 @@ const Attendance = () => {
       <Card className="space-y-5 p-6">
         <AttendanceTable
           actionButton={
-            <Dialog>
+            <Dialog open={openUploadDialog} onOpenChange={setOpenUploadDialog}>
               <DialogTrigger asChild>
                 <Button variant="secondary">Upload attendance</Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Upload attendance</DialogTitle>
+                  <DialogDescription />
                 </DialogHeader>
-                <div className="border-t border-mineshaft pt-5 text-white">
-                  <Form {...form}>
-                    <form
-                      onSubmit={form.handleSubmit(onSubmit)}
-                      className="space-y-7"
+                <div className="border-t border-mineshaft pt-7 text-white">
+                  <Uploader onFileUpload={(data) => setUploadedData(data)} />
+                  <DialogFooter className="mt-7">
+                    <Button
+                      variant="secondary"
+                      loading={loading}
+                      onClick={handleUpdateAttendance}
+                      disabled={uploadedData.length === 0}
                     >
-                      <FormField
-                        control={form.control}
-                        name="type"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-xs text-dustygray">
-                              Meeting type
-                            </FormLabel>
-                            <FormControl>
-                              <Select>
-                                <SelectTrigger
-                                  className="border border-mineshaft text-white"
-                                  {...field}
-                                >
-                                  <SelectValue placeholder="Select a option" />
-                                </SelectTrigger>
-                                <SelectContent className="border border-mineshaft">
-                                  {meetingConfig.map(
-                                    ({ key, label }, index) => (
-                                      <SelectItem value={key} key={index}>
-                                        {label}
-                                      </SelectItem>
-                                    ),
-                                  )}
-                                </SelectContent>
-                              </Select>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="date"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-xs text-dustygray">
-                              Meeting date
-                            </FormLabel>
-                            <Popover
-                              open={isCalendarOpen}
-                              onOpenChange={setIsCalendarOpen}
-                              modal
-                            >
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  <Button
-                                    variant="outline"
-                                    className={cn(
-                                      "flex w-full border border-mineshaft bg-transparent pl-3 text-left font-normal hover:bg-transparent hover:text-inherit",
-                                      !field.value && "text-muted-foreground",
-                                    )}
-                                  >
-                                    {field.value ? (
-                                      formatDate(field.value, "dd/MM/yyyy")
-                                    ) : (
-                                      <span>DD/MM/YYYY</span>
-                                    )}
-                                    <CalendarDaysIcon className="ml-auto h-4 w-4" />
-                                  </Button>
-                                </FormControl>
-                              </PopoverTrigger>
-                              <PopoverContent
-                                className="w-auto p-0"
-                                align="start"
-                              >
-                                <Calendar
-                                  mode="single"
-                                  selected={field.value}
-                                  onSelect={(date) => {
-                                    field.onChange(
-                                      date
-                                        ? formatDate(date, "yyyy-MM-dd")
-                                        : "",
-                                    );
-                                    setIsCalendarOpen(false);
-                                  }}
-                                  disabled={(date) =>
-                                    date > new Date() ||
-                                    date < new Date("1900-01-01")
-                                  }
-                                />
-                              </PopoverContent>
-                            </Popover>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <Uploader onFileUpload={() => {}} />
-                      <DialogFooter>
-                        <DialogClose asChild>
-                          <Button variant="secondary" type="submit">
-                            Upload
-                          </Button>
-                        </DialogClose>
-                      </DialogFooter>
-                    </form>
-                  </Form>
+                      Upload
+                    </Button>
+                  </DialogFooter>
                 </div>
               </DialogContent>
             </Dialog>

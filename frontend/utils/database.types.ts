@@ -50,6 +50,33 @@ export type Database = {
           },
         ]
       }
+      attendance_staging: {
+        Row: {
+          absentee: number
+          attendance: number
+          created_by: string
+          id: number
+          meeting_date: string
+          meeting_type: string
+        }
+        Insert: {
+          absentee: number
+          attendance: number
+          created_by: string
+          id?: number
+          meeting_date: string
+          meeting_type: string
+        }
+        Update: {
+          absentee?: number
+          attendance?: number
+          created_by?: string
+          id?: number
+          meeting_date?: string
+          meeting_type?: string
+        }
+        Relationships: []
+      }
       cell_fellowship: {
         Row: {
           created_at: string
@@ -225,6 +252,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      upsert_attendance_from_staging: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       upsert_members_from_staging: {
         Args: Record<PropertyKey, never>
         Returns: undefined
