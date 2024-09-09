@@ -1,7 +1,14 @@
 "use client";
 import Card from "@/components/card";
+import AttendanceDialog from "@/components/dialogs/attendance-dialog";
 import AttendanceTable from "@/components/tables/attendance-table";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import UploadDialog from "@/components/upload-dialog";
 import { useCSVUpload } from "@/hooks/useCSVUpload";
 import { useGetCurrentUser } from "@/hooks/useGetCurrentUser";
@@ -14,6 +21,7 @@ const Attendance = () => {
   const { data: currentUserFullName } = useGetCurrentUser();
   const [openUploadDialog, setOpenUploadDialog] = useState(false);
   const { meetingTypes } = useMeetingTypes();
+  const [openAddMeetingDialog, setOpenAddMeetingDialog] = useState(false);
 
   // Update the schema to match the database structure
   const attendanceRowSchema = useMemo(
@@ -35,9 +43,12 @@ const Attendance = () => {
           .min(1, "Attendance is required")
           .refine((val) => !isNaN(Number(val)), "Attendance must be a number")
           .transform(Number),
-        meeting_type: z.enum(meetingTypes as [string, ...string[]], {
-          errorMap: () => ({ message: "Invalid meeting type" }),
-        }),
+        meeting_type: z.enum(
+          meetingTypes.map((type) => type.type_name) as [string, ...string[]],
+          {
+            errorMap: () => ({ message: "Invalid meeting type" }),
+          },
+        ),
         absentee: z
           .string()
           .min(1, "Absentee is required")
@@ -67,12 +78,21 @@ const Attendance = () => {
       <Card className="space-y-5 p-6">
         <AttendanceTable
           actionButton={
-            <Button
-              variant="secondary"
-              onClick={() => setOpenUploadDialog(true)}
-            >
-              Upload attendance
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="secondary">Update attendance</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onSelect={() => setOpenUploadDialog(true)}>
+                  Upload Excel Sheet
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={() => setOpenAddMeetingDialog(true)}
+                >
+                  Add Single Meeting
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           }
         />
       </Card>
@@ -84,6 +104,10 @@ const Attendance = () => {
         onFileUpload={setUploadedData}
         loading={loading}
         uploadedDataLength={uploadedData.length}
+      />
+      <AttendanceDialog
+        isOpen={openAddMeetingDialog}
+        onClose={setOpenAddMeetingDialog}
       />
     </>
   );

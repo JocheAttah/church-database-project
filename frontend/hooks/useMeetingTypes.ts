@@ -6,11 +6,9 @@ export const useMeetingTypes = () => {
     queryKey: ["meeting_types"],
     queryFn: async () => {
       const supabase = createClient();
-      const { data, error } = await supabase
-        .from("meeting_type")
-        .select("type_name");
+      const { data, error } = await supabase.from("meeting_type").select("*");
       if (error) throw error;
-      return data.map((type) => type.type_name);
+      return data;
     },
   });
 
