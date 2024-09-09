@@ -27,108 +27,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import Uploader from "@/components/Uploader";
+import { useCellFellowships } from "@/hooks/useCellFellowships";
 import { useGenderChartData } from "@/hooks/useGenderChartData";
 import { createClient } from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, isValid, parse } from "date-fns";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { genderChartConfig } from "../chart-data";
 
-// Define a schema for a single member row
-const memberRowSchema = z.object({
-  first_name: z.string().min(1, "First name is required"),
-  middle_name: z.string().optional(),
-  last_name: z.string().min(1, "Last name is required"),
-  gender: z.enum(["Male", "Female"], {
-    errorMap: () => ({ message: "Gender must be either 'Male' or 'Female'" }),
-  }),
-  marital_status: z.enum(["Single", "Married"], {
-    errorMap: () => ({
-      message: "Marital status must be either 'Single' or 'Married'",
-    }),
-  }),
-  qualification: z.enum(["Worker", "Member"], {
-    errorMap: () => ({
-      message: "Qualification must be either 'Worker' or 'Member'",
-    }),
-  }),
-  cell_fellowship: z.string().optional(),
-  phone: z.string().optional(),
-  email: z.string().email("Invalid email address").optional().or(z.literal("")),
-  dob: z
-    .string()
-    .optional()
-    .transform((val) => {
-      if (!val) return null;
-      const convertedDate = convertDateFormat(val);
-      if (!convertedDate) {
-        throw new Error("Invalid date format");
-      }
-      return convertedDate;
-    }),
-  class: z.enum(["Working Class", "Unemployed", "Student"], {
-    errorMap: () => ({
-      message: "Class must be 'Working Class', 'Unemployed', or 'Student'",
-    }),
-  }),
-  discipled_by: z.string().optional(),
-});
-
-// Add this helper function to convert date strings
-const convertDateFormat = (dateString: string): string | null => {
-  const formats = ["dd/MM/yyyy", "MM/dd/yyyy", "yyyy-MM-dd"];
-
-  for (const dateFormat of formats) {
-    const parsedDate = parse(dateString, dateFormat, new Date());
-    if (isValid(parsedDate)) {
-      return format(parsedDate, "yyyy-MM-dd");
-    }
-  }
-
-  return null;
-};
-
-// Function to validate a single row
-const validateRow = (row: any, rowIndex: number) => {
-  try {
-    const validatedRow = memberRowSchema.parse(row);
-    return { rowIndex, validatedData: validatedRow };
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return {
-        rowIndex,
-        errors: error.errors.map(
-          (err) => `${err.path.join(".")}: ${err.message}`,
-        ),
-      };
-    }
-    return { rowIndex, errors: ["Unknown error occurred"] };
-  }
-};
-
-// Function to validate all rows
-const validateCsvData = (data: any[]) => {
-  const errors: { rowIndex: number; errors: string[] }[] = [];
-  const validatedData: any[] = [];
-
-  data.forEach((row, index) => {
-    const result = validateRow(row, index + 1);
-    if (result.errors) {
-      errors.push(result);
-    } else {
-      validatedData.push(result.validatedData);
-    }
-  });
-
-  return { errors, validatedData };
-};
-
 const Membership = () => {
   const { genderChartData, isLoadingGender } = useGenderChartData();
+  const { cellFellowships, isLoading: isLoadingCellFellowships } =
+    useCellFellowships();
 
   const form = useForm<MemberType>({
     resolver: zodResolver(memberFormSchema),
@@ -182,6 +96,115 @@ const Membership = () => {
     },
   });
 
+  const memberRowSchema = useMemo(() => {
+    return z.object({
+      first_name: z.string().min(1, "First name is required"),
+      middle_name: z.string().optional(),
+      last_name: z.string().min(1, "Last name is required"),
+      gender: z.enum(["Male", "Female"], {
+        errorMap: () => ({
+          message: "Gender must be either 'Male' or 'Female'",
+        }),
+      }),
+      marital_status: z.enum(["Single", "Married"], {
+        errorMap: () => ({
+          message: "Marital status must be either 'Single' or 'Married'",
+        }),
+      }),
+      qualification: z.enum(["Worker", "Member"], {
+        errorMap: () => ({
+          message: "Qualification must be either 'Worker' or 'Member'",
+        }),
+      }),
+      cell_fellowship: z.union(
+        [
+          z.enum(cellFellowships.map((cf) => cf.name) as [string, ...string[]]),
+          z.literal(""),
+        ],
+        {
+          errorMap: () => ({
+            message: "Cell fellowship must be a valid cell fellowship or empty",
+          }),
+        },
+      ),
+      phone: z.string().optional(),
+      email: z
+        .string()
+        .email("Invalid email address")
+        .optional()
+        .or(z.literal("")),
+      dob: z
+        .string()
+        .optional()
+        .transform((val) => {
+          if (!val) return null;
+          const convertedDate = convertDateFormat(val);
+          if (!convertedDate) {
+            throw new Error("Invalid date format");
+          }
+          return convertedDate;
+        }),
+      class: z.enum(["Working Class", "Unemployed", "Student"], {
+        errorMap: () => ({
+          message: "Class must be 'Working Class', 'Unemployed', or 'Student'",
+        }),
+      }),
+      discipled_by: z.string().optional(),
+    });
+  }, [cellFellowships]);
+
+  const convertDateFormat = (dateString: string): string | null => {
+    const formats = ["dd/MM/yyyy", "MM/dd/yyyy", "yyyy-MM-dd"];
+
+    for (const dateFormat of formats) {
+      const parsedDate = parse(dateString, dateFormat, new Date());
+      if (isValid(parsedDate)) {
+        return format(parsedDate, "yyyy-MM-dd");
+      }
+    }
+
+    return null;
+  };
+
+  const validateRow = useCallback(
+    (row: any, rowIndex: number) => {
+      try {
+        const validatedRow = memberRowSchema.parse(row);
+        return { rowIndex, validatedData: validatedRow };
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          return {
+            rowIndex,
+            errors: error.errors.map(
+              (err) => `${err.path.join(".")}: ${err.message}`,
+            ),
+          };
+        }
+        return { rowIndex, errors: ["Unknown error occurred"] };
+      }
+    },
+    [memberRowSchema],
+  );
+
+  const validateCsvData = useCallback(
+    (data: any[]) => {
+      const errors: { rowIndex: number; errors: string[] }[] = [];
+      const validatedData: any[] = [];
+
+      data.forEach((row, index) => {
+        const result = validateRow(row, index + 1);
+        if (result.errors) {
+          errors.push(result);
+        } else {
+          validatedData.push(result.validatedData);
+        }
+      });
+
+      return { errors, validatedData };
+    },
+    [validateRow],
+  );
+
   const handleUpdateMembers = async () => {
     setLoading(true);
     if (uploadedData.length === 0) {
@@ -220,14 +243,6 @@ const Membership = () => {
       );
 
       if (upsertError) throw upsertError;
-
-      // Step 3: Clear the staging table
-      const { error: clearError } = await supabase
-        .from("members_staging")
-        .delete()
-        .neq("id", 0); // This will delete all rows
-
-      if (clearError) throw clearError;
 
       toast.success("Members updated successfully");
       queryClient.invalidateQueries({
