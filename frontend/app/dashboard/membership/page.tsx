@@ -12,27 +12,20 @@ import MemberDialog, {
 import MemberTable from "@/components/tables/members/members-table";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import Uploader from "@/components/Uploader";
+import UploadDialog from "@/components/upload-dialog";
 import { useCellFellowships } from "@/hooks/useCellFellowships";
+import { useCSVUpload } from "@/hooks/useCSVUpload";
 import { useGenderChartData } from "@/hooks/useGenderChartData";
+import convertDateFormat from "@/utils/convertDateFormat";
 import { createClient } from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { format, isValid, parse } from "date-fns";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -64,8 +57,6 @@ const Membership = () => {
 
   const [openUploadDialog, setOpenUploadDialog] = useState(false);
   const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
-  const [uploadedData, setUploadedData] = useState<unknown[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -153,111 +144,18 @@ const Membership = () => {
     });
   }, [cellFellowships]);
 
-  const convertDateFormat = (dateString: string): string | null => {
-    const formats = ["dd/MM/yyyy", "MM/dd/yyyy", "yyyy-MM-dd"];
-
-    for (const dateFormat of formats) {
-      const parsedDate = parse(dateString, dateFormat, new Date());
-      if (isValid(parsedDate)) {
-        return format(parsedDate, "yyyy-MM-dd");
-      }
-    }
-
-    return null;
-  };
-
-  const validateRow = (row: any, rowIndex: number) => {
-    try {
-      const validatedRow = memberRowSchema.parse(row);
-      return { rowIndex, validatedData: validatedRow };
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return {
-          rowIndex,
-          errors: error.errors.map(
-            (err) => `${err.path.join(".")}: ${err.message}`,
-          ),
-        };
-      } else if (error instanceof Error) {
-        return { rowIndex, errors: [error.message] };
-      }
-      return { rowIndex, errors: ["Unknown error occurred"] };
-    }
-  };
-
-  const validateCsvData = (data: any[]) => {
-    const errors: { rowIndex: number; errors: string[] }[] = [];
-    const validatedData: any[] = [];
-
-    data.forEach((row, index) => {
-      const result = validateRow(row, index + 1);
-      if (result.errors) {
-        errors.push(result);
-      } else {
-        validatedData.push(result.validatedData);
-      }
-    });
-
-    return { errors, validatedData };
-  };
-
-  const handleUpdateMembers = async () => {
-    setLoading(true);
-    if (uploadedData.length === 0) {
-      toast.error("No data to update");
-      setLoading(false);
-      return;
-    }
-
-    // Validate the data
-    const { errors, validatedData } = validateCsvData(uploadedData);
-
-    if (errors.length > 0) {
-      // Display validation errors
-      errors.forEach(({ rowIndex, errors }) => {
-        toast.error(`Row ${rowIndex} has errors:`, {
-          description: errors.join(", "),
-        });
-      });
-      setLoading(false);
-      return;
-    }
-
-    const supabase = createClient();
-
-    try {
-      // Step 1: Insert validated data into staging table
-      const { error: stagingError } = await supabase
-        .from("members_staging")
-        .insert(validatedData);
-
-      if (stagingError) throw stagingError;
-
-      // Step 2: Perform the upsert from staging to members table
-      const { error: upsertError } = await supabase.rpc(
-        "upsert_members_from_staging",
-      );
-
-      if (upsertError) throw upsertError;
-
-      toast.success("Members updated successfully");
-      queryClient.invalidateQueries({
-        queryKey: ["members"],
-        refetchType: "all",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["cell_fellowship"],
-        refetchType: "all",
-      });
-      setOpenUploadDialog(false);
-    } catch (error) {
-      console.error("Error updating members:", error);
-      toast.error("Error updating members");
-    } finally {
-      setUploadedData([]);
-      setLoading(false);
-    }
-  };
+  const {
+    uploadedData,
+    setUploadedData,
+    loading,
+    handleUpload: handleUpdateMembers,
+  } = useCSVUpload({
+    schema: memberRowSchema,
+    stagingTable: "members_staging",
+    upsertFunction: "upsert_members_from_staging",
+    invalidateQueries: ["members", "cell_fellowship"],
+    setOpenUploadDialog,
+  });
 
   function onSubmit(values: MemberType) {
     mutate(values);
@@ -309,27 +207,15 @@ const Membership = () => {
         />
       </Card>
 
-      <Dialog open={openUploadDialog} onOpenChange={setOpenUploadDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Upload Excel Sheet</DialogTitle>
-            <DialogDescription />
-          </DialogHeader>
-          <div className="border-t border-mineshaft pt-7 text-white">
-            <Uploader onFileUpload={(data) => setUploadedData(data)} />
-            <DialogFooter className="mt-7">
-              <Button
-                variant="secondary"
-                loading={loading}
-                onClick={handleUpdateMembers}
-                disabled={uploadedData.length === 0}
-              >
-                Update list
-              </Button>
-            </DialogFooter>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <UploadDialog
+        isOpen={openUploadDialog}
+        onOpenChange={setOpenUploadDialog}
+        title="Upload Excel Sheet"
+        onUpload={handleUpdateMembers}
+        onFileUpload={setUploadedData}
+        loading={loading}
+        uploadedDataLength={uploadedData.length}
+      />
 
       <MemberDialog
         isOpen={openAddMemberDialog}
