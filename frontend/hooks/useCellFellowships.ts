@@ -9,12 +9,7 @@ export const useCellFellowships = () => {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("cell_fellowship")
-        .select(
-          `
-          *,
-          member_count:members(count)
-        `,
-        )
+        .select("*, member_count:members(count)")
         .order("name");
 
       if (error) throw error;

@@ -17,7 +17,7 @@ export type Database = {
           created_by: string
           id: number
           meeting_date: string
-          meeting_type: string
+          meeting_type_id: number
           updated_at: string
         }
         Insert: {
@@ -27,7 +27,7 @@ export type Database = {
           created_by: string
           id?: never
           meeting_date: string
-          meeting_type: string
+          meeting_type_id: number
           updated_at?: string
         }
         Update: {
@@ -37,10 +37,18 @@ export type Database = {
           created_by?: string
           id?: never
           meeting_date?: string
-          meeting_type?: string
+          meeting_type_id?: number
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "attendance_meeting_type_id_fkey"
+            columns: ["meeting_type_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_type"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       cell_fellowship: {
         Row: {

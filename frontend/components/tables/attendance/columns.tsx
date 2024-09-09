@@ -11,7 +11,9 @@ import { Tables } from "@/utils/database.types";
 import formatDate from "@/utils/formatDate";
 import { ColumnDef } from "@tanstack/react-table";
 
-type Attendance = Tables<"attendance">;
+type Attendance = Tables<"attendance"> & {
+  meeting_type: string | undefined;
+};
 
 export const columns: ({
   setOpen,
@@ -37,6 +39,9 @@ export const columns: ({
   {
     accessorKey: "meeting_type",
     header: "Meeting Type",
+    cell: ({ row }) => {
+      return row.original.meeting_type || "-";
+    },
   },
   {
     accessorKey: "attendance",

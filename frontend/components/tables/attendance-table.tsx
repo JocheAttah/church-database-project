@@ -31,19 +31,21 @@ const AttendanceTable = ({
     queryFn: async () => {
       const { data, error } = await supabase
         .from("attendance")
-        .select("*")
+        .select("*, meeting_type(type_name)")
         .range(
           pagination.pageIndex * pagination.pageSize,
           (pagination.pageIndex + 1) * pagination.pageSize - 1,
         );
 
       if (error) throw error;
-
-      return { attendance: data };
+      return data.map((attendance) => ({
+        ...attendance,
+        meeting_type: attendance.meeting_type?.type_name,
+      }));
     },
   });
 
-  const { attendance } = data ?? { attendance: [] };
+  const attendance = data ?? [];
   const { totalCount } = useAttendance();
 
   const [open, setOpen] = useState(false);
