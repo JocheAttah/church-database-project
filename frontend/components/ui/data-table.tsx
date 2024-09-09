@@ -76,9 +76,10 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     globalFilterFn: (row, columnId, filterValue) => {
-      const fullName =
-        `${row.getValue("first_name")} ${row.getValue("last_name")}`.toLowerCase();
-      return fullName.includes(filterValue.toLowerCase());
+      const value = row.getValue(columnId);
+      return value != null
+        ? String(value).toLowerCase().includes(filterValue.toLowerCase())
+        : false;
     },
   });
 
@@ -96,11 +97,12 @@ export function DataTable<TData, TValue>({
           <SearchInput
             value={table.getState().globalFilter ?? ""}
             onChange={(event) => table.setGlobalFilter(event.target.value)}
-            placeholder="Search full name..."
           />
         </div>
 
-        {actionButton}
+        <div className="duration-500 animate-in fade-in slide-in-from-bottom-3">
+          {actionButton}
+        </div>
       </div>
       {loading ? (
         <div className="flex h-64 items-center justify-center">
