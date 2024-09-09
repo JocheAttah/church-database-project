@@ -33,7 +33,7 @@ import { createClient } from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, isValid, parse } from "date-fns";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -166,44 +166,40 @@ const Membership = () => {
     return null;
   };
 
-  const validateRow = useCallback(
-    (row: any, rowIndex: number) => {
-      try {
-        const validatedRow = memberRowSchema.parse(row);
-        return { rowIndex, validatedData: validatedRow };
-      } catch (error) {
-        if (error instanceof z.ZodError) {
-          return {
-            rowIndex,
-            errors: error.errors.map(
-              (err) => `${err.path.join(".")}: ${err.message}`,
-            ),
-          };
-        }
-        return { rowIndex, errors: ["Unknown error occurred"] };
+  const validateRow = (row: any, rowIndex: number) => {
+    try {
+      const validatedRow = memberRowSchema.parse(row);
+      return { rowIndex, validatedData: validatedRow };
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return {
+          rowIndex,
+          errors: error.errors.map(
+            (err) => `${err.path.join(".")}: ${err.message}`,
+          ),
+        };
+      } else if (error instanceof Error) {
+        return { rowIndex, errors: [error.message] };
       }
-    },
-    [memberRowSchema],
-  );
+      return { rowIndex, errors: ["Unknown error occurred"] };
+    }
+  };
 
-  const validateCsvData = useCallback(
-    (data: any[]) => {
-      const errors: { rowIndex: number; errors: string[] }[] = [];
-      const validatedData: any[] = [];
+  const validateCsvData = (data: any[]) => {
+    const errors: { rowIndex: number; errors: string[] }[] = [];
+    const validatedData: any[] = [];
 
-      data.forEach((row, index) => {
-        const result = validateRow(row, index + 1);
-        if (result.errors) {
-          errors.push(result);
-        } else {
-          validatedData.push(result.validatedData);
-        }
-      });
+    data.forEach((row, index) => {
+      const result = validateRow(row, index + 1);
+      if (result.errors) {
+        errors.push(result);
+      } else {
+        validatedData.push(result.validatedData);
+      }
+    });
 
-      return { errors, validatedData };
-    },
-    [validateRow],
-  );
+    return { errors, validatedData };
+  };
 
   const handleUpdateMembers = async () => {
     setLoading(true);
