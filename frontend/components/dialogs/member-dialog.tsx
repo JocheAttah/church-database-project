@@ -1,4 +1,5 @@
 "use client";
+import { DatePicker } from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,14 +19,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useCellFellowships } from "@/hooks/useCellFellowships";
-import { cn } from "@/lib/utils";
-import formatDate from "@/utils/formatDate";
-import { CalendarDaysIcon } from "@heroicons/react/24/solid";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { Calendar } from "../ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import {
   Select,
   SelectContent,
@@ -106,8 +102,6 @@ const MemberDialog = ({
     { key: "Unemployed", label: "Unemployed" },
     { key: "Student", label: "Student" },
   ];
-
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -228,47 +222,10 @@ const MemberDialog = ({
                       <FormLabel className="text-xs text-dustygray">
                         Date of Birth
                       </FormLabel>
-                      <Popover
-                        open={isCalendarOpen}
-                        onOpenChange={setIsCalendarOpen}
-                        modal
-                      >
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              className={cn(
-                                "flex w-full border border-mineshaft bg-transparent pl-3 text-left font-normal hover:bg-transparent hover:text-inherit",
-                                !field.value && "text-dustygray",
-                              )}
-                            >
-                              {field.value ? (
-                                formatDate(field.value)
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarDaysIcon className="ml-auto h-4 w-4" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={
-                              field.value ? new Date(field.value) : undefined
-                            }
-                            onSelect={(date) => {
-                              field.onChange(
-                                date ? formatDate(date, "yyyy-MM-dd") : "",
-                              );
-                              setIsCalendarOpen(false);
-                            }}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date("1900-01-01")
-                            }
-                          />
-                        </PopoverContent>
-                      </Popover>
+                      <DatePicker
+                        value={field.value || ""}
+                        onChange={(date) => field.onChange(date)}
+                      />
                       <FormMessage />
                     </FormItem>
                   )}
