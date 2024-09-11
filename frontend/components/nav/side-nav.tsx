@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction } from "react";
 import AttendanceIcon from "../icons/nav/attendance-icon";
 import DashboardIcon from "../icons/nav/dashboard-icon";
 import FellowshipsCellsIcon from "../icons/nav/fellowships-cells-icon";
+import GivingIcon from "../icons/nav/giving-icon";
 import MembershipIcon from "../icons/nav/membership-icon";
 import Logo from "../logo";
 import NavItem from "./nav-item";
@@ -34,11 +35,11 @@ const sideMenu = [
     Icon: AttendanceIcon,
     href: "/dashboard/attendance",
   },
-  // {
-  //   title: "Giving",
-  //   Icon: GivingIcon,
-  //   href: "/dashboard/giving",
-  // },
+  {
+    title: "Giving",
+    Icon: GivingIcon,
+    href: "/dashboard/giving",
+  },
   // {
   //   title: "Activities",
   //   Icon: ActivitiesIcon,

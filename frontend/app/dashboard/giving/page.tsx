@@ -1,58 +1,18 @@
 "use client";
 
 import Card from "@/components/card";
-import ChevronDownIcon from "@/components/icons/chevron-down-icon";
 import GrowthIcon from "@/components/icons/growth-icon";
 import SearchInput from "@/components/search-input";
-import GivingTable from "@/components/tables/GivingTable";
+import GivingTable from "@/components/tables/giving-table";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
-import formatDate from "@/utils/formatDate";
+import formatMoney from "@/utils/formatMoney";
 import { FunnelIcon } from "@heroicons/react/24/outline";
-import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -94,230 +54,53 @@ const Giving = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   return (
-    <div className="flex w-full flex-col">
+    <>
       <h1 className="mb-5">Giving</h1>
-      <div className="flex w-[80%] flex-1 flex-col items-start md:flex-row">
-        <div className="grid w-full grid-cols-1 gap-x-5 gap-y-8 md:grid-cols-3">
-          {/* Total membership */}
-          <Card className="space-y-6">
-            <div className="flex items-center gap-3.5">
-              <p className="text-sm text-dustygray">Available balance</p>
-            </div>
-            <h1>₦10,000</h1>
-          </Card>
-          {/* Workers in Training */}
-          <Card className="space-y-6">
-            <div className="flex items-center gap-3.5">
-              <p className="text-sm text-dustygray">Total inflow</p>
-            </div>
+      <div className="mb-6 flex gap-5">
+        <Card className="w-full max-w-[300px] space-y-6">
+          <p className="text-sm text-dustygray">Available balance</p>
+          <h1>{formatMoney(1000000)}</h1>
+        </Card>
 
-            <h1>₦3,120,050</h1>
-
-            <div className="flex items-center text-xs">
-              <GrowthIcon />
-              <p className="ml-1 text-junglegreen">16%</p>
-              <p className="ml-2 text-dustygray">in the last month</p>
-            </div>
-          </Card>
-          {/* Members and Disciples */}
-          <Card className="space-y-6">
-            <div className="flex items-center gap-3.5">
-              <p className="text-sm text-dustygray">Total outflow</p>
-            </div>
-
-            <h1>₦2,120,050</h1>
-
-            <div className="flex items-center text-xs">
-              <GrowthIcon />
-              <p className="ml-1 text-junglegreen">16%</p>
-              <p className="ml-2 text-dustygray">in the last month</p>
-            </div>
-          </Card>
-        </div>
-      </div>
-      {/* Table */}
-      <div className="mt-8 rounded-md bg-shark p-4">
-        <Card>
-          <div className="flex w-full flex-row items-center justify-between">
-            <div className="flex flex-row items-center">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild className="flex items-center">
-                  <div className="mr-4 flex flex-row items-center">
-                    <p className="text-xl text-white">Inflow</p>
-                    <ChevronDownIcon className="h-6 w-6" />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>
-                    <p>Outflow</p>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <SearchInput />
-            </div>
-            <div className="flex flex-row items-center">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="secondary">New inflow</Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>New inflow</DialogTitle>
-                  </DialogHeader>
-                  <div className="border-t border-mineshaft pt-5 text-white">
-                    <Form {...form}>
-                      <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-7"
-                      >
-                        <FormField
-                          control={form.control}
-                          name="type"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-xs text-dustygray">
-                                Type
-                              </FormLabel>
-                              <FormControl>
-                                <Select>
-                                  <SelectTrigger
-                                    className="border border-mineshaft text-white"
-                                    {...field}
-                                  >
-                                    <SelectValue placeholder="Select a option" />
-                                  </SelectTrigger>
-                                  <SelectContent className="border border-mineshaft">
-                                    {givingConfig.map(
-                                      ({ key, label }, index) => (
-                                        <SelectItem value={key} key={index}>
-                                          {label}
-                                        </SelectItem>
-                                      ),
-                                    )}
-                                  </SelectContent>
-                                </Select>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        {/* Amount */}
-                        <FormField
-                          control={form.control}
-                          name="amount"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-xs text-dustygray">
-                                Amount
-                              </FormLabel>
-                              <FormControl>
-                                <Input disabled type="text" placeholder="₦" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        {/* Amount */}
-                        <FormField
-                          control={form.control}
-                          name="desc"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-xs text-dustygray">
-                                Description
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  disabled
-                                  type="text"
-                                  placeholder="Enter text"
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="date"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-xs text-dustygray">
-                                Meeting date
-                              </FormLabel>
-                              <Popover
-                                open={isCalendarOpen}
-                                onOpenChange={setIsCalendarOpen}
-                                modal
-                              >
-                                <PopoverTrigger asChild>
-                                  <FormControl>
-                                    <Button
-                                      variant="outline"
-                                      className={cn(
-                                        "flex w-full border border-mineshaft bg-transparent pl-3 text-left font-normal hover:bg-transparent hover:text-inherit",
-                                        !field.value && "text-muted-foreground",
-                                      )}
-                                    >
-                                      {field.value ? (
-                                        formatDate(field.value, "dd/MM/yyyy")
-                                      ) : (
-                                        <span>DD/MM/YYYY</span>
-                                      )}
-                                      <CalendarDaysIcon className="ml-auto h-4 w-4" />
-                                    </Button>
-                                  </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent
-                                  className="w-auto p-0"
-                                  align="start"
-                                >
-                                  <Calendar
-                                    mode="single"
-                                    selected={field.value}
-                                    onSelect={(date) => {
-                                      field.onChange(
-                                        date
-                                          ? formatDate(date, "yyyy-MM-dd")
-                                          : "",
-                                      );
-                                      setIsCalendarOpen(false);
-                                    }}
-                                    disabled={(date) =>
-                                      date > new Date() ||
-                                      date < new Date("1900-01-01")
-                                    }
-                                  />
-                                </PopoverContent>
-                              </Popover>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <DialogFooter className="sm:justify-start">
-                          <DialogClose asChild>
-                            <Button
-                              variant="secondary"
-                              className="bg-sapphire-700 text-white"
-                              type="submit"
-                            >
-                              Save
-                            </Button>
-                          </DialogClose>
-                        </DialogFooter>
-                      </form>
-                    </Form>
-                  </div>
-                </DialogContent>
-              </Dialog>
-              <FunnelIcon className="ml-[10px] size-8 text-dustygray" />
-              <p className="text-sm text-dustygray">Filter</p>
-            </div>
+        <Card className="w-full max-w-[300px] space-y-6">
+          <p className="text-sm text-dustygray">Total inflow</p>
+          <h1>{formatMoney(3120050)}</h1>
+          <div className="flex items-center text-xs">
+            <GrowthIcon />
+            <p className="ml-1 text-junglegreen">1.7%</p>
+            <p className="ml-2 text-dustygray">in the last month</p>
           </div>
         </Card>
+
+        <Card className="w-full max-w-[300px] space-y-6">
+          <p className="text-sm text-dustygray">Total outflow</p>
+          <h1>{formatMoney(2120050)}</h1>
+          <div className="flex items-center text-xs">
+            <GrowthIcon />
+            <p className="ml-1 text-junglegreen">1.7%</p>
+            <p className="ml-2 text-dustygray">in the last month</p>
+          </div>
+        </Card>
+      </div>
+
+      <Card className="space-y-5 p-6">
+        <div className="flex flex-wrap items-center justify-between gap-5">
+          <div className="flex flex-wrap items-center gap-5">
+            <h2>Inflow</h2>
+            <SearchInput />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <Button variant="secondary">New Inflow</Button>
+            <div className="flex items-center gap-1 text-sm text-dustygray">
+              <FunnelIcon width={24} height={24} />
+              <span>Filter</span>
+            </div>
+          </div>
+        </div>
         <GivingTable />
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-5">
+
+        <div className="flex flex-wrap items-center justify-between gap-5">
           <p className="text-xs text-dustygray">
             Showing 1 to 10 of 120 results
           </p>
@@ -338,8 +121,8 @@ const Giving = () => {
             </PaginationContent>
           </Pagination>
         </div>
-      </div>
-    </div>
+      </Card>
+    </>
   );
 };
 

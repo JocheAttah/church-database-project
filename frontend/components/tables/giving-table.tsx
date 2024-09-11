@@ -1,4 +1,11 @@
-// components/MemberTable.js
+import Link from "next/link";
+import ChevronDownIcon from "../icons/chevron-down-icon";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -6,23 +13,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import Pill from "../pill";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import ChevronDownIcon from "../icons/chevron-down-icon";
-import Link from "next/link";
+} from "../ui/table";
 
 const data = [
   {
     id: 1,
     inflowId: "GIV001",
     type: "Facility Giving",
-    amount: "₦560,000",
+    amount: 560000,
     description: "Facility Giving for March 2024",
     date: "11/03/2024",
     dateCreated: "11/03/2024",
@@ -32,7 +30,7 @@ const data = [
     id: 2,
     inflowId: "GIV001",
     type: "Offering",
-    amount: "₦40,000",
+    amount: 40000,
     description: "Sunday Offering",
     date: "11/03/2024",
     dateCreated: "11/03/2024",
@@ -42,7 +40,7 @@ const data = [
     id: 3,
     inflowId: "GIV001",
     type: "Offering",
-    amount: "₦40,000",
+    amount: 40000,
     description: "Midweek Service Offering",
     date: "11/03/2024",
     dateCreated: "11/03/2024",
@@ -52,7 +50,7 @@ const data = [
     id: 4,
     inflowId: "GIV001",
     type: "Monthly Giving",
-    amount: "₦40,000",
+    amount: 40000,
     description: "Monthly Giving for February",
     date: "11/03/2024",
     dateCreated: "11/03/2024",
@@ -61,8 +59,8 @@ const data = [
   {
     id: 5,
     inflowId: "GIV001",
-    type: "Pastor’s honorarium",
-    amount: "₦40,000",
+    type: "Pastor's honorarium",
+    amount: 40000,
     description: "Honourarium for January",
     date: "11/03/2024",
     dateCreated: "11/03/2024",
@@ -72,7 +70,7 @@ const data = [
     id: 6,
     inflowId: "GIV001",
     type: "Facility Giving",
-    amount: "₦40,000",
+    amount: 40000,
     description: "Facility Giving for April 2024",
     date: "11/03/2024",
     dateCreated: "11/03/2024",
@@ -82,7 +80,7 @@ const data = [
     id: 7,
     inflowId: "GIV001",
     type: "Facility Giving",
-    amount: "₦40,000",
+    amount: 40000,
     description: "Facility Giving for May 2024",
     date: "11/03/2024",
     dateCreated: "11/03/2024",
@@ -92,7 +90,7 @@ const data = [
     id: 8,
     inflowId: "GIV001",
     type: "Offering",
-    amount: "₦40,000",
+    amount: 40000,
     description: "Fellowship Meeting Offering",
     date: "11/03/2024",
     dateCreated: "11/03/2024",
@@ -102,7 +100,7 @@ const data = [
     id: 9,
     inflowId: "GIV001",
     type: "Offering",
-    amount: "₦40,000",
+    amount: 40000,
     description: "Midweek Service Offering",
     date: "11/03/2024",
     dateCreated: "11/03/2024",
@@ -112,7 +110,7 @@ const data = [
     id: 10,
     inflowId: "GIV001",
     type: "Offering",
-    amount: "₦40,000",
+    amount: 40000,
     description: "Midweek Service Offering",
     date: "11/03/2024",
     dateCreated: "11/03/2024",
@@ -120,7 +118,7 @@ const data = [
   },
 ];
 
-export default function GivingTable() {
+const GivingTable = () => {
   return (
     <Table>
       <TableHeader className="bg-woodsmoke">
@@ -137,16 +135,16 @@ export default function GivingTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((member, index) => (
-          <TableRow key={member.id} className="even:bg-shark-darker">
+        {data.map((meeting, index) => (
+          <TableRow key={index} className="even:bg-shark-darker">
             <TableCell>{index + 1}</TableCell>
-            <TableCell>{member.inflowId}</TableCell>
-            <TableCell>{member.type}</TableCell>
-            <TableCell>{member.amount}</TableCell>
-            <TableCell>{member.description}</TableCell>
-            <TableCell>{member.date}</TableCell>
-            <TableCell>{member.dateCreated}</TableCell>
-            <TableCell>{member.createdBy}</TableCell>
+            <TableCell>{meeting.inflowId}</TableCell>
+            <TableCell>{meeting.type}</TableCell>
+            <TableCell>{meeting.amount}</TableCell>
+            <TableCell>{meeting.description}</TableCell>
+            <TableCell>{meeting.date}</TableCell>
+            <TableCell>{meeting.dateCreated}</TableCell>
+            <TableCell>{meeting.createdBy}</TableCell>
             <TableCell>
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center">
@@ -154,7 +152,9 @@ export default function GivingTable() {
                   <ChevronDownIcon />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href={`#`}>View Details</Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -164,4 +164,6 @@ export default function GivingTable() {
       </TableBody>
     </Table>
   );
-}
+};
+
+export default GivingTable;
