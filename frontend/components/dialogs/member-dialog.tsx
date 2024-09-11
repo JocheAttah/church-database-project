@@ -119,15 +119,9 @@ const MemberDialog = ({
                   name="first_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        First Name
-                      </FormLabel>
+                      <FormLabel>First Name</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter first name"
-                          className="border-mineshaft text-sm"
-                          {...field}
-                        />
+                        <Input placeholder="Enter first name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -139,15 +133,9 @@ const MemberDialog = ({
                   name="last_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Last Name
-                      </FormLabel>
+                      <FormLabel>Last Name</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter last name"
-                          className="border-mineshaft text-sm"
-                          {...field}
-                        />
+                        <Input placeholder="Enter last name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -159,18 +147,16 @@ const MemberDialog = ({
                   name="gender"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Gender
-                      </FormLabel>
+                      <FormLabel>Gender</FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                          <SelectTrigger>
                             <SelectValue placeholder="Select gender" />
                           </SelectTrigger>
-                          <SelectContent className="border border-mineshaft">
+                          <SelectContent>
                             {genderConfig.map(({ key, label }, index) => (
                               <SelectItem value={key} key={index}>
                                 {label}
@@ -189,18 +175,16 @@ const MemberDialog = ({
                   name="marital_status"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Marital Status
-                      </FormLabel>
+                      <FormLabel>Marital Status</FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                          <SelectTrigger>
                             <SelectValue placeholder="Select marital status" />
                           </SelectTrigger>
-                          <SelectContent className="border border-mineshaft">
+                          <SelectContent>
                             {maritalConfig.map(({ key, label }, index) => (
                               <SelectItem value={key} key={index}>
                                 {label}
@@ -219,9 +203,7 @@ const MemberDialog = ({
                   name="dob"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Date of Birth
-                      </FormLabel>
+                      <FormLabel>Date of Birth</FormLabel>
                       <DatePicker
                         value={field.value || ""}
                         onChange={(date) => field.onChange(date)}
@@ -236,18 +218,16 @@ const MemberDialog = ({
                   name="qualification"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Qualification
-                      </FormLabel>
+                      <FormLabel>Qualification</FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                          <SelectTrigger>
                             <SelectValue placeholder="Select qualification" />
                           </SelectTrigger>
-                          <SelectContent className="border border-mineshaft">
+                          <SelectContent>
                             {qualificationConfig.map(
                               ({ key, label }, index) => (
                                 <SelectItem value={key} key={index}>
@@ -268,9 +248,7 @@ const MemberDialog = ({
                   name="cell_fellowship_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Fellowship/Cell
-                      </FormLabel>
+                      <FormLabel>Fellowship/Cell</FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={(value) =>
@@ -278,10 +256,10 @@ const MemberDialog = ({
                           }
                           defaultValue={field.value?.toString() ?? ""}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                          <SelectTrigger>
                             <SelectValue placeholder="Select fellowship/cell" />
                           </SelectTrigger>
-                          <SelectContent className="border border-mineshaft">
+                          <SelectContent>
                             {fellowshipsCellConfig.map(
                               ({ key, label }, index) => (
                                 <SelectItem value={key.toString()} key={index}>
@@ -302,18 +280,16 @@ const MemberDialog = ({
                   name="class"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Class
-                      </FormLabel>
+                      <FormLabel>Class</FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                          <SelectTrigger>
                             <SelectValue placeholder="Select class" />
                           </SelectTrigger>
-                          <SelectContent className="border border-mineshaft">
+                          <SelectContent>
                             {classConfig.map(({ key, label }, index) => (
                               <SelectItem value={key} key={index}>
                                 {label}
@@ -331,15 +307,9 @@ const MemberDialog = ({
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Phone
-                      </FormLabel>
+                      <FormLabel>Phone</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter phone number"
-                          className="border-mineshaft text-sm"
-                          {...field}
-                        />
+                        <Input placeholder="Enter phone number" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -351,15 +321,9 @@ const MemberDialog = ({
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Email Address
-                      </FormLabel>
+                      <FormLabel>Email Address</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter email address"
-                          className="border-mineshaft text-sm"
-                          {...field}
-                        />
+                        <Input placeholder="Enter email address" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -371,15 +335,9 @@ const MemberDialog = ({
                   name="discipled_by"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Discipled By
-                      </FormLabel>
+                      <FormLabel>Discipled By</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter discipled by"
-                          className="border-mineshaft text-sm"
-                          {...field}
-                        />
+                        <Input placeholder="Enter discipled by" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

@@ -125,18 +125,16 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
                   name="meeting_type_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Meeting type
-                      </FormLabel>
+                      <FormLabel>Meeting type</FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={(value) => field.onChange(value)}
                           defaultValue={field.value}
                         >
-                          <SelectTrigger className="border border-mineshaft text-white data-[placeholder]:text-dustygray hover:data-[placeholder]:text-white">
+                          <SelectTrigger>
                             <SelectValue placeholder="Select a meeting type" />
                           </SelectTrigger>
-                          <SelectContent className="border border-mineshaft">
+                          <SelectContent>
                             {meetingTypes.map(({ id, type_name }, index) => (
                               <SelectItem value={id.toString()} key={index}>
                                 {type_name}
@@ -155,9 +153,7 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
                   name="meeting_date"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Meeting date
-                      </FormLabel>
+                      <FormLabel>Meeting date</FormLabel>
                       <FormControl>
                         <DatePicker
                           value={field.value || ""}
@@ -174,14 +170,11 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
                   name="attendance"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Attendance
-                      </FormLabel>
+                      <FormLabel>Attendance</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter attendance"
                           type="number"
-                          className="border-mineshaft text-sm"
                           {...field}
                         />
                       </FormControl>
@@ -195,14 +188,11 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
                   name="absentee"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs text-dustygray">
-                        Absentees
-                      </FormLabel>
+                      <FormLabel>Absentees</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter absentees"
                           type="number"
-                          className="border-mineshaft text-sm"
                           {...field}
                         />
                       </FormControl>

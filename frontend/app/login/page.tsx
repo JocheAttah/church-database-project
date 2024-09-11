@@ -66,7 +66,7 @@ const Login = () => {
                     <FormItem>
                       <FormControl>
                         <Input
-                          className="rounded-xl placeholder:text-sm"
+                          className="rounded-xl border-neutral-200"
                           placeholder="Enter your email address"
                           type="email"
                           {...field}
@@ -83,7 +83,7 @@ const Login = () => {
                     <FormItem>
                       <FormControl>
                         <Input
-                          className="rounded-xl placeholder:text-sm"
+                          className="rounded-xl border-neutral-200"
                           placeholder="Enter your password"
                           type="password"
                           {...field}
