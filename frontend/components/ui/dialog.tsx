@@ -42,6 +42,7 @@ const DialogContent = React.forwardRef<
         className,
         "max-h-dvh overflow-y-scroll",
       )}
+      onOpenAutoFocus={(e) => e.preventDefault()}
       {...props}
     >
       {children}
