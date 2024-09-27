@@ -116,6 +116,39 @@ export type Database = {
         }
         Relationships: []
       }
+      inflow: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string
+          date: string
+          description: string | null
+          id: number
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by: string
+          date: string
+          description?: string | null
+          id?: never
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string
+          date?: string
+          description?: string | null
+          id?: never
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       meeting_type: {
         Row: {
           id: number
@@ -243,6 +276,45 @@ export type Database = {
           middle_name?: string | null
           phone?: string | null
           qualification?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      outflow: {
+        Row: {
+          amount: number
+          approved_by: string | null
+          beneficiary: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          id: number
+          period: string | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          approved_by?: string | null
+          beneficiary?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: never
+          period?: string | null
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          approved_by?: string | null
+          beneficiary?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: never
+          period?: string | null
+          type?: string
           updated_at?: string
         }
         Relationships: []

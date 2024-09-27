@@ -38,3 +38,19 @@ INSERT INTO public.attendance (meeting_type_id, attendance, absentee, meeting_da
 ((SELECT id FROM public.meeting_type WHERE type_name = 'Fellowship Meeting'), 20, 2, '2024-03-08', 'Bob Williams'),
 ((SELECT id FROM public.meeting_type WHERE type_name = 'Prayer Group'), 15, 1, '2024-03-09', 'Alice Johnson'),
 ((SELECT id FROM public.meeting_type WHERE type_name = 'Sunday Service'), 55, 8, '2024-03-10', 'John Doe');
+
+-- Seed data for inflow table
+INSERT INTO public.inflow (type, amount, description, date, created_by) VALUES
+('Offering', 5000.00, 'Sunday Service Offering', '2024-03-03', 'John Doe'),
+('Tithe', 10000.00, 'Monthly Tithe', '2024-03-01', 'Jane Smith'),
+('Donation', 2500.50, 'Building Project Donation', '2024-03-05', 'Alice Johnson'),
+('Special Offering', 7500.00, 'Easter Special Offering', '2024-03-31', 'Bob Williams'),
+('Pledge', 15000.00, 'Annual Pledge Payment', '2024-03-15', 'Eva Brown');
+
+-- Seed data for outflow table
+INSERT INTO public.outflow (type, amount, period, description, beneficiary, created_by, approved_by) VALUES
+('Salary', 50000.00, 'Monthly', 'Pastor Salary', 'John Doe', 'Jane Smith', 'Bob Williams'),
+('Utility', 2000.00, 'Monthly', 'Electricity Bill', 'Power Company', 'Alice Johnson', 'John Doe'),
+('Maintenance', 5000.00, 'One-time', 'Church Building Repairs', 'ABC Contractors', 'Bob Williams', 'Jane Smith'),
+('Charity', 3000.00, 'Monthly', 'Orphanage Support', 'Hope Orphanage', 'Eva Brown', 'John Doe'),
+('Equipment', 10000.00, 'One-time', 'New Sound System', 'XYZ Electronics', 'Jane Smith', 'Bob Williams');
