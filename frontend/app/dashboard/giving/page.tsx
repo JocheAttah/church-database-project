@@ -56,13 +56,13 @@ const Giving = () => {
   return (
     <>
       <h1 className="mb-5">Giving</h1>
-      <div className="mb-6 flex gap-5">
-        <Card className="w-full max-w-[300px] space-y-6">
+      <div className="mb-6 grid grid-cols-1 flex-wrap gap-5 sm:grid-cols-2 md:grid-cols-3 xl:flex">
+        <Card className="w-full space-y-6 xl:max-w-[300px]">
           <p className="text-sm text-dustygray">Available balance</p>
           <h1>{formatMoney(1000000)}</h1>
         </Card>
 
-        <Card className="w-full max-w-[300px] space-y-6">
+        <Card className="w-full space-y-6 xl:max-w-[300px]">
           <p className="text-sm text-dustygray">Total inflow</p>
           <h1>{formatMoney(3120050)}</h1>
           <div className="flex items-center text-xs">
@@ -72,7 +72,7 @@ const Giving = () => {
           </div>
         </Card>
 
-        <Card className="w-full max-w-[300px] space-y-6">
+        <Card className="w-full space-y-6 xl:max-w-[300px]">
           <p className="text-sm text-dustygray">Total outflow</p>
           <h1>{formatMoney(2120050)}</h1>
           <div className="flex items-center text-xs">
