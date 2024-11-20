@@ -105,10 +105,14 @@ const FormLabel = React.forwardRef<
 });
 FormLabel.displayName = "FormLabel";
 
+type FormControlProps = React.ComponentPropsWithoutRef<typeof Slot> & {
+  enableErrorHighlight?: boolean;
+};
+
 const FormControl = React.forwardRef<
   React.ElementRef<typeof Slot>,
-  React.ComponentPropsWithoutRef<typeof Slot>
->(({ ...props }, ref) => {
+  FormControlProps
+>(({ className, enableErrorHighlight = true, ...props }, ref) => {
   const { error, formItemId, formDescriptionId, formMessageId } =
     useFormField();
 
@@ -122,6 +126,10 @@ const FormControl = React.forwardRef<
           : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
+      className={cn(
+        enableErrorHighlight && error && "border-red-500",
+        className,
+      )}
       {...props}
     />
   );

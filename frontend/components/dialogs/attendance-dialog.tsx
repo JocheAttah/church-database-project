@@ -124,23 +124,23 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Meeting type</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={(value) => field.onChange(value)}
-                          defaultValue={field.value}
-                        >
+                      <Select
+                        onValueChange={(value) => field.onChange(value)}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select a meeting type" />
                           </SelectTrigger>
-                          <SelectContent>
-                            {meetingTypes.map(({ id, type_name }, index) => (
-                              <SelectItem value={id.toString()} key={index}>
-                                {type_name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
+                        </FormControl>
+                        <SelectContent>
+                          {meetingTypes.map(({ id, type_name }, index) => (
+                            <SelectItem value={id.toString()} key={index}>
+                              {type_name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

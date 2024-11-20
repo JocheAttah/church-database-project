@@ -143,23 +143,23 @@ const MemberDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Gender</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select gender" />
                           </SelectTrigger>
-                          <SelectContent>
-                            {genderConfig.map(({ key, label }, index) => (
-                              <SelectItem value={key} key={index}>
-                                {label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
+                        </FormControl>
+                        <SelectContent>
+                          {genderConfig.map(({ key, label }, index) => (
+                            <SelectItem value={key} key={index}>
+                              {label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -171,23 +171,23 @@ const MemberDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Marital Status</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select marital status" />
                           </SelectTrigger>
-                          <SelectContent>
-                            {maritalConfig.map(({ key, label }, index) => (
-                              <SelectItem value={key} key={index}>
-                                {label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
+                        </FormControl>
+                        <SelectContent>
+                          {maritalConfig.map(({ key, label }, index) => (
+                            <SelectItem value={key} key={index}>
+                              {label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -214,25 +214,23 @@ const MemberDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Qualification</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select qualification" />
                           </SelectTrigger>
-                          <SelectContent>
-                            {qualificationConfig.map(
-                              ({ key, label }, index) => (
-                                <SelectItem value={key} key={index}>
-                                  {label}
-                                </SelectItem>
-                              ),
-                            )}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
+                        </FormControl>
+                        <SelectContent>
+                          {qualificationConfig.map(({ key, label }, index) => (
+                            <SelectItem value={key} key={index}>
+                              {label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -244,27 +242,25 @@ const MemberDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Fellowship/Cell</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={(value) =>
-                            field.onChange(Number(value))
-                          }
-                          defaultValue={field.value?.toString() ?? ""}
-                        >
+                      <Select
+                        onValueChange={(value) => field.onChange(Number(value))}
+                        defaultValue={field.value?.toString() ?? ""}
+                      >
+                        <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select fellowship/cell" />
                           </SelectTrigger>
-                          <SelectContent>
-                            {fellowshipsCellConfig.map(
-                              ({ key, label }, index) => (
-                                <SelectItem value={key.toString()} key={index}>
-                                  {label}
-                                </SelectItem>
-                              ),
-                            )}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
+                        </FormControl>
+                        <SelectContent>
+                          {fellowshipsCellConfig.map(
+                            ({ key, label }, index) => (
+                              <SelectItem value={key.toString()} key={index}>
+                                {label}
+                              </SelectItem>
+                            ),
+                          )}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -276,23 +272,23 @@ const MemberDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Class</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select class" />
                           </SelectTrigger>
-                          <SelectContent>
-                            {classConfig.map(({ key, label }, index) => (
-                              <SelectItem value={key} key={index}>
-                                {label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
+                        </FormControl>
+                        <SelectContent>
+                          {classConfig.map(({ key, label }, index) => (
+                            <SelectItem value={key} key={index}>
+                              {label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
