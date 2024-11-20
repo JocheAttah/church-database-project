@@ -50,6 +50,7 @@ export default function MemberTable({
       .select("*, cell_fellowship(name,type)")
       .eq("cell_fellowship_id", cellFellowshipId)
       .order("created_at")
+      .order("id")
       .range((page - 1) * pageSize, page * pageSize - 1);
 
     if (error) throw error;
@@ -75,6 +76,7 @@ export default function MemberTable({
         .from("members")
         .select("*, cell_fellowship(name,type)")
         .order("created_at")
+        .order("id")
         .range(
           pagination.pageIndex * pagination.pageSize,
           (pagination.pageIndex + 1) * pagination.pageSize - 1,

@@ -94,6 +94,7 @@ export function DataTable<TData, TValue>({
               {title}
             </h2>
           )}
+          {/* TODO: Make search for tables use the global values for the table instead of the values showing on the table */}
           <SearchInput
             value={table.getState().globalFilter ?? ""}
             onChange={(event) => table.setGlobalFilter(event.target.value)}
