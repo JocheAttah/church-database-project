@@ -47,6 +47,10 @@ export const columns: ({
   {
     accessorKey: "gender",
     header: "Gender",
+    cell: ({ row }) => {
+      const gender = row.original.gender;
+      return gender ? gender : "-";
+    },
   },
   {
     accessorKey: "phone",
@@ -59,6 +63,10 @@ export const columns: ({
   {
     accessorKey: "qualification",
     header: "Membership Status",
+    cell: ({ row }) => {
+      const qualification = row.original.qualification;
+      return qualification ? qualification : "-";
+    },
   },
   {
     accessorKey: "cell_fellowship",
@@ -76,15 +84,18 @@ export const columns: ({
     cell: ({ row }) => (
       <Pill>
         <span
-          className={
-            row.original.qualification === "Worker"
-              ? "text-greenhaze"
-              : "text-bourbon"
-          }
+          // TODO: uncomment this when the status is implemented
+          // className={
+          //   row.original.qualification === "Worker"
+          //     ? "text-greenhaze"
+          //     : "text-bourbon"
+          // }
+          className="text-greenhaze"
         >
-          {row.original.qualification === "Worker"
+          {/* {row.original.qualification === "Worker"
             ? "Consistent"
-            : "Inconsistent"}
+            : "Inconsistent"} */}
+          Consistent
         </span>
       </Pill>
     ),

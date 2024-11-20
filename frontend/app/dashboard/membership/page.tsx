@@ -92,29 +92,14 @@ const Membership = () => {
       first_name: z.string().min(1, "First name is required"),
       middle_name: z.string().optional(),
       last_name: z.string().min(1, "Last name is required"),
-      gender: z.enum(["Male", "Female"], {
-        errorMap: () => ({
-          message: "Gender must be either 'Male' or 'Female'",
-        }),
-      }),
-      marital_status: z.enum(["Single", "Married"], {
-        errorMap: () => ({
-          message: "Marital status must be either 'Single' or 'Married'",
-        }),
-      }),
-      qualification: z.enum(["Worker", "Member"], {
-        errorMap: () => ({
-          message: "Qualification must be either 'Worker' or 'Member'",
-        }),
-      }),
-      cell_fellowship: z.union(
-        [
-          z.enum(cellFellowships.map((cf) => cf.name) as [string, ...string[]]),
-          z.literal(""),
-        ],
+      gender: z.union([z.enum(["Male", "Female"]), z.literal("")]),
+      marital_status: z.union([z.enum(["Single", "Married"]), z.literal("")]),
+      qualification: z.union([z.enum(["Worker", "Member"]), z.literal("")]),
+      cell_fellowship: z.enum(
+        cellFellowships.map((cf) => cf.name) as [string, ...string[]],
         {
           errorMap: () => ({
-            message: "Cell fellowship must be a valid cell fellowship or empty",
+            message: "Cell fellowship must be a valid cell fellowship",
           }),
         },
       ),
@@ -135,11 +120,10 @@ const Membership = () => {
           }
           return convertedDate;
         }),
-      class: z.enum(["Working Class", "Unemployed", "Student"], {
-        errorMap: () => ({
-          message: "Class must be 'Working Class', 'Unemployed', or 'Student'",
-        }),
-      }),
+      class: z.union([
+        z.enum(["Working Class", "Unemployed", "Student"]),
+        z.literal(""),
+      ]),
       discipled_by: z.string().optional(),
     });
   }, [cellFellowships]);

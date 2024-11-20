@@ -37,17 +37,12 @@ export const memberFormSchema = z.object({
   last_name: z
     .string()
     .min(2, { message: "Last name must be at least 2 characters" }),
-  gender: z.string().min(1, { message: "Gender must be selected" }),
-  marital_status: z
-    .string()
-    .min(1, { message: "Marital status must be selected" }),
-  qualification: z
-    .string()
-    .min(1, { message: "Qualification must be selected" }),
+  gender: z.string().optional(),
+  marital_status: z.string().optional(),
+  qualification: z.string().optional(),
   cell_fellowship_id: z
     .number()
-    .min(1, { message: "Fellowship/Cell must be selected" })
-    .optional(),
+    .min(1, { message: "Fellowship/Cell must be selected" }),
   phone: z
     .string()
     .refine((value) => value === "" || value.length >= 11, {
@@ -56,7 +51,7 @@ export const memberFormSchema = z.object({
     .optional(),
   email: z.string().email().optional().or(z.literal("")),
   dob: z.string().optional().nullable(),
-  class: z.string().min(1, { message: "Class must be selected" }),
+  class: z.string().optional(),
   discipled_by: z.string().optional(),
 });
 

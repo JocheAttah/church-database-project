@@ -167,53 +167,53 @@ export type Database = {
       members: {
         Row: {
           cell_fellowship_id: number | null
-          class: string
+          class: string | null
           created_at: string
           discipled_by: string | null
           dob: string | null
           email: string | null
           first_name: string
-          gender: string
+          gender: string | null
           id: number
           last_name: string
-          marital_status: string
+          marital_status: string | null
           middle_name: string | null
           phone: string | null
-          qualification: string
+          qualification: string | null
           updated_at: string
         }
         Insert: {
           cell_fellowship_id?: number | null
-          class: string
+          class?: string | null
           created_at?: string
           discipled_by?: string | null
           dob?: string | null
           email?: string | null
           first_name: string
-          gender: string
+          gender?: string | null
           id?: never
           last_name: string
-          marital_status: string
+          marital_status?: string | null
           middle_name?: string | null
           phone?: string | null
-          qualification: string
+          qualification?: string | null
           updated_at?: string
         }
         Update: {
           cell_fellowship_id?: number | null
-          class?: string
+          class?: string | null
           created_at?: string
           discipled_by?: string | null
           dob?: string | null
           email?: string | null
           first_name?: string
-          gender?: string
+          gender?: string | null
           id?: never
           last_name?: string
-          marital_status?: string
+          marital_status?: string | null
           middle_name?: string | null
           phone?: string | null
-          qualification?: string
+          qualification?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -229,53 +229,53 @@ export type Database = {
       members_staging: {
         Row: {
           cell_fellowship: string
-          class: string
+          class: string | null
           created_at: string
           discipled_by: string | null
           dob: string | null
           email: string | null
           first_name: string
-          gender: string
+          gender: string | null
           id: number
           last_name: string
-          marital_status: string
+          marital_status: string | null
           middle_name: string | null
           phone: string | null
-          qualification: string
+          qualification: string | null
           updated_at: string
         }
         Insert: {
           cell_fellowship: string
-          class: string
+          class?: string | null
           created_at?: string
           discipled_by?: string | null
           dob?: string | null
           email?: string | null
           first_name: string
-          gender: string
+          gender?: string | null
           id?: never
           last_name: string
-          marital_status: string
+          marital_status?: string | null
           middle_name?: string | null
           phone?: string | null
-          qualification: string
+          qualification?: string | null
           updated_at?: string
         }
         Update: {
           cell_fellowship?: string
-          class?: string
+          class?: string | null
           created_at?: string
           discipled_by?: string | null
           dob?: string | null
           email?: string | null
           first_name?: string
-          gender?: string
+          gender?: string | null
           id?: never
           last_name?: string
-          marital_status?: string
+          marital_status?: string | null
           middle_name?: string | null
           phone?: string | null
-          qualification?: string
+          qualification?: string | null
           updated_at?: string
         }
         Relationships: []
