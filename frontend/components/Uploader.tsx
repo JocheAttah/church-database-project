@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { formatFileSize } from "@/utils/formatFileSize";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 import { CloudArrowUpIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import Papa from "papaparse";
+import { parse } from "papaparse";
 import { useCallback, useEffect, useState } from "react";
 import { ErrorCode, FileRejection, useDropzone } from "react-dropzone";
 import { toast } from "sonner";
@@ -41,7 +41,8 @@ function Uploader({ onFileUpload }: UploaderProps) {
 
       const file = acceptedFiles[0];
       if (!file) return;
-      Papa.parse(file, {
+      parse(file, {
+        transform: (value) => value.trim(),
         complete: (results) => {
           onFileUpload(results.data);
         },
