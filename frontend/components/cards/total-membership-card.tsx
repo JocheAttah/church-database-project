@@ -1,11 +1,11 @@
 "use client";
 import Card from "@/components/card";
-import GrowthIcon from "@/components/icons/growth-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMembership } from "@/hooks/useMembership";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
+import GrowthIndicator from "../growth-indicator";
 
 const TotalMembershipCard = ({ className }: { className?: string }) => {
   const { totalCount, previousCount, isLoading } = useMembership();
@@ -36,21 +36,10 @@ const TotalMembershipCard = ({ className }: { className?: string }) => {
         </h1>
       )}
 
-      <div className="flex items-center text-xs">
-        {isLoading ? (
-          <Skeleton className="h-5 w-40" />
-        ) : (
-          <div className="flex items-center duration-500 animate-in fade-in slide-in-from-bottom-3">
-            <GrowthIcon />
-            <p
-              className={`ml-1 ${membershipGrowth >= 0 ? "text-junglegreen" : "text-red-500"}`}
-            >
-              {membershipGrowth.toFixed(1)}%
-            </p>
-            <p className="ml-2 text-dustygray">in the last month</p>
-          </div>
-        )}
-      </div>
+      <GrowthIndicator
+        growthPercentage={membershipGrowth}
+        isLoading={isLoading}
+      />
     </Card>
   );
 };

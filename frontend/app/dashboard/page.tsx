@@ -4,7 +4,7 @@ import TotalMembershipCard from "@/components/cards/total-membership-card";
 import { BarChart } from "@/components/charts/bar-chart";
 import { LineChart } from "@/components/charts/line-chart";
 import { PieChart } from "@/components/charts/pie-chart";
-import GrowthIcon from "@/components/icons/growth-icon";
+import GrowthIndicator from "@/components/growth-indicator";
 import GivingIcon from "@/components/icons/nav/giving-icon";
 import MembershipIcon from "@/components/icons/nav/membership-icon";
 import {
@@ -62,11 +62,7 @@ const Dashboard = () => {
 
           <h1>{formatMoney(10000000)}</h1>
 
-          <div className="flex items-center text-xs">
-            <GrowthIcon />
-            <p className="ml-1 text-junglegreen">16%</p>
-            <p className="ml-2 text-dustygray">in the last month</p>
-          </div>
+          <GrowthIndicator growthPercentage={16} />
         </Card>
 
         <Card className="col-span-4 xl:col-span-2 xl:row-span-2">
@@ -94,13 +90,10 @@ const Dashboard = () => {
                 </SelectContent>
               </Select>
 
-              <div className="flex items-center self-end text-xs">
-                <GrowthIcon />
-                <p className="ml-1 text-junglegreen">1.7%</p>
-                <p className="ml-2 text-dustygray">
-                  {timeRanges[timeRange].toLowerCase()}
-                </p>
-              </div>
+              <GrowthIndicator
+                growthPercentage={1.7}
+                period={timeRanges[timeRange].toLowerCase()}
+              />
             </div>
           </div>
           {isLoading ? (
