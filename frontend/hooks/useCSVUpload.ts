@@ -54,7 +54,7 @@ export const useCSVUpload = <T extends z.ZodType>({
       } else {
         validatedData.push({
           ...result.validatedData,
-          created_by: createdBy,
+          ...(createdBy ? { created_by: createdBy } : {}),
         });
       }
     });
