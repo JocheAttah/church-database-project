@@ -21,18 +21,20 @@ export const useStatusChartData = () => {
     const workers = qualificationData.filter(
       (member) => member.qualification === "Worker",
     ).length;
+    const members = qualificationData.filter(
+      (member) => member.qualification === "Member",
+    ).length;
     const total = qualificationData.length;
-    const members = total - workers;
 
     return [
       {
         status: "workers",
-        value: Number(((workers / total) * 100).toFixed(2)),
+        value: Number(((workers / total) * 100).toFixed(2)) || 1,
         fill: STATUS_COLORS.workers,
       },
       {
         status: "members",
-        value: Number(((members / total) * 100).toFixed(2)),
+        value: Number(((members / total) * 100).toFixed(2)) || 1,
         fill: STATUS_COLORS.members,
       },
     ];
