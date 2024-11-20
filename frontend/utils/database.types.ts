@@ -166,7 +166,7 @@ export type Database = {
       }
       members: {
         Row: {
-          cell_fellowship_id: number | null
+          cell_fellowship_id: number
           class: string | null
           created_at: string
           discipled_by: string | null
@@ -183,7 +183,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          cell_fellowship_id?: number | null
+          cell_fellowship_id: number
           class?: string | null
           created_at?: string
           discipled_by?: string | null
@@ -200,7 +200,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          cell_fellowship_id?: number | null
+          cell_fellowship_id?: number
           class?: string | null
           created_at?: string
           discipled_by?: string | null
