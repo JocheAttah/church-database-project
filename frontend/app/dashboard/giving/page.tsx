@@ -1,7 +1,7 @@
 "use client";
 
 import Card from "@/components/card";
-import GrowthIcon from "@/components/icons/growth-icon";
+import GrowthIndicator from "@/components/growth-indicator";
 import SearchInput from "@/components/search-input";
 import GivingTable from "@/components/tables/giving-table";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,8 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useGiving } from "@/hooks/useGiving";
 import formatMoney from "@/utils/formatMoney";
 import { FunnelIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,6 +54,14 @@ const Giving = () => {
   }
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const {
+    balance,
+    totalInflow,
+    totalOutflow,
+    // inflowChangePercent,
+    // outflowChangePercent,
+    isLoading,
+  } = useGiving();
 
   return (
     <>
@@ -59,27 +69,37 @@ const Giving = () => {
       <div className="mb-6 grid grid-cols-1 flex-wrap gap-5 sm:grid-cols-2 md:grid-cols-3 xl:flex">
         <Card className="w-full space-y-6 xl:max-w-[300px]">
           <p className="text-sm text-dustygray">Available balance</p>
-          <h1>{formatMoney(1000000)}</h1>
+          {isLoading ? (
+            <Skeleton className="h-9 w-32" />
+          ) : (
+            <h1 className="duration-500 animate-in fade-in slide-in-from-bottom-3">
+              {formatMoney(balance)}
+            </h1>
+          )}
         </Card>
 
         <Card className="w-full space-y-6 xl:max-w-[300px]">
           <p className="text-sm text-dustygray">Total inflow</p>
-          <h1>{formatMoney(3120050)}</h1>
-          <div className="flex items-center text-xs">
-            <GrowthIcon />
-            <p className="ml-1 text-junglegreen">1.7%</p>
-            <p className="ml-2 text-dustygray">in the last month</p>
-          </div>
+          {isLoading ? (
+            <Skeleton className="h-9 w-32" />
+          ) : (
+            <h1 className="duration-500 animate-in fade-in slide-in-from-bottom-3">
+              {formatMoney(totalInflow)}
+            </h1>
+          )}
+          <GrowthIndicator growthPercentage={0} isLoading={isLoading} />
         </Card>
 
         <Card className="w-full space-y-6 xl:max-w-[300px]">
           <p className="text-sm text-dustygray">Total outflow</p>
-          <h1>{formatMoney(2120050)}</h1>
-          <div className="flex items-center text-xs">
-            <GrowthIcon />
-            <p className="ml-1 text-junglegreen">1.7%</p>
-            <p className="ml-2 text-dustygray">in the last month</p>
-          </div>
+          {isLoading ? (
+            <Skeleton className="h-9 w-32" />
+          ) : (
+            <h1 className="duration-500 animate-in fade-in slide-in-from-bottom-3">
+              {formatMoney(totalOutflow)}
+            </h1>
+          )}
+          <GrowthIndicator growthPercentage={0} isLoading={isLoading} />
         </Card>
       </div>
 

@@ -43,13 +43,13 @@ INSERT INTO public.attendance (meeting_type_id, attendance, absentee, meeting_da
 INSERT INTO public.inflow (type, amount, description, date, created_by) VALUES
 ('Offering', 5000.00, 'Sunday Service Offering', '2024-03-03', 'John Doe'),
 ('Tithe', 10000.00, 'Monthly Tithe', '2024-03-01', 'Jane Smith'),
-('Donation', 2500.50, 'Building Project Donation', '2024-03-05', 'Alice Johnson'),
+('Donation', 2500, 'Building Project Donation', '2024-03-05', 'Alice Johnson'),
 ('Special Offering', 7500.00, 'Easter Special Offering', '2024-03-31', 'Bob Williams'),
 ('Pledge', 15000.00, 'Annual Pledge Payment', '2024-03-15', 'Eva Brown');
 
 -- Seed data for outflow table
 INSERT INTO public.outflow (type, amount, period, description, beneficiary, created_by, approved_by) VALUES
-('Salary', 50000.00, 'Monthly', 'Pastor Salary', 'John Doe', 'Jane Smith', 'Bob Williams'),
+('Salary', 12000.00, 'Monthly', 'Pastor Salary', 'John Doe', 'Jane Smith', 'Bob Williams'),
 ('Utility', 2000.00, 'Monthly', 'Electricity Bill', 'Power Company', 'Alice Johnson', 'John Doe'),
 ('Maintenance', 5000.00, 'One-time', 'Church Building Repairs', 'ABC Contractors', 'Bob Williams', 'Jane Smith'),
 ('Charity', 3000.00, 'Monthly', 'Orphanage Support', 'Hope Orphanage', 'Eva Brown', 'John Doe'),
