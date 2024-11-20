@@ -69,7 +69,6 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
   });
 
   const queryClient = useQueryClient();
-  console.log(form.getValues());
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: AttendanceFormValues) => {
@@ -104,7 +103,6 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
     },
   });
 
-  console.log(form.getValues());
   const handleSubmit = (values: AttendanceFormValues) => {
     mutate(values);
   };
