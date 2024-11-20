@@ -19,20 +19,22 @@ export const useGenderChartData = () => {
     if (genderData.length === 0) return [];
 
     const males = genderData.filter(
-      (member) => member.gender.toLowerCase() === "male",
+      (member) => member.gender?.toLowerCase() === "male",
+    ).length;
+    const females = genderData.filter(
+      (member) => member.gender?.toLowerCase() === "female",
     ).length;
     const total = genderData.length;
-    const females = total - males;
 
     return [
       {
         gender: "male",
-        value: Number(((males / total) * 100).toFixed(2)),
+        value: Number(((males / total) * 100).toFixed(2)) || 1,
         fill: GENDER_COLORS.male,
       },
       {
         gender: "female",
-        value: Number(((females / total) * 100).toFixed(2)),
+        value: Number(((females / total) * 100).toFixed(2)) || 1,
         fill: GENDER_COLORS.female,
       },
     ];
