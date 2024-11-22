@@ -54,6 +54,7 @@ export const useCSVUpload = <T extends z.ZodType>({
       } else {
         validatedData.push({
           ...result.validatedData,
+          // TODO: change this to use the current user id on the attendance table
           ...(createdBy ? { created_by: createdBy } : {}),
         });
       }

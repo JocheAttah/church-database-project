@@ -71,11 +71,9 @@ export const columns: ({
   {
     accessorKey: "cell_fellowship",
     header: "Cell/Fellowship",
-    cell: ({ row }) => {
-      const cellFellowship = row.original.cell_fellowship;
-      return cellFellowship
-        ? `${cellFellowship.name} ${cellFellowship.type}`
-        : "-";
+    accessorFn: (row) => {
+      const cf = row.cell_fellowship;
+      return cf ? `${cf.name} ${cf.type}` : "-";
     },
   },
   {
