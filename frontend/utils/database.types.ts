@@ -348,6 +348,28 @@ export type Database = {
       }
     }
     Views: {
+      attendance_with_meeting_type: {
+        Row: {
+          absentee: number | null
+          attendance: number | null
+          created_at: string | null
+          created_by: string | null
+          id: number | null
+          meeting_date: string | null
+          meeting_type: string | null
+          meeting_type_id: number | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_meeting_type_id_fkey"
+            columns: ["meeting_type_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_type"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       members_with_cell_fellowship: {
         Row: {
           cell_fellowship: string | null

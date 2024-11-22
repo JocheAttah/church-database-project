@@ -11,9 +11,7 @@ import { Tables } from "@/utils/database.types";
 import formatDate from "@/utils/formatDate";
 import { ColumnDef } from "@tanstack/react-table";
 
-type Attendance = Tables<"attendance"> & {
-  meeting_type: string | undefined;
-};
+type Attendance = Tables<"attendance_with_meeting_type">;
 
 export const columns: ({
   setOpen,

@@ -7,7 +7,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useAttendance } from "@/hooks/useAttendance";
 import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -25,13 +24,25 @@ const AttendanceTable = ({
     pageIndex: 0,
     pageSize: 10,
   });
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const { data, isLoading } = useQuery({
-    queryKey: ["attendance", pagination.pageIndex, pagination.pageSize],
+    queryKey: [
+      "attendance",
+      pagination.pageIndex,
+      pagination.pageSize,
+      globalFilter,
+    ],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("attendance")
-        .select("*, meeting_type(type_name)")
+      const query = supabase
+        .from("attendance_with_meeting_type")
+        .select("*", { count: "exact" });
+
+      if (globalFilter) {
+        query.or([`meeting_type.ilike.%${globalFilter}%`].join(","));
+      }
+
+      const { data, error, count } = await query
         .order("meeting_date", { ascending: false })
         .range(
           pagination.pageIndex * pagination.pageSize,
@@ -39,15 +50,17 @@ const AttendanceTable = ({
         );
 
       if (error) throw error;
-      return data.map((attendance) => ({
-        ...attendance,
-        meeting_type: attendance.meeting_type?.type_name,
-      }));
+      return {
+        data,
+        totalCount: count || 0,
+      };
     },
   });
 
-  const attendance = data ?? [];
-  const { totalCount } = useAttendance();
+  const { data: attendance, totalCount } = data ?? {
+    data: [],
+    totalCount: 0,
+  };
 
   const [open, setOpen] = useState(false);
   const [selectedMeetingId, setSelectedMeetingId] = useState<number | null>(
@@ -101,6 +114,8 @@ const AttendanceTable = ({
           pageCount: Math.ceil(totalCount / pagination.pageSize),
           onPaginationChange: setPagination,
         }}
+        globalFilter={globalFilter}
+        onGlobalFilterChange={setGlobalFilter}
       />
 
       <Dialog open={open} onOpenChange={setOpen}>
