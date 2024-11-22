@@ -35,35 +35,6 @@ export default function MemberTable({
   });
   const [globalFilter, setGlobalFilter] = useState("");
 
-  const getMembersByCellFellowship = async (
-    cellFellowshipId: number,
-    page: number,
-    pageSize: number,
-  ) => {
-    const query = supabase
-      .from("members")
-      .select("*, cell_fellowship(name,type)", { count: "exact" })
-      .eq("cell_fellowship_id", cellFellowshipId);
-
-    if (globalFilter) {
-      query.or(
-        [
-          `first_name.ilike.%${globalFilter}%`,
-          `last_name.ilike.%${globalFilter}%`,
-          `phone.ilike.%${globalFilter}%`,
-          `qualification.ilike.%${globalFilter}%`,
-        ].join(","),
-      );
-    }
-    const { data, error, count } = await query
-      .order("created_at")
-      .order("id")
-      .range((page - 1) * pageSize, page * pageSize - 1);
-
-    if (error) throw error;
-    return { members: data, totalCount: count || 0 };
-  };
-
   const { data, isLoading: isLoadingMembers } = useQuery({
     queryKey: [
       "members",
@@ -73,16 +44,13 @@ export default function MemberTable({
       globalFilter,
     ],
     queryFn: async () => {
-      if (cellFellowshipId) {
-        return getMembersByCellFellowship(
-          cellFellowshipId,
-          pagination.pageIndex + 1,
-          pagination.pageSize,
-        );
-      }
       const query = supabase
         .from("members")
         .select("*, cell_fellowship(name,type)", { count: "exact" });
+
+      if (cellFellowshipId) {
+        query.eq("cell_fellowship_id", cellFellowshipId);
+      }
 
       if (globalFilter) {
         query.or(
