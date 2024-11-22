@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { FormControl } from "@/components/ui/form";
 import {
   Popover,
   PopoverContent,
@@ -15,30 +14,31 @@ interface DatePickerProps {
   value: Date | string;
   onChange: (date: string) => void;
   placeholder?: string;
+  error?: boolean;
 }
 
 export function DatePicker({
   value,
   onChange,
   placeholder = "Pick a date",
+  error = false,
 }: DatePickerProps) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   return (
     <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen} modal>
       <PopoverTrigger asChild>
-        <FormControl>
-          <Button
-            variant="outline"
-            className={cn(
-              "flex w-full border border-mineshaft bg-transparent pl-3 text-left font-normal hover:bg-transparent hover:text-inherit",
-              !value && "text-dustygray",
-            )}
-          >
-            {value ? formatDate(value) : <span>{placeholder}</span>}
-            <CalendarDaysIcon className="ml-auto h-4 w-4" />
-          </Button>
-        </FormControl>
+        <Button
+          variant="outline"
+          className={cn(
+            "flex w-full border border-mineshaft bg-transparent pl-3 text-left font-normal hover:bg-transparent hover:text-inherit",
+            !value && "text-dustygray",
+            error && "border-red-500",
+          )}
+        >
+          {value ? formatDate(value) : <span>{placeholder}</span>}
+          <CalendarDaysIcon className="ml-auto h-4 w-4" />
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar

@@ -202,6 +202,7 @@ const MemberDialog = ({
                       <DatePicker
                         value={field.value || ""}
                         onChange={(date) => field.onChange(date)}
+                        error={!!form.formState.errors.dob}
                       />
                       <FormMessage />
                     </FormItem>

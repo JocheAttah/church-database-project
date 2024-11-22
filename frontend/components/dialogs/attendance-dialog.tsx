@@ -152,12 +152,11 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Meeting date</FormLabel>
-                      <FormControl>
-                        <DatePicker
-                          value={field.value || ""}
-                          onChange={(date) => field.onChange(date)}
-                        />
-                      </FormControl>
+                      <DatePicker
+                        error={!!form.formState.errors.meeting_date}
+                        value={field.value || ""}
+                        onChange={(date) => field.onChange(date)}
+                      />
                       <FormMessage />
                     </FormItem>
                   )}
