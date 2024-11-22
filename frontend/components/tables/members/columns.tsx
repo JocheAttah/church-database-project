@@ -12,12 +12,7 @@ import { Tables } from "@/utils/database.types";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 
-type Member = Tables<"members"> & {
-  cell_fellowship: {
-    name: string;
-    type: string;
-  } | null;
-};
+type Member = Tables<"members_with_cell_fellowship">;
 
 export const columns: ({
   setOpen,
@@ -73,7 +68,7 @@ export const columns: ({
     header: "Cell/Fellowship",
     accessorFn: (row) => {
       const cf = row.cell_fellowship;
-      return cf ? `${cf.name} ${cf.type}` : "-";
+      return cf ? cf : "-";
     },
   },
   {

@@ -45,8 +45,8 @@ export default function MemberTable({
     ],
     queryFn: async () => {
       const query = supabase
-        .from("members")
-        .select("*, cell_fellowship(name,type)", { count: "exact" });
+        .from("members_with_cell_fellowship")
+        .select("*", { count: "exact" });
 
       if (cellFellowshipId) {
         query.eq("cell_fellowship_id", cellFellowshipId);
@@ -59,6 +59,7 @@ export default function MemberTable({
             `last_name.ilike.%${globalFilter}%`,
             `phone.ilike.%${globalFilter}%`,
             `qualification.ilike.%${globalFilter}%`,
+            `cell_fellowship.ilike.%${globalFilter}%`,
           ].join(","),
         );
       }

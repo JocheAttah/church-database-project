@@ -348,7 +348,35 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      members_with_cell_fellowship: {
+        Row: {
+          cell_fellowship: string | null
+          cell_fellowship_id: number | null
+          class: string | null
+          created_at: string | null
+          discipled_by: string | null
+          dob: string | null
+          email: string | null
+          first_name: string | null
+          gender: string | null
+          id: number | null
+          last_name: string | null
+          marital_status: string | null
+          middle_name: string | null
+          phone: string | null
+          qualification: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "members_cell_fellowship_id_fkey"
+            columns: ["cell_fellowship_id"]
+            isOneToOne: false
+            referencedRelation: "cell_fellowship"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       get_giving: {
