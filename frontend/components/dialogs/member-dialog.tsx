@@ -64,6 +64,7 @@ type MemberDialogProps = {
   isPending: boolean;
   form: UseFormReturn<MemberType>;
   onSubmit: (values: MemberType) => void;
+  disableFellowshipId?: boolean;
 };
 
 const MemberDialog = ({
@@ -73,6 +74,7 @@ const MemberDialog = ({
   isPending,
   form,
   onSubmit,
+  disableFellowshipId,
 }: MemberDialogProps) => {
   const { cellFellowships } = useCellFellowships();
 
@@ -246,6 +248,7 @@ const MemberDialog = ({
                       <Select
                         onValueChange={(value) => field.onChange(Number(value))}
                         defaultValue={field.value?.toString() ?? ""}
+                        disabled={disableFellowshipId}
                       >
                         <FormControl>
                           <SelectTrigger>

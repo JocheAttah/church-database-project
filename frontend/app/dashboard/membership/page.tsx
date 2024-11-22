@@ -19,16 +19,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import UploadDialog from "@/components/upload-dialog";
+import { useAddMember } from "@/hooks/useAddMember";
 import { useCellFellowships } from "@/hooks/useCellFellowships";
 import { useCSVUpload } from "@/hooks/useCSVUpload";
 import { useGenderChartData } from "@/hooks/useGenderChartData";
 import convertDateFormat from "@/utils/convertDateFormat";
-import { createClient } from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 import { genderChartConfig } from "../chart-data";
 
@@ -56,36 +54,15 @@ const Membership = () => {
   });
 
   const [openUploadDialog, setOpenUploadDialog] = useState(false);
-  const [openAddMemberDialog, setOpenAddMemberDialog] = useState(false);
 
-  const queryClient = useQueryClient();
+  const { addMember, isPending, openAddMemberDialog, setOpenAddMemberDialog } =
+    useAddMember({
+      form,
+    });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (values: MemberType) => {
-      const supabase = createClient();
-      const { error } = await supabase.from("members").insert(values);
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["members"],
-        refetchType: "all",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["cell_fellowship"],
-        refetchType: "all",
-      });
-      toast.success("Member added successfully");
-      setOpenAddMemberDialog(false);
-      form.reset();
-    },
-    onError: (error) => {
-      console.error("Error adding member:", error);
-      toast.error("Error adding member", {
-        description: error.message,
-      });
-    },
-  });
+  function onSubmit(values: MemberType) {
+    addMember(values);
+  }
 
   const memberRowSchema = useMemo(() => {
     return z.object({
@@ -140,10 +117,6 @@ const Membership = () => {
     invalidateQueries: ["members", "cell_fellowship"],
     setOpenUploadDialog,
   });
-
-  function onSubmit(values: MemberType) {
-    mutate(values);
-  }
 
   return (
     <>
