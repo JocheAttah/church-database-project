@@ -32,6 +32,7 @@ const AttendanceTable = ({
       const { data, error } = await supabase
         .from("attendance")
         .select("*, meeting_type(type_name)")
+        .order("meeting_date", { ascending: false })
         .range(
           pagination.pageIndex * pagination.pageSize,
           (pagination.pageIndex + 1) * pagination.pageSize - 1,
