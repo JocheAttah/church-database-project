@@ -56,10 +56,15 @@ export function DataTable<TData, TValue>({
   useEffect(() => {
     const timer = setTimeout(() => {
       onGlobalFilterChange(searchValue);
-    }, 500); // 500ms delay
+      pagination.onPaginationChange({
+        pageIndex: 0,
+        pageSize: pagination.pageSize,
+      });
+    }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchValue, onGlobalFilterChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue]);
 
   const table = useReactTable({
     data,
