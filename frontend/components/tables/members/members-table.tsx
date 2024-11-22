@@ -7,7 +7,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useMembership } from "@/hooks/useMembership";
 import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
@@ -34,21 +33,29 @@ export default function MemberTable({
     pageIndex: 0,
     pageSize: 10,
   });
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const getMembersByCellFellowship = async (
     cellFellowshipId: number,
     page: number,
     pageSize: number,
   ) => {
-    const { count } = await supabase
+    const query = supabase
       .from("members")
-      .select("*", { count: "exact", head: true })
+      .select("*, cell_fellowship(name,type)", { count: "exact" })
       .eq("cell_fellowship_id", cellFellowshipId);
 
-    const { data, error } = await supabase
-      .from("members")
-      .select("*, cell_fellowship(name,type)")
-      .eq("cell_fellowship_id", cellFellowshipId)
+    if (globalFilter) {
+      query.or(
+        [
+          `first_name.ilike.%${globalFilter}%`,
+          `last_name.ilike.%${globalFilter}%`,
+          `phone.ilike.%${globalFilter}%`,
+          `qualification.ilike.%${globalFilter}%`,
+        ].join(","),
+      );
+    }
+    const { data, error, count } = await query
       .order("created_at")
       .order("id")
       .range((page - 1) * pageSize, page * pageSize - 1);
@@ -63,6 +70,7 @@ export default function MemberTable({
       pagination.pageIndex,
       pagination.pageSize,
       cellFellowshipId,
+      globalFilter,
     ],
     queryFn: async () => {
       if (cellFellowshipId) {
@@ -72,9 +80,22 @@ export default function MemberTable({
           pagination.pageSize,
         );
       }
-      const { data, error } = await supabase
+      const query = supabase
         .from("members")
-        .select("*, cell_fellowship(name,type)")
+        .select("*, cell_fellowship(name,type)", { count: "exact" });
+
+      if (globalFilter) {
+        query.or(
+          [
+            `first_name.ilike.%${globalFilter}%`,
+            `last_name.ilike.%${globalFilter}%`,
+            `phone.ilike.%${globalFilter}%`,
+            `qualification.ilike.%${globalFilter}%`,
+          ].join(","),
+        );
+      }
+
+      const { data, error, count } = await query
         .order("created_at")
         .order("id")
         .range(
@@ -83,24 +104,19 @@ export default function MemberTable({
         );
 
       if (error) throw error;
-      return { members: data, totalCount: 0 };
+      return { members: data, totalCount: count || 0 };
     },
   });
 
   const isLoading = isLoadingCellFellowship || isLoadingMembers;
 
-  const { members, totalCount: totalMembersInCellFellowship } = data ?? {
+  const { members, totalCount } = data ?? {
     members: [],
     totalCount: 0,
   };
 
   const [open, setOpen] = useState(false);
   const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
-  const { totalCount: totalMembers } = useMembership();
-  const currentCount = members.length;
-  const totalCount = cellFellowshipId
-    ? totalMembersInCellFellowship
-    : totalMembers;
 
   const queryClient = useQueryClient();
 
@@ -153,6 +169,8 @@ export default function MemberTable({
           pageCount: Math.ceil(totalCount / pagination.pageSize),
           onPaginationChange: setPagination,
         }}
+        globalFilter={globalFilter}
+        onGlobalFilterChange={setGlobalFilter}
       />
 
       <Dialog open={open} onOpenChange={setOpen}>

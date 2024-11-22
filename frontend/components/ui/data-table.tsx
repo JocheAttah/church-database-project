@@ -5,7 +5,6 @@ import {
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -20,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Loader2 } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { DataTablePagination } from "./data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
@@ -36,6 +35,8 @@ interface DataTableProps<TData, TValue> {
   loading?: boolean;
   loadingTitle?: boolean;
   actionButton?: ReactNode;
+  onGlobalFilterChange: (value: string) => void;
+  globalFilter: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -46,8 +47,19 @@ export function DataTable<TData, TValue>({
   loading,
   loadingTitle,
   actionButton,
+  onGlobalFilterChange,
+  globalFilter,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [searchValue, setSearchValue] = useState(globalFilter ?? "");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onGlobalFilterChange(searchValue);
+    }, 500); // 500ms delay
+
+    return () => clearTimeout(timer);
+  }, [searchValue, onGlobalFilterChange]);
 
   const table = useReactTable({
     data,
@@ -59,6 +71,7 @@ export function DataTable<TData, TValue>({
         pageSize: pagination.pageSize,
       },
       columnFilters,
+      globalFilter,
     },
     onPaginationChange: (updater) => {
       if (typeof updater === "function") {
@@ -74,13 +87,8 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    globalFilterFn: (row, columnId, filterValue) => {
-      const value = row.getValue(columnId);
-      return value != null
-        ? String(value).toLowerCase().includes(filterValue.toLowerCase())
-        : false;
-    },
+    onGlobalFilterChange,
+    manualFiltering: true,
   });
 
   return (
@@ -94,10 +102,9 @@ export function DataTable<TData, TValue>({
               {title}
             </h2>
           )}
-          {/* TODO: Make search for tables use the global values for the table instead of the values showing on the table */}
           <SearchInput
-            value={table.getState().globalFilter ?? ""}
-            onChange={(event) => table.setGlobalFilter(event.target.value)}
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
           />
         </div>
 
