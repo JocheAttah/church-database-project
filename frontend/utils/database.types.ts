@@ -12,32 +12,38 @@ export type Database = {
       attendance: {
         Row: {
           absentee: number | null
-          attendance: number
+          adults: number
+          children: number
           created_at: string
           created_by: string
           id: number
           meeting_date: string
           meeting_type_id: number
+          total: number | null
           updated_at: string
         }
         Insert: {
           absentee?: number | null
-          attendance: number
+          adults?: number
+          children?: number
           created_at?: string
           created_by: string
           id?: never
           meeting_date: string
           meeting_type_id: number
+          total?: number | null
           updated_at?: string
         }
         Update: {
           absentee?: number | null
-          attendance?: number
+          adults?: number
+          children?: number
           created_at?: string
           created_by?: string
           id?: never
           meeting_date?: string
           meeting_type_id?: number
+          total?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -53,27 +59,33 @@ export type Database = {
       attendance_staging: {
         Row: {
           absentee: number
-          attendance: number
+          adults: number
+          children: number
           created_by: string
           id: number
           meeting_date: string
           meeting_type: string
+          total: number | null
         }
         Insert: {
           absentee: number
-          attendance: number
+          adults?: number
+          children?: number
           created_by: string
           id?: number
           meeting_date: string
           meeting_type: string
+          total?: number | null
         }
         Update: {
           absentee?: number
-          attendance?: number
+          adults?: number
+          children?: number
           created_by?: string
           id?: number
           meeting_date?: string
           meeting_type?: string
+          total?: number | null
         }
         Relationships: []
       }
@@ -351,13 +363,15 @@ export type Database = {
       attendance_with_meeting_type: {
         Row: {
           absentee: number | null
-          attendance: number | null
+          adults: number | null
+          children: number | null
           created_at: string | null
           created_by: string | null
           id: number | null
           meeting_date: string | null
           meeting_type: string | null
           meeting_type_id: number | null
+          total: number | null
           updated_at: string | null
         }
         Relationships: [

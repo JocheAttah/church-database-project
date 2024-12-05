@@ -33,12 +33,12 @@ INSERT INTO public.members (first_name, middle_name, last_name, gender, marital_
 ('Eva', 'Rose', 'Brown', 'Female', 'Single', 'Member', (SELECT id FROM public.cell_fellowship WHERE name = 'Pigba Kasa'), '3334445555', 'eva.brown@email.com', '1992-07-18', 'Unemployed', 'Alice Johnson');
 
 -- Seed data for attendance table
-INSERT INTO public.attendance (meeting_type_id, attendance, absentee, meeting_date, created_by) VALUES
-((SELECT id FROM public.meeting_type WHERE type_name = 'Sunday Service'), 50, 10, '2024-03-03', 'John Doe'),
-((SELECT id FROM public.meeting_type WHERE type_name = 'Midweek Service'), 30, 5, '2024-03-06', 'Jane Smith'),
-((SELECT id FROM public.meeting_type WHERE type_name = 'Fellowship Meeting'), 20, 2, '2024-03-08', 'Bob Williams'),
-((SELECT id FROM public.meeting_type WHERE type_name = 'Prayer Group'), 15, 1, '2024-03-09', 'Alice Johnson'),
-((SELECT id FROM public.meeting_type WHERE type_name = 'Sunday Service'), 55, 8, '2024-03-10', 'John Doe');
+INSERT INTO public.attendance (meeting_type_id, adults, children, absentee, meeting_date, created_by) VALUES
+((SELECT id FROM public.meeting_type WHERE type_name = 'Sunday Service'), 40, 10, 10, '2024-03-03', 'John Doe'),
+((SELECT id FROM public.meeting_type WHERE type_name = 'Midweek Service'), 25, 5, 5, '2024-03-06', 'Jane Smith'),
+((SELECT id FROM public.meeting_type WHERE type_name = 'Fellowship Meeting'), 15, 5, 2, '2024-03-08', 'Bob Williams'),
+((SELECT id FROM public.meeting_type WHERE type_name = 'Prayer Group'), 12, 3, 1, '2024-03-09', 'Alice Johnson'),
+((SELECT id FROM public.meeting_type WHERE type_name = 'Sunday Service'), 45, 10, 8, '2024-03-10', 'John Doe');
 
 -- Seed data for inflow table
 INSERT INTO public.inflow (type, amount, description, date, created_by) VALUES
