@@ -33,13 +33,16 @@ const timeRanges = {
   month: "In the last month",
   year: "In the last year",
 };
-type TimeRange = keyof typeof timeRanges;
+export type TimeRange = keyof typeof timeRanges;
 
 const Dashboard = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>("month");
   const { genderChartData, isLoadingGender } = useGenderChartData();
   const { statusChartData, isLoadingStatus } = useStatusChartData();
-  const { attendanceChartData, isLoadingAttendance } = useAttendanceChartData();
+  const { attendanceChartData, isLoadingAttendance, growthPercentage } =
+    useAttendanceChartData({
+      timeRange,
+    });
   const isLoading = isLoadingGender || isLoadingStatus || isLoadingAttendance;
 
   return (
@@ -74,7 +77,6 @@ const Dashboard = () => {
               <p className="text-sm text-dustygray">Avg Attendance</p>
             </div>
 
-            {/* TODO: Add filter for attendance - time ranges */}
             <div className="mb-4 flex flex-col space-y-2">
               <Select
                 defaultValue={timeRange}
@@ -91,8 +93,9 @@ const Dashboard = () => {
               </Select>
 
               <GrowthIndicator
-                growthPercentage={1.7}
+                growthPercentage={growthPercentage}
                 period={timeRanges[timeRange].toLowerCase()}
+                isLoading={isLoadingAttendance}
               />
             </div>
           </div>
