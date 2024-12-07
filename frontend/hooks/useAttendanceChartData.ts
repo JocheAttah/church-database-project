@@ -28,7 +28,7 @@ export const useAttendanceChartData = () => {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("attendance")
-        .select("meeting_type(type_name), attendance");
+        .select("meeting_type(type_name), total");
 
       if (error) throw error;
       return data.map((attendance) => ({
@@ -42,13 +42,13 @@ export const useAttendanceChartData = () => {
   const attendanceSums: Record<string, number> = {};
   const attendanceCounts: Record<string, number> = {};
 
-  attendance.forEach(({ meeting_type, attendance }) => {
+  attendance.forEach(({ meeting_type, total }) => {
     if (!meeting_type) return;
     if (!attendanceSums[meeting_type]) {
       attendanceSums[meeting_type] = 0;
       attendanceCounts[meeting_type] = 0;
     }
-    attendanceSums[meeting_type] += attendance;
+    attendanceSums[meeting_type] += total ?? 0;
     attendanceCounts[meeting_type]!++;
   });
 

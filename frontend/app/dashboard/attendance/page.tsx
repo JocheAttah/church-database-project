@@ -38,10 +38,15 @@ const Attendance = () => {
             }
             return convertedDate;
           }),
-        attendance: z
+        adults: z
           .string()
-          .min(1, "Attendance is required")
-          .refine((val) => !isNaN(Number(val)), "Attendance must be a number")
+          .min(1, "Adults is required")
+          .refine((val) => !isNaN(Number(val)), "Adults must be a number")
+          .transform(Number),
+        children: z
+          .string()
+          .min(1, "Children is required")
+          .refine((val) => !isNaN(Number(val)), "Children must be a number")
           .transform(Number),
         meeting_type: z.enum(
           meetingTypes.map((type) => type.type_name) as [string, ...string[]],

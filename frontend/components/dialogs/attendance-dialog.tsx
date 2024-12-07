@@ -44,9 +44,12 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Meeting type must be selected" }),
   meeting_date: z.string().min(1, { message: "Meeting date is required" }),
-  attendance: z
+  adults: z
     .string()
-    .min(1, { message: "Attendance must be a valid number greater than 0" }),
+    .min(1, { message: "Adults must be a valid number greater than 0" }),
+  children: z
+    .string()
+    .min(1, { message: "Children must be a valid number greater than 0" }),
   absentee: z
     .string()
     .min(1, { message: "Absentees must be a valid number greater than 0" }),
@@ -62,7 +65,8 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
     defaultValues: {
       meeting_type_id: "",
       meeting_date: "",
-      attendance: "",
+      adults: "",
+      children: "",
       absentee: "",
     },
     mode: "all",
@@ -80,7 +84,8 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
       const { error } = await supabase.from("attendance").insert({
         meeting_type_id: Number(values.meeting_type_id),
         meeting_date: values.meeting_date,
-        attendance: Number(values.attendance),
+        adults: Number(values.adults),
+        children: Number(values.children),
         absentee: Number(values.absentee),
         created_by: currentUserFullName,
       });
@@ -164,13 +169,30 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
 
                 <FormField
                   control={form.control}
-                  name="attendance"
+                  name="adults"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Attendance</FormLabel>
+                      <FormLabel>Adults</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter attendance"
+                          placeholder="Enter attendance (adults)"
+                          type="number"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="children"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Children</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter attendance (children)"
                           type="number"
                           {...field}
                         />

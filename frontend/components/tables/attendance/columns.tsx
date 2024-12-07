@@ -42,8 +42,16 @@ export const columns: ({
     },
   },
   {
-    accessorKey: "attendance",
-    header: "Attendance",
+    accessorKey: "adults",
+    header: "Adults",
+  },
+  {
+    accessorKey: "children",
+    header: "Children",
+  },
+  {
+    accessorKey: "total",
+    header: "Total",
   },
   {
     accessorKey: "absentee",
