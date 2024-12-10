@@ -76,7 +76,7 @@ const Giving = () => {
   return (
     <>
       <h1 className="mb-5">Giving</h1>
-      <div className="mb-6 grid grid-cols-1 flex-wrap gap-5 sm:grid-cols-2 md:grid-cols-3 xl:flex">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:flex">
         <Card className="w-full space-y-6 xl:max-w-[300px]">
           <p className="text-sm text-dustygray">Available balance</p>
           {isLoading ? (
@@ -113,7 +113,7 @@ const Giving = () => {
         </Card>
       </div>
 
-      <Card className="space-y-5 p-6">
+      <Card className="mt-8 space-y-5 p-6">
         <div className="flex flex-wrap items-center justify-between gap-5">
           <div className="flex flex-wrap items-center gap-5">
             <h2>Inflow</h2>
