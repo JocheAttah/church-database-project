@@ -35,7 +35,7 @@ const AttendanceTable = ({
     ],
     queryFn: async () => {
       const query = supabase
-        .from("attendance_with_meeting_type")
+        .from("attendance_with_user_name_and_meeting_type")
         .select("*", { count: "exact" });
 
       if (globalFilter) {

@@ -21,7 +21,7 @@ import { useMeetingTypes } from "@/hooks/useMeetingTypes";
 import { createClient } from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -59,7 +59,7 @@ type AttendanceFormValues = z.infer<typeof formSchema>;
 
 const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
   const { meetingTypes } = useMeetingTypes();
-  const { data: currentUserFullName } = useGetCurrentUser();
+  const { data: currentUser } = useGetCurrentUser();
   const form = useForm<AttendanceFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,9 +76,8 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: AttendanceFormValues) => {
-      if (!currentUserFullName) {
-        throw new Error("User not found");
-      }
+      if (!currentUser) throw new Error("User not found");
+
       const supabase = createClient();
 
       const { error } = await supabase.from("attendance").insert({
@@ -87,7 +86,7 @@ const AttendanceDialog = ({ isOpen, onClose }: AttendanceDialogProps) => {
         adults: Number(values.adults),
         children: Number(values.children),
         absentee: Number(values.absentee),
-        created_by: currentUserFullName,
+        created_by_id: currentUser.id,
       });
       if (error) throw error;
     },

@@ -1,4 +1,4 @@
-import { Database } from "@/utils/database.types";
+import type { Database } from "@/utils/database.types";
 import { createClient } from "@/utils/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -11,14 +11,14 @@ export const useCSVUpload = <T extends z.ZodType>({
   upsertFunction,
   invalidateQueries,
   setOpenUploadDialog,
-  createdBy,
+  createdById,
 }: {
   schema: T;
   stagingTable: keyof Database["public"]["Tables"];
   upsertFunction: keyof Database["public"]["Functions"];
   invalidateQueries: string[];
   setOpenUploadDialog: (open: boolean) => void;
-  createdBy?: string;
+  createdById?: string;
 }) => {
   const [uploadedData, setUploadedData] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(false);
@@ -54,8 +54,7 @@ export const useCSVUpload = <T extends z.ZodType>({
       } else {
         validatedData.push({
           ...result.validatedData,
-          // TODO: change this to use the current user id on the attendance table
-          ...(createdBy ? { created_by: createdBy } : {}),
+          ...(createdById ? { created_by_id: createdById } : {}),
         });
       }
     });

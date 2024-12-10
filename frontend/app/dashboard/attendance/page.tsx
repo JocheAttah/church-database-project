@@ -18,7 +18,7 @@ import { useMemo, useState } from "react";
 import { z } from "zod";
 
 const Attendance = () => {
-  const { data: currentUserFullName } = useGetCurrentUser();
+  const { data: currentUser } = useGetCurrentUser();
   const [openUploadDialog, setOpenUploadDialog] = useState(false);
   const { meetingTypes } = useMeetingTypes();
   const [openAddMeetingDialog, setOpenAddMeetingDialog] = useState(false);
@@ -74,7 +74,7 @@ const Attendance = () => {
     upsertFunction: "upsert_attendance_from_staging",
     invalidateQueries: ["attendance"],
     setOpenUploadDialog,
-    createdBy: currentUserFullName,
+    createdById: currentUser?.id,
   });
 
   return (

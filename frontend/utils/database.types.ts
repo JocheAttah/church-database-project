@@ -15,7 +15,7 @@ export type Database = {
           adults: number
           children: number
           created_at: string
-          created_by: string
+          created_by_id: string
           id: number
           meeting_date: string
           meeting_type_id: number
@@ -27,7 +27,7 @@ export type Database = {
           adults?: number
           children?: number
           created_at?: string
-          created_by: string
+          created_by_id: string
           id?: never
           meeting_date: string
           meeting_type_id: number
@@ -39,7 +39,7 @@ export type Database = {
           adults?: number
           children?: number
           created_at?: string
-          created_by?: string
+          created_by_id?: string
           id?: never
           meeting_date?: string
           meeting_type_id?: number
@@ -47,6 +47,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "attendance_created_by_id_fkey"
+            columns: ["created_by_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "attendance_meeting_type_id_fkey"
             columns: ["meeting_type_id"]
@@ -61,7 +68,7 @@ export type Database = {
           absentee: number
           adults: number
           children: number
-          created_by: string
+          created_by_id: string
           id: number
           meeting_date: string
           meeting_type: string
@@ -71,7 +78,7 @@ export type Database = {
           absentee: number
           adults?: number
           children?: number
-          created_by: string
+          created_by_id: string
           id?: number
           meeting_date: string
           meeting_type: string
@@ -81,7 +88,7 @@ export type Database = {
           absentee?: number
           adults?: number
           children?: number
-          created_by?: string
+          created_by_id?: string
           id?: number
           meeting_date?: string
           meeting_type?: string
@@ -360,13 +367,14 @@ export type Database = {
       }
     }
     Views: {
-      attendance_with_meeting_type: {
+      attendance_with_user_name_and_meeting_type: {
         Row: {
           absentee: number | null
           adults: number | null
           children: number | null
           created_at: string | null
           created_by: string | null
+          created_by_id: string | null
           id: number | null
           meeting_date: string | null
           meeting_type: string | null
@@ -375,6 +383,13 @@ export type Database = {
           updated_at: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "attendance_created_by_id_fkey"
+            columns: ["created_by_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "attendance_meeting_type_id_fkey"
             columns: ["meeting_type_id"]

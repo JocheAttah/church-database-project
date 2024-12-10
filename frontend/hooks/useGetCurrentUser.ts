@@ -11,15 +11,7 @@ export const useGetCurrentUser = () => {
         data: { user },
       } = await supabase.auth.getUser();
       if (!user) throw new Error("No user found");
-
-      const { data, error } = await supabase
-        .from("users")
-        .select("first_name, last_name")
-        .eq("id", user.id)
-        .single();
-
-      if (error) throw error;
-      return `${data.first_name} ${data.last_name}`;
+      return user;
     },
   });
 };
