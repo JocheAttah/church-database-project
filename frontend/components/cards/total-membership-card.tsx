@@ -4,10 +4,14 @@ import MembershipIcon from "@/components/icons/nav/membership-icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMembership } from "@/hooks/useMembership";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import GrowthIndicator from "../growth-indicator";
 
 const TotalMembershipCard = ({ className }: { className?: string }) => {
+  const pathname = usePathname();
+  const isMembershipPage = pathname === "/dashboard/membership";
+
   const { totalCount, previousCount, isLoading } = useMembership();
 
   const membershipGrowth = useMemo(() => {
@@ -18,7 +22,8 @@ const TotalMembershipCard = ({ className }: { className?: string }) => {
   return (
     <Card
       className={cn(
-        "col-span-4 space-y-6 sm:col-span-2 xl:col-span-1",
+        "w-full space-y-6",
+        isMembershipPage && "xl:max-w-[300px]",
         className,
       )}
     >

@@ -4,7 +4,6 @@ import Card from "@/components/card";
 import MembersCard from "@/components/cards/members-card";
 import TotalMembershipCard from "@/components/cards/total-membership-card";
 import WorkersCard from "@/components/cards/workers-card";
-import { PieChart } from "@/components/charts/pie-chart";
 import type { MemberType } from "@/components/dialogs/member-dialog";
 import MemberDialog, {
   memberFormSchema,
@@ -17,21 +16,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Skeleton } from "@/components/ui/skeleton";
 import UploadDialog from "@/components/upload-dialog";
 import { useAddMember } from "@/hooks/useAddMember";
 import { useCellFellowships } from "@/hooks/useCellFellowships";
 import { useCSVUpload } from "@/hooks/useCSVUpload";
-import { useGenderChartData } from "@/hooks/useGenderChartData";
 import convertDateFormat from "@/utils/convertDateFormat";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { genderChartConfig } from "../chart-data";
 
 const Membership = () => {
-  const { genderChartData, isLoadingGender } = useGenderChartData();
+  // const { genderChartData, isLoadingGender } = useGenderChartData();
   const { cellFellowships } = useCellFellowships();
 
   const form = useForm<MemberType>({
@@ -120,11 +116,11 @@ const Membership = () => {
   return (
     <>
       <h1 className="mb-5">Membership</h1>
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:flex">
         <TotalMembershipCard />
         <WorkersCard />
         <MembersCard />
-        <Card className="col-span-4 flex items-center justify-center space-y-6 sm:col-span-2 xl:col-span-1">
+        {/* <Card className="col-span-4 flex items-center justify-center space-y-6 sm:col-span-2 xl:col-span-1">
           {isLoadingGender ? (
             <div className="flex flex-col items-center space-y-5">
               <Skeleton className="h-[100px] w-[100px] rounded-full" />
@@ -139,7 +135,7 @@ const Membership = () => {
               slim
             />
           )}
-        </Card>
+        </Card> */}
       </div>
 
       <Card className="mt-8 space-y-5 p-6">

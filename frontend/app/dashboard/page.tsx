@@ -16,13 +16,11 @@ import {
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAttendanceChartData } from "@/hooks/useAttendanceChartData";
-import { useGenderChartData } from "@/hooks/useGenderChartData";
 import { useStatusChartData } from "@/hooks/useStatusChartData";
 import formatMoney from "@/utils/formatMoney";
 import { useState } from "react";
 import {
   attendanceChartConfig,
-  genderChartConfig,
   revenueExpenseChartConfig,
   revenueExpenseChartData,
   statusChartConfig,
@@ -37,19 +35,20 @@ export type TimeRange = keyof typeof timeRanges;
 
 const Dashboard = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>("month");
-  const { genderChartData, isLoadingGender } = useGenderChartData();
+  // const { genderChartData, isLoadingGender } = useGenderChartData();
   const { statusChartData, isLoadingStatus } = useStatusChartData();
   const { attendanceChartData, isLoadingAttendance, growthPercentage } =
     useAttendanceChartData({
       timeRange,
     });
-  const isLoading = isLoadingGender || isLoadingStatus || isLoadingAttendance;
+  // const isLoading = isLoadingGender || isLoadingStatus || isLoadingAttendance;
+  const isLoading = isLoadingStatus || isLoadingAttendance;
 
   return (
     <>
       <h1 className="mb-5">Dashboard</h1>
       <div className="grid grid-cols-4 gap-6">
-        <TotalMembershipCard />
+        <TotalMembershipCard className="col-span-4 sm:col-span-2 xl:col-span-1" />
         <Card className="col-span-4 space-y-6 sm:col-span-2 xl:col-span-1">
           <div className="flex items-center gap-3.5">
             <div className="rounded-[3px] bg-white/2 p-2.5">
@@ -115,7 +114,7 @@ const Dashboard = () => {
         </Card>
 
         <Card className="col-span-4 flex flex-col items-center justify-around sm:flex-row xl:col-span-2">
-          <div className="h-[300px] w-[210px]">
+          {/* <div className="h-[300px] w-[210px]">
             <p className="text-sm text-dustygray">Membership by gender</p>
             {isLoading ? (
               <div className="mt-5 space-y-5">
@@ -132,7 +131,7 @@ const Dashboard = () => {
             )}
           </div>
 
-          <div className="my-6 h-[1px] w-full bg-mineshaft sm:my-0 sm:-ml-5 sm:h-72 sm:w-[1px]" />
+          <div className="my-6 h-[1px] w-full bg-mineshaft sm:my-0 sm:-ml-5 sm:h-72 sm:w-[1px]" /> */}
 
           <div className="h-[300px] w-[210px]">
             <p className="text-sm text-dustygray">Membership by status</p>

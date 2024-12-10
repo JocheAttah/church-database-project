@@ -38,14 +38,14 @@ export const columns: ({
     accessorKey: "last_name",
     header: "Last Name",
   },
-  {
-    accessorKey: "gender",
-    header: "Gender",
-    cell: ({ row }) => {
-      const gender = row.original.gender;
-      return gender ? gender : "-";
-    },
-  },
+  // {
+  //   accessorKey: "gender",
+  //   header: "Gender",
+  //   cell: ({ row }) => {
+  //     const gender = row.original.gender;
+  //     return gender ? gender : "-";
+  //   },
+  // },
   {
     accessorKey: "phone",
     header: "Phone Number",

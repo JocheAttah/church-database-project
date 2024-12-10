@@ -23,7 +23,7 @@ const WorkersCard = () => {
   }, [currentWorkers, lastMonthWorkers]);
 
   return (
-    <Card className="col-span-4 space-y-6 sm:col-span-2 xl:col-span-1">
+    <Card className="w-full space-y-6 xl:max-w-[300px]">
       <div className="flex items-center gap-3.5">
         <div className="rounded-[3px] bg-white/2 p-2.5">
           <MembershipBourBonIcon width={20} height={20} filled />
