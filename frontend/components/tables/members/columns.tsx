@@ -46,14 +46,14 @@ export const columns: ({
   //     return gender ? gender : "-";
   //   },
   // },
-  {
-    accessorKey: "phone",
-    header: "Phone Number",
-    cell: ({ row }) => {
-      const phone = row.original.phone;
-      return phone ? phone : "-";
-    },
-  },
+  // {
+  //   accessorKey: "phone",
+  //   header: "Phone Number",
+  //   cell: ({ row }) => {
+  //     const phone = row.original.phone;
+  //     return phone ? phone : "-";
+  //   },
+  // },
   {
     accessorKey: "qualification",
     header: "Membership Status",
