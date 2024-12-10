@@ -2,48 +2,75 @@
 import { createClient } from "@/utils/supabase/client";
 import { useQueries } from "@tanstack/react-query";
 
-export const useMembership = () => {
+export const useMembership = ({ cellFellowshipId = 0 } = {}) => {
   const supabase = createClient();
 
   const queries = useQueries({
     queries: [
       {
-        queryKey: ["members", "totalCount"],
+        queryKey: ["members", "totalCount", cellFellowshipId],
         queryFn: async () =>
-          await supabase
-            .from("members")
-            .select("*", { count: "exact", head: true }),
+          cellFellowshipId
+            ? await supabase
+                .from("members")
+                .select("*", { count: "exact", head: true })
+                .eq("cell_fellowship_id", cellFellowshipId)
+            : await supabase
+                .from("members")
+                .select("*", { count: "exact", head: true }),
       },
       {
-        queryKey: ["members", "previousCount"],
+        queryKey: ["members", "previousCount", cellFellowshipId],
         queryFn: async () => {
           const oneMonthAgo = new Date();
           oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-          return await supabase
-            .from("members")
-            .select("*", { count: "exact", head: true })
-            .lte("created_at", oneMonthAgo.toISOString());
+          return cellFellowshipId
+            ? await supabase
+                .from("members")
+                .select("*", { count: "exact", head: true })
+                .eq("cell_fellowship_id", cellFellowshipId)
+                .lte("created_at", oneMonthAgo.toISOString())
+            : await supabase
+                .from("members")
+                .select("*", { count: "exact", head: true })
+                .lte("created_at", oneMonthAgo.toISOString());
         },
       },
       {
-        queryKey: ["members", "genderData"],
+        queryKey: ["members", "genderData", cellFellowshipId],
         queryFn: async () =>
-          await supabase.from("members").select("gender").throwOnError(),
+          cellFellowshipId
+            ? await supabase
+                .from("members")
+                .select("gender")
+                .eq("cell_fellowship_id", cellFellowshipId)
+            : await supabase.from("members").select("gender"),
       },
       {
-        queryKey: ["members", "qualificationData"],
+        queryKey: ["members", "qualificationData", cellFellowshipId],
         queryFn: async () =>
-          await supabase.from("members").select("qualification"),
+          cellFellowshipId
+            ? await supabase
+                .from("members")
+                .select("qualification")
+                .eq("cell_fellowship_id", cellFellowshipId)
+            : await supabase.from("members").select("qualification"),
       },
       {
-        queryKey: ["members", "previousQualificationData"],
+        queryKey: ["members", "previousQualificationData", cellFellowshipId],
         queryFn: async () => {
           const oneMonthAgo = new Date();
           oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-          return await supabase
-            .from("members")
-            .select("qualification")
-            .lte("created_at", oneMonthAgo.toISOString());
+          return cellFellowshipId
+            ? await supabase
+                .from("members")
+                .select("qualification")
+                .eq("cell_fellowship_id", cellFellowshipId)
+                .lte("created_at", oneMonthAgo.toISOString())
+            : await supabase
+                .from("members")
+                .select("qualification")
+                .lte("created_at", oneMonthAgo.toISOString());
         },
       },
     ],

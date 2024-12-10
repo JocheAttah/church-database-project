@@ -2,10 +2,12 @@
 
 import BackButton from "@/components/back-button";
 import Card from "@/components/card";
-import type {
-  MemberType} from "@/components/dialogs/member-dialog";
+import MembersCard from "@/components/cards/members-card";
+import TotalMembershipCard from "@/components/cards/total-membership-card";
+import WorkersCard from "@/components/cards/workers-card";
+import type { MemberType } from "@/components/dialogs/member-dialog";
 import MemberDialog, {
-  memberFormSchema
+  memberFormSchema,
 } from "@/components/dialogs/member-dialog";
 import MemberTable from "@/components/tables/members/members-table";
 import { Button } from "@/components/ui/button";
@@ -13,6 +15,7 @@ import { useAddMember } from "@/hooks/useAddMember";
 import { createClient } from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 type FellowshipCellNameProps = { params: { id: string } };
@@ -70,6 +73,10 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
     addMember(values);
   }
 
+  const [qualificationFilter, setQualificationFilter] = useState<string | null>(
+    null,
+  );
+
   if (!isLoading && !cellFellowship)
     return (
       <>
@@ -82,9 +89,34 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
     <>
       <BackButton text="Fellowships/Cells" />
 
-      <Card className="space-y-5 p-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:flex">
+        <TotalMembershipCard
+          active={qualificationFilter === null}
+          onClick={() =>
+            qualificationFilter !== null && setQualificationFilter(null)
+          }
+          cellFellowshipId={cellFellowship?.id}
+        />
+        <WorkersCard
+          active={qualificationFilter === "Worker"}
+          onClick={() =>
+            qualificationFilter !== "Worker" && setQualificationFilter("Worker")
+          }
+          cellFellowshipId={cellFellowship?.id}
+        />
+        <MembersCard
+          active={qualificationFilter === "Member"}
+          onClick={() =>
+            qualificationFilter !== "Member" && setQualificationFilter("Member")
+          }
+          cellFellowshipId={cellFellowship?.id}
+        />
+      </div>
+
+      <Card className="mt-8 space-y-5 p-6">
         <MemberTable
           cellFellowshipId={cellFellowship?.id}
+          qualificationFilter={qualificationFilter}
           isLoadingCellFellowship={isLoading}
           title={`${cellFellowship?.name} ${cellFellowship?.type} Members`}
           loadingTitle={isLoading}

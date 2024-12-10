@@ -9,11 +9,17 @@ import MembershipWhiskeyIcon from "../icons/nav/membership-icon-w";
 
 type MembersCardProps = {
   active?: boolean;
+  cellFellowshipId?: number;
 } & ComponentPropsWithoutRef<"div">;
 
-const MembersCard = ({ active, className, ...props }: MembersCardProps) => {
+const MembersCard = ({
+  active,
+  className,
+  cellFellowshipId,
+  ...props
+}: MembersCardProps) => {
   const { qualificationData, previousQualificationData, isLoading } =
-    useMembership();
+    useMembership({ cellFellowshipId });
 
   const currentMembers = qualificationData.filter(
     (member) => member.qualification === "Member",
