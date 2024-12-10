@@ -35,7 +35,7 @@ const FellowshipsCells = () => {
           </>
         ) : (
           cellFellowships.map(({ name, type, id, memberCount }) => (
-            <Link key={id} href={`fellowships-cells/${id}`}>
+            <Link className="group" key={id} href={`fellowships-cells/${id}`}>
               <Card className="flex flex-col space-y-6">
                 <div className="flex items-center gap-3.5">
                   <div className="rounded-[3px] bg-white/2 p-2.5">
@@ -49,7 +49,9 @@ const FellowshipsCells = () => {
                 </h1>
 
                 <div className="flex items-center self-end text-dustygray">
-                  <p className="text-xs">View membership</p>
+                  <p className="text-xs group-hover:underline">
+                    View membership
+                  </p>
                   <ArrowSmallRightIcon />
                 </div>
               </Card>
