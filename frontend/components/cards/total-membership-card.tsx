@@ -5,10 +5,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useMembership } from "@/hooks/useMembership";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import type { ComponentPropsWithoutRef } from "react";
 import { useMemo } from "react";
 import GrowthIndicator from "../growth-indicator";
 
-const TotalMembershipCard = ({ className }: { className?: string }) => {
+type TotalMembershipCardProps = {
+  active?: boolean;
+} & ComponentPropsWithoutRef<"div">;
+
+const TotalMembershipCard = ({
+  active,
+  className,
+  ...props
+}: TotalMembershipCardProps) => {
   const pathname = usePathname();
   const isMembershipPage = pathname === "/dashboard/membership";
 
@@ -22,10 +31,13 @@ const TotalMembershipCard = ({ className }: { className?: string }) => {
   return (
     <Card
       className={cn(
-        "w-full space-y-6",
-        isMembershipPage && "xl:max-w-[300px]",
+        "w-full space-y-6 transition-all duration-200",
+        isMembershipPage && "cursor-pointer xl:max-w-[300px]",
+        isMembershipPage && !active && "hover:ring-1 hover:ring-white",
+        active && "ring-2 ring-white",
         className,
       )}
+      {...props}
     >
       <div className="flex items-center gap-3.5">
         <div className="rounded-[3px] bg-white/2 p-2.5">

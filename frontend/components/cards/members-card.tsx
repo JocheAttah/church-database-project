@@ -2,10 +2,16 @@ import Card from "@/components/card";
 import GrowthIcon from "@/components/icons/growth-icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMembership } from "@/hooks/useMembership";
+import { cn } from "@/lib/utils";
+import type { ComponentPropsWithoutRef } from "react";
 import { useMemo } from "react";
 import MembershipWhiskeyIcon from "../icons/nav/membership-icon-w";
 
-const MembersCard = () => {
+type MembersCardProps = {
+  active?: boolean;
+} & ComponentPropsWithoutRef<"div">;
+
+const MembersCard = ({ active, className, ...props }: MembersCardProps) => {
   const { qualificationData, previousQualificationData, isLoading } =
     useMembership();
 
@@ -23,7 +29,14 @@ const MembersCard = () => {
   }, [currentMembers, lastMonthMembers]);
 
   return (
-    <Card className="w-full space-y-6 xl:max-w-[300px]">
+    <Card
+      className={cn(
+        "w-full cursor-pointer space-y-6 transition-all duration-200 xl:max-w-[300px]",
+        active ? "ring-2 ring-white" : "hover:ring-1 hover:ring-white",
+        className,
+      )}
+      {...props}
+    >
       <div className="flex items-center gap-3.5">
         <div className="rounded-[3px] bg-white/2 p-2.5">
           <MembershipWhiskeyIcon width={20} height={20} filled />

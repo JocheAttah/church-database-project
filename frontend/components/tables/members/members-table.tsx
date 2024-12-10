@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { ReactNode} from "react";
-import { useState } from "react";
+import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { DataTable } from "../../ui/data-table";
 import { columns } from "./columns";
@@ -21,12 +21,14 @@ export default function MemberTable({
   title,
   loadingTitle,
   actionButton,
+  qualificationFilter,
 }: {
   cellFellowshipId?: number;
   isLoadingCellFellowship?: boolean;
   title: string;
   loadingTitle?: boolean;
   actionButton?: ReactNode;
+  qualificationFilter?: string | null;
 }) {
   const supabase = createClient();
 
@@ -34,6 +36,11 @@ export default function MemberTable({
     pageIndex: 0,
     pageSize: 10,
   });
+
+  useEffect(() => {
+    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+  }, [qualificationFilter]);
+
   const [globalFilter, setGlobalFilter] = useState("");
 
   const { data, isLoading: isLoadingMembers } = useQuery({
@@ -43,6 +50,7 @@ export default function MemberTable({
       pagination.pageSize,
       cellFellowshipId,
       globalFilter,
+      qualificationFilter,
     ],
     queryFn: async () => {
       const query = supabase
@@ -51,6 +59,10 @@ export default function MemberTable({
 
       if (cellFellowshipId) {
         query.eq("cell_fellowship_id", cellFellowshipId);
+      }
+
+      if (qualificationFilter) {
+        query.eq("qualification", qualificationFilter);
       }
 
       if (globalFilter) {

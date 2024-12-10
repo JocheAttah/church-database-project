@@ -113,13 +113,32 @@ const Membership = () => {
     setOpenUploadDialog,
   });
 
+  const [qualificationFilter, setQualificationFilter] = useState<string | null>(
+    null,
+  );
+
   return (
     <>
       <h1 className="mb-5">Membership</h1>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:flex">
-        <TotalMembershipCard />
-        <WorkersCard />
-        <MembersCard />
+        <TotalMembershipCard
+          active={qualificationFilter === null}
+          onClick={() =>
+            qualificationFilter !== null && setQualificationFilter(null)
+          }
+        />
+        <WorkersCard
+          active={qualificationFilter === "Worker"}
+          onClick={() =>
+            qualificationFilter !== "Worker" && setQualificationFilter("Worker")
+          }
+        />
+        <MembersCard
+          active={qualificationFilter === "Member"}
+          onClick={() =>
+            qualificationFilter !== "Member" && setQualificationFilter("Member")
+          }
+        />
         {/* <Card className="col-span-4 flex items-center justify-center space-y-6 sm:col-span-2 xl:col-span-1">
           {isLoadingGender ? (
             <div className="flex flex-col items-center space-y-5">
@@ -141,6 +160,7 @@ const Membership = () => {
       <Card className="mt-8 space-y-5 p-6">
         <MemberTable
           title="Membership List"
+          qualificationFilter={qualificationFilter}
           actionButton={
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
