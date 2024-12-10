@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
 const ArrowSmallRightIcon = (props: ComponentPropsWithoutRef<"svg">) => {
   return (
@@ -8,6 +8,7 @@ const ArrowSmallRightIcon = (props: ComponentPropsWithoutRef<"svg">) => {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <path
         fillRule="evenodd"

@@ -2,8 +2,9 @@
 
 import { Line, LineChart as ReLineChart, XAxis, YAxis } from "recharts";
 
+import type {
+  ChartConfig} from "@/components/ui/chart";
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,

@@ -8,8 +8,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tables } from "@/utils/database.types";
-import { ColumnDef } from "@tanstack/react-table";
+import type { Tables } from "@/utils/database.types";
+import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 
 type Member = Tables<"members_with_cell_fellowship">;
@@ -74,7 +74,7 @@ export const columns: ({
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => (
+    cell: () => (
       <Pill>
         <span
           // TODO: uncomment this when the status is implemented

@@ -5,8 +5,9 @@ import { formatFileSize } from "@/utils/formatFileSize";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 import { CloudArrowUpIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { parse } from "papaparse";
-import { useCallback, useEffect, useState } from "react";
-import { ErrorCode, FileRejection, useDropzone } from "react-dropzone";
+import { useCallback, useState } from "react";
+import type { FileRejection } from "react-dropzone";
+import { ErrorCode, useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 
 type UploaderProps = {
@@ -61,34 +62,6 @@ function Uploader({ onFileUpload }: UploaderProps) {
       "text/csv": [],
     },
   });
-
-  useEffect(() => {
-    const readFileDataUrl = (file: File) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-      });
-    };
-
-    const errorHandler = () => {
-      toast.error("Failed, please try again");
-    };
-
-    const processFiles = async () => {
-      try {
-        const file = files[0];
-        if (!file) return;
-        const result = await readFileDataUrl(file);
-        // return formik.setFieldValue(name, result);
-      } catch {
-        errorHandler();
-      }
-    };
-
-    void processFiles();
-  }, [files]);
 
   return (
     <>

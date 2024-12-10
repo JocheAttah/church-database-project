@@ -19,8 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useCellFellowships } from "@/hooks/useCellFellowships";
-import { Dispatch, SetStateAction } from "react";
-import { UseFormReturn } from "react-hook-form";
+import type { Dispatch, SetStateAction } from "react";
+import type { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import {
   Select,

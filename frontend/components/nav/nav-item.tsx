@@ -1,10 +1,11 @@
 "use client";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
-import NavIconProps from "@/types/nav-icon-props";
+import type NavIconProps from "@/types/nav-icon-props";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ComponentType, Dispatch, SetStateAction, useState } from "react";
+import type { ComponentType, Dispatch, SetStateAction} from "react";
+import { useState } from "react";
 import NavTooltip from "./nav-tooltip";
 
 type NavItemProps = {

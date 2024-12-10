@@ -2,8 +2,9 @@
 
 import { Bar, LabelList, BarChart as ReBarChart, XAxis, YAxis } from "recharts";
 
+import type {
+  ChartConfig} from "@/components/ui/chart";
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,

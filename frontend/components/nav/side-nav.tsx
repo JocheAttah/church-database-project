@@ -4,8 +4,7 @@ import useClickOutside from "@/hooks/useClickOutside";
 import { cn } from "@/lib/utils";
 import { startHolyLoader } from "holy-loader";
 import { LogOutIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import AttendanceIcon from "../icons/nav/attendance-icon";
 import DashboardIcon from "../icons/nav/dashboard-icon";
 import FellowshipsCellsIcon from "../icons/nav/fellowships-cells-icon";
@@ -66,7 +65,6 @@ const SideNav = ({ hideSideNav, setHideSideNav }: SideNavProps) => {
   const sidebarRef = useClickOutside(
     () => !hideSideNav && setHideSideNav(true),
   );
-  const router = useRouter();
 
   return (
     <nav

@@ -7,8 +7,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import type {
+  MemberType} from "./dialogs/member-dialog";
 import MemberDialog, {
-  MemberType,
   memberFormSchema,
 } from "./dialogs/member-dialog";
 import { Button } from "./ui/button";

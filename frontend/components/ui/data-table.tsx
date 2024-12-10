@@ -1,8 +1,9 @@
 "use client";
 
-import {
+import type {
   ColumnDef,
-  ColumnFiltersState,
+  ColumnFiltersState} from "@tanstack/react-table";
+import {
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -19,7 +20,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Loader2 } from "lucide-react";
-import { ReactNode, useEffect, useState } from "react";
+import type { ReactNode} from "react";
+import { useEffect, useState } from "react";
 import { DataTablePagination } from "./data-table-pagination";
 
 interface DataTableProps<TData, TValue> {

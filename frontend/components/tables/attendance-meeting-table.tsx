@@ -1,4 +1,4 @@
-import { Selectors } from "@/app/dashboard/attendance/[meeting-id]/page";
+import type { Selectors } from "@/app/dashboard/attendance/[meeting-id]/page";
 import {
   Table,
   TableBody,

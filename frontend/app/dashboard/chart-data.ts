@@ -1,4 +1,4 @@
-import { ChartConfig } from "@/components/ui/chart";
+import type { ChartConfig } from "@/components/ui/chart";
 
 // Pie chart
 const genderChartConfig = {

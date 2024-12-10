@@ -1,5 +1,6 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Input, InputProps } from "./ui/input";
+import type { InputProps } from "./ui/input";
+import { Input } from "./ui/input";
 
 const SearchInput = (props: InputProps) => {
   return (

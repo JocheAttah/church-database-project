@@ -1,6 +1,6 @@
 "use client";
 
-import NavIconProps from "@/types/nav-icon-props";
+import type NavIconProps from "@/types/nav-icon-props";
 
 const DashboardIcon = ({ filled }: NavIconProps) => {
   return filled ? (

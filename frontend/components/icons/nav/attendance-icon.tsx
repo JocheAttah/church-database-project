@@ -1,5 +1,5 @@
 "use client";
-import NavIconProps from "@/types/nav-icon-props";
+import type NavIconProps from "@/types/nav-icon-props";
 
 const AttendanceIcon = ({ filled }: NavIconProps) => {
   return filled ? (

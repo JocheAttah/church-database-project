@@ -7,9 +7,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tables } from "@/utils/database.types";
+import type { Tables } from "@/utils/database.types";
 import formatDate from "@/utils/formatDate";
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 
 type Attendance = Tables<"attendance_with_meeting_type">;
 

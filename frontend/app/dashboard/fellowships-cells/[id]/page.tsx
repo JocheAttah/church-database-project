@@ -2,9 +2,10 @@
 
 import BackButton from "@/components/back-button";
 import Card from "@/components/card";
+import type {
+  MemberType} from "@/components/dialogs/member-dialog";
 import MemberDialog, {
-  memberFormSchema,
-  MemberType,
+  memberFormSchema
 } from "@/components/dialogs/member-dialog";
 import MemberTable from "@/components/tables/members/members-table";
 import { Button } from "@/components/ui/button";

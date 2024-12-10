@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ReactNode, useState } from "react";
+import type { ReactNode} from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { DataTable } from "../../ui/data-table";
 import { columns } from "./columns";

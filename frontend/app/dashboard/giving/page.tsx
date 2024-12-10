@@ -63,6 +63,16 @@ const Giving = () => {
     isLoading,
   } = useGiving();
 
+  console.log(
+    files,
+    setFiles,
+    givingConfig,
+    form,
+    onSubmit,
+    isCalendarOpen,
+    setIsCalendarOpen,
+  );
+
   return (
     <>
       <h1 className="mb-5">Giving</h1>

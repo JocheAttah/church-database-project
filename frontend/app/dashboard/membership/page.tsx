@@ -5,9 +5,9 @@ import MembersCard from "@/components/cards/members-card";
 import TotalMembershipCard from "@/components/cards/total-membership-card";
 import WorkersCard from "@/components/cards/workers-card";
 import { PieChart } from "@/components/charts/pie-chart";
+import type { MemberType } from "@/components/dialogs/member-dialog";
 import MemberDialog, {
   memberFormSchema,
-  MemberType,
 } from "@/components/dialogs/member-dialog";
 import MemberTable from "@/components/tables/members/members-table";
 import { Button } from "@/components/ui/button";
@@ -32,8 +32,7 @@ import { genderChartConfig } from "../chart-data";
 
 const Membership = () => {
   const { genderChartData, isLoadingGender } = useGenderChartData();
-  const { cellFellowships, isLoading: isLoadingCellFellowships } =
-    useCellFellowships();
+  const { cellFellowships } = useCellFellowships();
 
   const form = useForm<MemberType>({
     resolver: zodResolver(memberFormSchema),

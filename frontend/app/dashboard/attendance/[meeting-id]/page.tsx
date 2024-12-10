@@ -12,14 +12,12 @@ import {
 } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
 import { FunnelIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type FellowshipCellNameProps = { params: { "meeting-id": string } };
+// type FellowshipCellNameProps = { params: { "meeting-id": string } };
 export type Selectors = "attendance" | "workers" | "members-disciples";
 
-const AttendanceMeeting = ({ params }: FellowshipCellNameProps) => {
-  const router = useRouter();
+const AttendanceMeeting = () => {
   const [selected, setSelected] = useState<Selectors>("attendance");
 
   return (

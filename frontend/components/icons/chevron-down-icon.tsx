@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
 const ChevronDownIcon = (props: ComponentPropsWithoutRef<"svg">) => {
   return (

@@ -3,7 +3,6 @@ import SideNav from "@/components/nav/side-nav";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { startHolyLoader } from "holy-loader";
 import { LogOutIcon, MenuIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { signOutAction } from "../actions";
 
@@ -14,7 +13,6 @@ export default function DashboardLayout({
 }) {
   const [hideSideNav, setHideSideNav] = useState(true);
   const isMobileScreen = useMediaQuery("(max-width: 1023px)");
-  const router = useRouter();
 
   return (
     <section className="min-h-screen bg-woodsmoke text-white">
