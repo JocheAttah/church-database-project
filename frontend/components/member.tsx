@@ -7,11 +7,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type {
-  MemberType} from "./dialogs/member-dialog";
-import MemberDialog, {
-  memberFormSchema,
-} from "./dialogs/member-dialog";
+import type { MemberType } from "./dialogs/member-dialog";
+import MemberDialog, { memberFormSchema } from "./dialogs/member-dialog";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 
@@ -54,6 +51,11 @@ const Member = ({ id }: { id: string }) => {
     }
     if (name === "dob") {
       return formatDate(userData?.dob);
+    }
+    if (name === "qualification") {
+      return userData?.qualification === "Worker"
+        ? "Worker in Training"
+        : "Member";
     }
     return (
       (userData?.[name as keyof typeof userData] as string | number | null) ||

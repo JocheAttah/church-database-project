@@ -1,7 +1,6 @@
 "use client";
 
 import ChevronDownIcon from "@/components/icons/chevron-down-icon";
-import Pill from "@/components/pill";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -60,7 +59,11 @@ export const columns: ({
     header: "Membership Status",
     cell: ({ row }) => {
       const qualification = row.original.qualification;
-      return qualification ? qualification : "-";
+      return qualification
+        ? qualification === "Worker"
+          ? "Worker in Training"
+          : "Member"
+        : "-";
     },
   },
   {
@@ -71,28 +74,26 @@ export const columns: ({
       return cf ? cf : "-";
     },
   },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: () => (
-      <Pill>
-        <span
-          // TODO: uncomment this when the status is implemented
-          // className={
-          //   row.original.qualification === "Worker"
-          //     ? "text-greenhaze"
-          //     : "text-bourbon"
-          // }
-          className="text-greenhaze"
-        >
-          {/* {row.original.qualification === "Worker"
-            ? "Consistent"
-            : "Inconsistent"} */}
-          Consistent
-        </span>
-      </Pill>
-    ),
-  },
+  // TODO: uncomment this when the status is implemented
+  // {
+  //   accessorKey: "status",
+  //   header: "Status",
+  //   cell: ({ row }) => (
+  //     <Pill>
+  //       <span
+  //         className={
+  //           row.original.qualification === "Worker"
+  //             ? "text-greenhaze"
+  //             : "text-bourbon"
+  //         }
+  //       >
+  //         {row.original.qualification === "Worker"
+  //           ? "Consistent"
+  //           : "Inconsistent"}
+  //       </span>
+  //     </Pill>
+  //   ),
+  // },
   {
     id: "actions",
     header: "Actions",

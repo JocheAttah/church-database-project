@@ -7,7 +7,7 @@ const genderChartConfig = {
 } satisfies ChartConfig;
 
 const statusChartConfig = {
-  workers: { label: "Workers" },
+  workers: { label: "Workers in Training" },
   members: { label: "Members" },
 } satisfies ChartConfig;
 
