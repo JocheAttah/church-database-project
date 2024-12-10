@@ -74,7 +74,6 @@ export const columns: ({
       return cf ? cf : "-";
     },
   },
-  // TODO: uncomment this when the status is implemented
   // {
   //   accessorKey: "status",
   //   header: "Status",

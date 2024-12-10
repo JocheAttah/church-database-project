@@ -82,12 +82,9 @@ export const columns: ({
             <ChevronDownIcon />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {/* TODO: decide on what to do with the detailed attendance page */}
             {/* <DropdownMenuItem>
-                          <Link href={`attendance/${meeting.id}`}>
-                            View Details
-                          </Link>
-                        </DropdownMenuItem> */}
+              <Link href={`attendance/${meeting.id}`}>View Details</Link>
+            </DropdownMenuItem> */}
             <DropdownMenuItem
               onSelect={() => {
                 setSelectedMeetingId(row.original.id);
