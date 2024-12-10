@@ -325,6 +325,7 @@ const MemberDialog = ({
                   )}
                 />
 
+                {/* TODO: turn this into a dropdown and add a search input to search for members and select the id */}
                 <FormField
                   control={form.control}
                   name="discipled_by"
