@@ -96,6 +96,7 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
             qualificationFilter !== null && setQualificationFilter(null)
           }
           cellFellowshipId={cellFellowship?.id}
+          isLoadingCellFellowship={isLoading}
         />
         <WorkersCard
           active={qualificationFilter === "Worker"}
@@ -103,6 +104,7 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
             qualificationFilter !== "Worker" && setQualificationFilter("Worker")
           }
           cellFellowshipId={cellFellowship?.id}
+          isLoadingCellFellowship={isLoading}
         />
         <MembersCard
           active={qualificationFilter === "Member"}
@@ -110,6 +112,7 @@ const FellowshipCellName = ({ params }: FellowshipCellNameProps) => {
             qualificationFilter !== "Member" && setQualificationFilter("Member")
           }
           cellFellowshipId={cellFellowship?.id}
+          isLoadingCellFellowship={isLoading}
         />
       </div>
 

@@ -12,12 +12,14 @@ import GrowthIndicator from "../growth-indicator";
 type TotalMembershipCardProps = {
   active?: boolean;
   cellFellowshipId?: number;
+  isLoadingCellFellowship?: boolean;
 } & ComponentPropsWithoutRef<"div">;
 
 const TotalMembershipCard = ({
   active,
   className,
   cellFellowshipId,
+  isLoadingCellFellowship,
   ...props
 }: TotalMembershipCardProps) => {
   const pathname = usePathname();
@@ -25,9 +27,14 @@ const TotalMembershipCard = ({
     pathname === "/dashboard/membership" ||
     pathname.includes("/dashboard/fellowships-cells/");
 
-  const { totalCount, previousCount, isLoading } = useMembership({
+  const {
+    totalCount,
+    previousCount,
+    isLoading: isLoadingMembership,
+  } = useMembership({
     cellFellowshipId,
   });
+  const isLoading = isLoadingCellFellowship || isLoadingMembership;
 
   const membershipGrowth = useMemo(() => {
     if (!totalCount || !previousCount) return 0;

@@ -10,16 +10,22 @@ import { useMemo } from "react";
 type WorkersCardProps = {
   active?: boolean;
   cellFellowshipId?: number;
+  isLoadingCellFellowship?: boolean;
 } & ComponentPropsWithoutRef<"div">;
 
 const WorkersCard = ({
   active,
   className,
   cellFellowshipId,
+  isLoadingCellFellowship,
   ...props
 }: WorkersCardProps) => {
-  const { qualificationData, previousQualificationData, isLoading } =
-    useMembership({ cellFellowshipId });
+  const {
+    qualificationData,
+    previousQualificationData,
+    isLoading: isLoadingMembership,
+  } = useMembership({ cellFellowshipId });
+  const isLoading = isLoadingCellFellowship || isLoadingMembership;
 
   const currentWorkers = qualificationData.filter(
     (member) => member.qualification === "Worker",
