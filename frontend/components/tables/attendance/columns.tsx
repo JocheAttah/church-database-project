@@ -62,11 +62,11 @@ export const columns: ({
     header: "Meeting Date",
     cell: ({ row }) => formatDate(row.original.meeting_date, "dd/MM/yyyy"),
   },
-  {
-    accessorKey: "created_at",
-    header: "Date Created",
-    cell: ({ row }) => formatDate(row.original.created_at, "dd/MM/yyyy"),
-  },
+  // {
+  //   accessorKey: "created_at",
+  //   header: "Date Created",
+  //   cell: ({ row }) => formatDate(row.original.created_at, "dd/MM/yyyy"),
+  // },
   {
     accessorKey: "created_by",
     header: "Created By",
