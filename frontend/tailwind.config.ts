@@ -34,6 +34,7 @@ const config: Config = {
       },
       backgroundColor: {
         "white/2": "rgba(255, 255, 255, 0.02)",
+        "white/1": "rgba(255, 255, 255, 0.01)",
       },
       colors: {
         sapphire: {

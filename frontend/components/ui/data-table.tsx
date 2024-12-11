@@ -1,8 +1,6 @@
 "use client";
 
-import type {
-  ColumnDef,
-  ColumnFiltersState} from "@tanstack/react-table";
+import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
@@ -20,7 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Loader2 } from "lucide-react";
-import type { ReactNode} from "react";
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { DataTablePagination } from "./data-table-pagination";
 
@@ -33,7 +31,7 @@ interface DataTableProps<TData, TValue> {
     pageCount: number;
     onPaginationChange: (updater: any) => void;
   };
-  title: string;
+  title: ReactNode;
   loading?: boolean;
   loadingTitle?: boolean;
   actionButton?: ReactNode;
@@ -105,9 +103,9 @@ export function DataTable<TData, TValue>({
           {loadingTitle ? (
             <Skeleton className="h-9 w-36" />
           ) : (
-            <h2 className="duration-500 animate-in fade-in slide-in-from-bottom-3">
+            <div className="text-xl font-semibold duration-500 animate-in fade-in slide-in-from-bottom-3">
               {title}
-            </h2>
+            </div>
           )}
           <SearchInput
             value={searchValue}

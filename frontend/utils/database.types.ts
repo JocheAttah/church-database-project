@@ -306,6 +306,7 @@ export type Database = {
           beneficiary: string | null
           created_at: string
           created_by: string
+          date: string
           description: string | null
           id: number
           period: string | null
@@ -318,6 +319,7 @@ export type Database = {
           beneficiary?: string | null
           created_at?: string
           created_by: string
+          date: string
           description?: string | null
           id?: never
           period?: string | null
@@ -330,6 +332,7 @@ export type Database = {
           beneficiary?: string | null
           created_at?: string
           created_by?: string
+          date?: string
           description?: string | null
           id?: never
           period?: string | null

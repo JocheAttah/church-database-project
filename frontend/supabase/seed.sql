@@ -42,9 +42,9 @@ INSERT INTO public.inflow (type, amount, description, date, created_by) VALUES
 ('Pledge', 15000.00, 'Annual Pledge Payment', '2024-03-15', 'Eva Brown');
 
 -- Seed data for outflow table
-INSERT INTO public.outflow (type, amount, period, description, beneficiary, created_by, approved_by) VALUES
-('Salary', 12000.00, 'Monthly', 'Pastor Salary', 'John Doe', 'Jane Smith', 'Bob Williams'),
-('Utility', 2000.00, 'Monthly', 'Electricity Bill', 'Power Company', 'Alice Johnson', 'John Doe'),
-('Maintenance', 5000.00, 'One-time', 'Church Building Repairs', 'ABC Contractors', 'Bob Williams', 'Jane Smith'),
-('Charity', 3000.00, 'Monthly', 'Orphanage Support', 'Hope Orphanage', 'Eva Brown', 'John Doe'),
-('Equipment', 10000.00, 'One-time', 'New Sound System', 'XYZ Electronics', 'Jane Smith', 'Bob Williams');
+INSERT INTO public.outflow (type, amount, period, description, beneficiary, created_by, approved_by, date) VALUES
+('Salary', 12000.00, 'Monthly', 'Pastor Salary', 'John Doe', 'Jane Smith', 'Bob Williams', '2024-03-01'),
+('Utility', 2000.00, 'Monthly', 'Electricity Bill', 'Power Company', 'Alice Johnson', 'John Doe', '2024-03-01'),
+('Maintenance', 5000.00, 'One-time', 'Church Building Repairs', 'ABC Contractors', 'Bob Williams', 'Jane Smith', '2024-03-01'),
+('Charity', 3000.00, 'Monthly', 'Orphanage Support', 'Hope Orphanage', 'Eva Brown', 'John Doe', '2024-03-01'),
+('Equipment', 10000.00, 'One-time', 'New Sound System', 'XYZ Electronics', 'Jane Smith', 'Bob Williams', '2024-03-01');
