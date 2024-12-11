@@ -1,8 +1,8 @@
-import { MemberType } from "@/components/dialogs/member-dialog";
+import type { MemberType } from "@/components/dialogs/member-dialog";
 import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import type { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 
 type UseAddMemberProps = {

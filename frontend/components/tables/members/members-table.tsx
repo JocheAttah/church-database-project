@@ -27,7 +27,7 @@ export default function MemberTable({
   isLoadingCellFellowship?: boolean;
   title: string;
   loadingTitle?: boolean;
-  actionButton?: ReactNode;
+  actionButton: ReactNode;
   qualificationFilter?: string | null;
 }) {
   const supabase = createClient();

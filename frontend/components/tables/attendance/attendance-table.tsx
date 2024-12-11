@@ -9,16 +9,13 @@ import {
 } from "@/components/ui/dialog";
 import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { ReactNode } from "react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { DataTable } from "../../ui/data-table";
 import { columns } from "./columns";
 
-const AttendanceTable = ({
-  actionButton,
-}: {
-  actionButton: React.ReactNode;
-}) => {
+const AttendanceTable = ({ actionButton }: { actionButton: ReactNode }) => {
   const supabase = createClient();
   const [pagination, setPagination] = useState({
     pageIndex: 0,
