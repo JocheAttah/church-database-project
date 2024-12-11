@@ -38,7 +38,16 @@ export const columns: ({
     accessorKey: "meeting_type",
     header: "Meeting Type",
     cell: ({ row }) => {
-      return row.original.meeting_type || "-";
+      const meetingType = row.original.meeting_type;
+      const meetingDate = row.original.meeting_date;
+
+      if (meetingType === "Prayer Group" && meetingDate) {
+        const date = new Date(meetingDate);
+        if (date.getDay() === 5) {
+          return "Prayer Group (Vigil)";
+        }
+      }
+      return meetingType || "-";
     },
   },
   {
