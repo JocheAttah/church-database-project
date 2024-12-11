@@ -11,8 +11,8 @@ import { createClient } from "@/utils/supabase/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { DataTable } from "../ui/data-table";
-import { columns } from "./attendance/columns";
+import { DataTable } from "../../ui/data-table";
+import { columns } from "./columns";
 
 const AttendanceTable = ({
   actionButton,

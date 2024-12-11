@@ -1,7 +1,7 @@
 "use client";
 import Card from "@/components/card";
 import AttendanceDialog from "@/components/dialogs/attendance-dialog";
-import AttendanceTable from "@/components/tables/attendance-table";
+import AttendanceTable from "@/components/tables/attendance/attendance-table";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
